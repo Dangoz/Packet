@@ -40,9 +40,29 @@ pnpm dev
 
 ## Key Implementation Details
 
+### How Privy Is Used
+
+Privy provides two key functions in this app:
+
+**1. Sender Wallet (always used)**
+
+When you log in via email or SMS, Privy automatically creates an embedded wallet for you. No seed phrases or extensions needed. This wallet signs all your transactions.
+
+**2. Recipient Lookup (optional)**
+
+You can send to recipients in two ways:
+
+| Recipient Type | Example | Privy Used? |
+|----------------|---------|-------------|
+| Wallet address | `0x1234...abcd` | No - sends directly to address |
+| Email | `friend@example.com` | Yes - Privy looks up or creates their wallet |
+| Phone | `+14155551234` | Yes - Privy looks up or creates their wallet |
+
+When sending to an email/phone, Privy either finds the recipient's existing wallet or creates a new one. The recipient can then log in with that email/phone to access their funds.
+
 ### Transaction Memos
 
-Memos are attached to transfers using the `memo` parameter:
+Memos are attached to transfers using the `memo` parameter (TIP-20 feature):
 
 ```typescript
 await client.token.transferSync({
