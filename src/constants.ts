@@ -1,4 +1,3 @@
-import { Address } from "viem";
+import { Address } from 'viem'
 
-export const alphaUsd =
-  "0x20c0000000000000000000000000000000000001" as Address;
+export const alphaUsd = '0x20c0000000000000000000000000000000000001' as Address

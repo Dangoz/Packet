@@ -1,21 +1,21 @@
-import { useState } from "react";
-import { Input } from "./Input";
-import { LiquidGlassButton } from "./LiquidGlassButton";
-import { Modal } from "./Modal";
+import { useState } from 'react'
+import { Input } from './Input'
+import { LiquidGlassButton } from './LiquidGlassButton'
+import { Modal } from './Modal'
 
 interface SendModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  recipientAddress: string;
-  onRecipientChange: (value: string) => void;
-  amount: string;
-  onAmountChange: (value: string) => void;
-  memo: string;
-  onMemoChange: (value: string) => void;
-  onConfirm: () => void;
-  isSending?: boolean;
-  error?: string | null;
-  txHash?: string | null;
+  isOpen: boolean
+  onClose: () => void
+  recipientAddress: string
+  onRecipientChange: (value: string) => void
+  amount: string
+  onAmountChange: (value: string) => void
+  memo: string
+  onMemoChange: (value: string) => void
+  onConfirm: () => void
+  isSending?: boolean
+  error?: string | null
+  txHash?: string | null
 }
 
 export function SendModal({
@@ -32,15 +32,15 @@ export function SendModal({
   error = null,
   txHash = null,
 }: SendModalProps) {
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState(false)
 
   const copyToClipboard = () => {
     if (txHash) {
-      navigator.clipboard.writeText(txHash);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      navigator.clipboard.writeText(txHash)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
     }
-  };
+  }
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Send">
@@ -50,25 +50,15 @@ export function SendModal({
             <div
               className="w-16 h-16 mx-auto rounded-full flex items-center justify-center"
               style={{
-                background: "var(--accent-success)",
-                border: "1px solid var(--accent-success-solid)",
+                background: 'var(--accent-success)',
+                border: '1px solid var(--accent-success-solid)',
               }}
             >
-              <svg
-                className="w-8 h-8"
-                fill="none"
-                stroke="var(--accent-success-solid)"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M5 13l4 4L19 7"
-                />
+              <svg className="w-8 h-8" fill="none" stroke="var(--accent-success-solid)" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <p className="text-sm" style={{ color: "var(--text-primary)" }}>
+            <p className="text-sm" style={{ color: 'var(--text-primary)' }}>
               Transaction sent successfully!
             </p>
             <div className="flex items-center justify-center gap-2">
@@ -77,36 +67,21 @@ export function SendModal({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs font-mono break-all hover:underline cursor-pointer"
-                style={{ color: "var(--text-secondary)" }}
+                style={{ color: 'var(--text-secondary)' }}
               >
                 {txHash}
               </a>
               <button
                 onClick={copyToClipboard}
                 className="flex-shrink-0 p-1 rounded hover:bg-white/10 transition-colors"
-                title={copied ? "Copied!" : "Copy to clipboard"}
+                title={copied ? 'Copied!' : 'Copy to clipboard'}
               >
                 {copied ? (
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="var(--accent-success-solid)"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
+                  <svg className="w-4 h-4" fill="none" stroke="var(--accent-success-solid)" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 ) : (
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="var(--text-secondary)"
-                    viewBox="0 0 24 24"
-                  >
+                  <svg className="w-4 h-4" fill="none" stroke="var(--text-secondary)" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -117,11 +92,7 @@ export function SendModal({
                 )}
               </button>
             </div>
-            <LiquidGlassButton
-              onClick={onClose}
-              fullWidth
-              className="py-3 text-sm mt-4"
-            >
+            <LiquidGlassButton onClick={onClose} fullWidth className="py-3 text-sm mt-4">
               <span className="uppercase tracking-wider">Done</span>
             </LiquidGlassButton>
           </div>
@@ -130,35 +101,21 @@ export function SendModal({
             <div
               className="w-16 h-16 mx-auto rounded-full flex items-center justify-center"
               style={{
-                background: "rgba(239, 68, 68, 0.2)",
-                border: "1px solid rgba(239, 68, 68, 0.5)",
+                background: 'rgba(239, 68, 68, 0.2)',
+                border: '1px solid rgba(239, 68, 68, 0.5)',
               }}
             >
-              <svg
-                className="w-8 h-8"
-                fill="none"
-                stroke="#ef4444"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
+              <svg className="w-8 h-8" fill="none" stroke="#ef4444" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </div>
-            <p className="text-sm" style={{ color: "var(--text-primary)" }}>
+            <p className="text-sm" style={{ color: 'var(--text-primary)' }}>
               Transaction failed
             </p>
-            <p className="text-xs" style={{ color: "var(--text-secondary)" }}>
+            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
               {error}
             </p>
-            <LiquidGlassButton
-              onClick={onClose}
-              fullWidth
-              className="py-3 text-sm mt-4"
-            >
+            <LiquidGlassButton onClick={onClose} fullWidth className="py-3 text-sm mt-4">
               <span className="uppercase tracking-wider">Close</span>
             </LiquidGlassButton>
           </div>
@@ -186,11 +143,7 @@ export function SendModal({
               placeholder="Add a note for this transaction"
               onEnter={onConfirm}
             />
-            <LiquidGlassButton
-              onClick={onConfirm}
-              fullWidth
-              className="py-3 text-sm"
-            >
+            <LiquidGlassButton onClick={onConfirm} fullWidth className="py-3 text-sm">
               {isSending ? (
                 <span className="uppercase tracking-wider">Sending...</span>
               ) : (
@@ -201,5 +154,5 @@ export function SendModal({
         )}
       </div>
     </Modal>
-  );
+  )
 }

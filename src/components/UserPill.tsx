@@ -1,13 +1,11 @@
-import { motion } from "motion/react";
-import { usePrivy } from "@privy-io/react-auth";
+import { motion } from 'motion/react'
+import { usePrivy } from '@privy-io/react-auth'
 
 export function UserPill() {
-  const { user, logout } = usePrivy();
+  const { user, logout } = usePrivy()
 
-  const displayAddress = user?.wallet?.address || "";
-  const shortAddress = displayAddress
-    ? `${displayAddress.slice(0, 6)}...${displayAddress.slice(-4)}`
-    : "";
+  const displayAddress = user?.wallet?.address || ''
+  const shortAddress = displayAddress ? `${displayAddress.slice(0, 6)}...${displayAddress.slice(-4)}` : ''
 
   return (
     <motion.div
@@ -19,41 +17,30 @@ export function UserPill() {
       <div
         className="flex items-center gap-3 px-4 py-2 rounded-lg backdrop-blur-xl border border-white/50"
         style={{
-          background: "rgba(255, 255, 255, 0.025)",
-          color: "var(--text-primary)",
+          background: 'rgba(255, 255, 255, 0.025)',
+          color: 'var(--text-primary)',
         }}
       >
         <div
           className="w-8 h-8 rounded-full flex items-center justify-center"
           style={{
-            background: "var(--accent-primary)",
-            border: "1px solid var(--accent-primary-solid)",
+            background: 'var(--accent-primary)',
+            border: '1px solid var(--accent-primary-solid)',
           }}
         >
-          <span className="text-xs font-medium">
-            {displayAddress ? displayAddress.slice(2, 4).toUpperCase() : ""}
-          </span>
+          <span className="text-xs font-medium">{displayAddress ? displayAddress.slice(2, 4).toUpperCase() : ''}</span>
         </div>
-        <span className="text-sm font-mono" style={{ color: "var(--text-secondary)" }}>
+        <span className="text-sm font-mono" style={{ color: 'var(--text-secondary)' }}>
           {shortAddress}
         </span>
         <button
           onClick={logout}
           className="p-1 rounded transition-colors hover:bg-white/20"
-          style={{ color: "var(--text-tertiary)" }}
-          onMouseEnter={(e) =>
-            (e.currentTarget.style.color = "var(--text-primary)")
-          }
-          onMouseLeave={(e) =>
-            (e.currentTarget.style.color = "var(--text-tertiary)")
-          }
+          style={{ color: 'var(--text-tertiary)' }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text-primary)')}
+          onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-tertiary)')}
         >
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -64,5 +51,5 @@ export function UserPill() {
         </button>
       </div>
     </motion.div>
-  );
+  )
 }

@@ -1,8 +1,8 @@
-import { motion } from "motion/react";
-import { LiquidGlassButton } from "./LiquidGlassButton";
+import { motion } from 'motion/react'
+import { LiquidGlassButton } from './LiquidGlassButton'
 
 interface LoginViewProps {
-  onLogin: () => void;
+  onLogin: () => void
 }
 
 export function LoginView({ onLogin }: LoginViewProps) {
@@ -12,7 +12,7 @@ export function LoginView({ onLogin }: LoginViewProps) {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, delay: 0.3 }}
       className="fixed inset-0 flex items-center justify-center z-50"
-      style={{ background: "rgba(0, 0, 0, 0.7)" }}
+      style={{ background: 'rgba(0, 0, 0, 0.7)' }}
     >
       <motion.div
         initial={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -25,7 +25,7 @@ export function LoginView({ onLogin }: LoginViewProps) {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.7 }}
           className="text-center text-sm tracking-wide"
-          style={{ color: "var(--text-secondary)" }}
+          style={{ color: 'var(--text-secondary)' }}
         >
           Connect your wallet to get started
         </motion.p>
@@ -40,5 +40,5 @@ export function LoginView({ onLogin }: LoginViewProps) {
         </motion.div>
       </motion.div>
     </motion.div>
-  );
+  )
 }

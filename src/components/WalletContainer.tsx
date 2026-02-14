@@ -1,14 +1,11 @@
-import { motion } from "motion/react";
+import { motion } from 'motion/react'
 
 interface WalletContainerProps {
-  children: React.ReactNode;
-  animate?: boolean;
+  children: React.ReactNode
+  animate?: boolean
 }
 
-export function WalletContainer({
-  children,
-  animate = false,
-}: WalletContainerProps) {
+export function WalletContainer({ children, animate = false }: WalletContainerProps) {
   if (animate) {
     return (
       <motion.div
@@ -26,12 +23,12 @@ export function WalletContainer({
           {children}
         </motion.div>
       </motion.div>
-    );
+    )
   }
 
   return (
     <div className="w-full overflow-y-auto">
       <div className="container mx-auto px-4 py-8 max-w-md">{children}</div>
     </div>
-  );
+  )
 }

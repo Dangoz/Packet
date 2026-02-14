@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import {
   ActionButtonsGrid,
@@ -12,34 +12,34 @@ import {
   UserPill,
   WalletContainer,
   WalletHeader,
-} from "@/components";
-import { useSend } from "@/hooks/useSend";
-import { useTransactionHistory } from "@/hooks/useTransactionHistory";
-import { useBalance } from "@/hooks/useBalance";
-import { usePrivy, useWallets } from "@privy-io/react-auth";
-import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
+} from '@/components'
+import { useSend } from '@/hooks/useSend'
+import { useTransactionHistory } from '@/hooks/useTransactionHistory'
+import { useBalance } from '@/hooks/useBalance'
+import { usePrivy, useWallets } from '@privy-io/react-auth'
+import { AnimatePresence, motion } from 'motion/react'
+import { useState } from 'react'
 
 export default function Home() {
-  const { ready, authenticated, login } = usePrivy();
-  const { wallets } = useWallets();
-  const [showSend, setShowSend] = useState(false);
-  const [showReceive, setShowReceive] = useState(false);
-  const [showBatchSend, setShowBatchSend] = useState(false);
-  const [sendAmount, setSendAmount] = useState("");
-  const [recipient, setRecipient] = useState("");
-  const [memo, setMemo] = useState("");
+  const { ready, authenticated, login } = usePrivy()
+  const { wallets } = useWallets()
+  const [showSend, setShowSend] = useState(false)
+  const [showReceive, setShowReceive] = useState(false)
+  const [showBatchSend, setShowBatchSend] = useState(false)
+  const [sendAmount, setSendAmount] = useState('')
+  const [recipient, setRecipient] = useState('')
+  const [memo, setMemo] = useState('')
 
   // Use the Privy embedded wallet, not MetaMask
-  const embeddedWallet = wallets.find((w) => w.walletClientType === "privy");
-  const walletAddress = embeddedWallet?.address || "";
-  const { balance, symbol, loading } = useBalance(walletAddress);
-  const { send, isSending, error, txHash, reset } = useSend();
+  const embeddedWallet = wallets.find((w) => w.walletClientType === 'privy')
+  const walletAddress = embeddedWallet?.address || ''
+  const { balance, symbol, loading } = useBalance(walletAddress)
+  const { send, isSending, error, txHash, reset } = useSend()
   const {
     transactions: txHistory,
     loading: txLoading,
     error: txError,
-  } = useTransactionHistory(walletAddress, txHash || undefined);
+  } = useTransactionHistory(walletAddress, txHash || undefined)
 
   // Format transaction history for display
   const transactions = txHistory.map((tx) => ({
@@ -48,20 +48,20 @@ export default function Home() {
     timestamp: tx.formattedTimestamp,
     hash: tx.hash,
     memo: tx.memo,
-  }));
+  }))
 
   const handleSend = async () => {
     try {
-      await send(recipient, sendAmount, memo);
+      await send(recipient, sendAmount, memo)
     } catch (err) {
       // Error is already handled by the hook
-      console.error("Send failed:", err);
+      console.error('Send failed:', err)
     }
-  };
+  }
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(walletAddress);
-  };
+    navigator.clipboard.writeText(walletAddress)
+  }
 
   return (
     <>
@@ -70,9 +70,7 @@ export default function Home() {
           <SkeletonView />
         </div>
       )}
-      <AnimatePresence>
-        {ready && !authenticated && <LoginView onLogin={login} />}
-      </AnimatePresence>
+      <AnimatePresence>{ready && !authenticated && <LoginView onLogin={login} />}</AnimatePresence>
       <AnimatePresence>
         {authenticated && (
           <>
@@ -98,12 +96,7 @@ export default function Home() {
                   onReceiveClick={() => setShowReceive(true)}
                   onBatchClick={() => setShowBatchSend(true)}
                 />
-                <RecentActivity
-                  transactions={transactions}
-                  loading={txLoading}
-                  error={txError}
-                  symbol={symbol}
-                />
+                <RecentActivity transactions={transactions} loading={txLoading} error={txError} symbol={symbol} />
               </WalletContainer>
             </motion.div>
           </>
@@ -112,11 +105,11 @@ export default function Home() {
       <SendModal
         isOpen={showSend}
         onClose={() => {
-          setShowSend(false);
-          reset();
-          setSendAmount("");
-          setRecipient("");
-          setMemo("");
+          setShowSend(false)
+          reset()
+          setSendAmount('')
+          setRecipient('')
+          setMemo('')
         }}
         recipientAddress={recipient}
         onRecipientChange={setRecipient}
@@ -135,10 +128,7 @@ export default function Home() {
         walletAddress={walletAddress}
         onCopyAddress={copyToClipboard}
       />
-      <BatchSendModal
-        isOpen={showBatchSend}
-        onClose={() => setShowBatchSend(false)}
-      />
+      <BatchSendModal isOpen={showBatchSend} onClose={() => setShowBatchSend(false)} />
     </>
-  );
+  )
 }

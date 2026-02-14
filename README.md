@@ -52,11 +52,11 @@ When you log in via email or SMS, Privy automatically creates an embedded wallet
 
 You can send to recipients in two ways:
 
-| Recipient Type | Example | Privy Used? |
-|----------------|---------|-------------|
-| Wallet address | `0x1234...abcd` | No - sends directly to address |
-| Email | `friend@example.com` | Yes - Privy looks up or creates their wallet |
-| Phone | `+14155551234` | Yes - Privy looks up or creates their wallet |
+| Recipient Type | Example              | Privy Used?                                  |
+| -------------- | -------------------- | -------------------------------------------- |
+| Wallet address | `0x1234...abcd`      | No - sends directly to address               |
+| Email          | `friend@example.com` | Yes - Privy looks up or creates their wallet |
+| Phone          | `+14155551234`       | Yes - Privy looks up or creates their wallet |
 
 When sending to an email/phone, Privy either finds the recipient's existing wallet or creates a new one. The recipient can then log in with that email/phone to access their funds.
 
@@ -70,7 +70,7 @@ await client.token.transferSync({
   amount: parseUnits(amount, metadata.decimals),
   memo: stringToHex(memo),
   token: alphaUsd,
-});
+})
 ```
 
 ## Resources

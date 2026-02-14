@@ -1,52 +1,42 @@
-import { LiquidGlassButton } from "./LiquidGlassButton";
+import { LiquidGlassButton } from './LiquidGlassButton'
 
 interface ActionButtonProps {
-  type: "send" | "receive" | "quicksend" | "batch";
-  onClick: () => void;
+  type: 'send' | 'receive' | 'quicksend' | 'batch'
+  onClick: () => void
 }
 
 export function ActionButton({ type, onClick }: ActionButtonProps) {
-  const isSend = type === "send";
-  const isQuickSend = type === "quicksend";
-  const isReceive = type === "receive";
-  const isBatch = type === "batch";
+  const isSend = type === 'send'
+  const isQuickSend = type === 'quicksend'
+  const isReceive = type === 'receive'
+  const isBatch = type === 'batch'
 
   const getPath = () => {
     if (isSend || isQuickSend) {
-      return "M12 19l9 2-9-18-9 18 9-2zm0 0v-8";
+      return 'M12 19l9 2-9-18-9 18 9-2zm0 0v-8'
     }
     if (isBatch) {
       // Multiple arrows icon for batch send
-      return "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z";
+      return 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z'
     }
-    return "M12 4v16m0 0l-4-4m4 4l4-4";
-  };
+    return 'M12 4v16m0 0l-4-4m4 4l4-4'
+  }
 
   const getLabel = () => {
-    if (isSend) return "Send";
-    if (isQuickSend) return "Quick";
-    if (isBatch) return "Batch";
-    return "Receive";
-  };
+    if (isSend) return 'Send'
+    if (isQuickSend) return 'Quick'
+    if (isBatch) return 'Batch'
+    return 'Receive'
+  }
 
   return (
     <LiquidGlassButton onClick={onClick} fullWidth>
       <div className="flex flex-col items-center gap-3">
-        <svg
-          className="w-5 h-5"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={1.5}
-            d={getPath()}
-          />
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={getPath()} />
         </svg>
         <span className="text-sm uppercase tracking-wider">{getLabel()}</span>
       </div>
     </LiquidGlassButton>
-  );
+  )
 }

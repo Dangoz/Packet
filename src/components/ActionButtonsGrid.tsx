@@ -1,17 +1,13 @@
-import { motion } from "motion/react";
-import { ActionButton } from "./ActionButton";
+import { motion } from 'motion/react'
+import { ActionButton } from './ActionButton'
 
 interface ActionButtonsGridProps {
-  onSendClick: () => void;
-  onReceiveClick: () => void;
-  onBatchClick?: () => void;
+  onSendClick: () => void
+  onReceiveClick: () => void
+  onBatchClick?: () => void
 }
 
-export function ActionButtonsGrid({
-  onSendClick,
-  onReceiveClick,
-  onBatchClick,
-}: ActionButtonsGridProps) {
+export function ActionButtonsGrid({ onSendClick, onReceiveClick, onBatchClick }: ActionButtonsGridProps) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -41,5 +37,5 @@ export function ActionButtonsGrid({
         <ActionButton type="receive" onClick={onReceiveClick} />
       </motion.div>
     </motion.div>
-  );
+  )
 }
