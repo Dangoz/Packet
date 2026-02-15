@@ -90,25 +90,32 @@ export function useClaim(poolId: Hex) {
         if (msg.includes('PoolExpired')) throw new Error('This packet has expired')
         if (msg.includes('PoolFullyClaimed')) throw new Error('All shares have been claimed')
         if (msg.includes('PoolNotFound')) throw new Error('Packet not found')
-        throw new Error(msg || 'Transaction would fail')
+        // Some RPC nodes still enforce sender balance checks for `eth_call`.
+        // For sponsored claim flows, this precheck error is expected for zero-balance wallets.
+        if (msg.toLowerCase().includes('insufficient funds for gas')) {
+          console.warn('Ignoring eth_call insufficient-funds precheck for sponsored claim:', msg)
+        } else {
+          throw new Error(msg || 'Transaction would fail')
+        }
       }
 
       // Hardcoded gas — claim() is bounded, no need for eth_estimateGas (which checks balance)
-      const gasEstimate = 500_000n
-
       const [feeData, nonce] = await Promise.all([
         publicClient.estimateFeesPerGas(),
         publicClient.getTransactionCount({ address: wallet.address as Address }),
       ])
 
+      // For sponsored transactions, sender must sign sponsorship intent:
+      // - feePayerSignature: null
+      // - no feeToken in sender-signed payload
       const envelope = TransactionEnvelopeTempo.from({
         chainId: tempoModerato.id,
         calls,
         nonce: BigInt(nonce),
-        gas: gasEstimate * 3n,
+        gas: 500_000n,
         maxFeePerGas: feeData.maxFeePerGas,
         maxPriorityFeePerGas: feeData.maxPriorityFeePerGas,
-        feeToken: pathUsd as Address,
+        feePayerSignature: null,
       })
 
       const signPayload = TransactionEnvelopeTempo.getSignPayload(envelope)
@@ -131,11 +138,10 @@ export function useClaim(poolId: Hex) {
         },
       })
 
-      // Serialize with feePayerSignature: null to mark for sponsorship,
-      // then append sender address + magic bytes so sponsor can infer sender
+      // Serialize sponsored-intent tx, then append sender + magic bytes
+      // so the sponsor route can infer sender for fee-payer payload signing.
       const serialized = TransactionEnvelopeTempo.serialize(envelope, {
         signature: sig,
-        feePayerSignature: null,
       })
       const signedTx = concat([serialized, wallet.address as Address, '0xfeefeefeefee'])
 

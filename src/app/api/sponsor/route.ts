@@ -1,55 +1,64 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient, http } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
-import { signTransaction } from 'viem/actions'
-import { Chain, Transaction, tempoActions } from 'tempo.ts/viem'
-import { pathUsd } from '@/constants'
-
-const tempoModerato = Chain.define({
-  id: 42431,
-  name: 'Tempo Moderato',
-  nativeCurrency: { name: 'pathUSD', symbol: 'pathUSD', decimals: 6 },
-  rpcUrls: { default: { http: ['https://rpc.moderato.tempo.xyz'] } },
-  feeToken: pathUsd,
-})()
-
-function getClient() {
-  const feePayerAccount = privateKeyToAccount(process.env.FEE_PAYER_PRIVATE_KEY as `0x${string}`)
-  const client = createClient({
-    chain: tempoModerato,
-    transport: http('https://rpc.moderato.tempo.xyz'),
-    account: feePayerAccount,
-  }).extend(tempoActions())
-  return { client, feePayerAccount }
-}
+import { TransactionEnvelopeTempo } from 'tempo.ts/ox'
+import type { Address, Hex } from 'viem'
 
 export async function POST(request: NextRequest) {
   try {
     const { serializedTx } = await request.json()
-    const { client, feePayerAccount } = getClient()
 
-    // Deserialize user-signed tx (extracts sender from 0xfeefeefeefee magic suffix)
-    const transaction = Transaction.deserialize(serializedTx)
+    // 1. Extract sender from magic bytes suffix: [address 20B][0xfeefeefeefee 6B]
+    const hex = serializedTx as string
+    if (!hex.endsWith('feefeefeefee')) {
+      return NextResponse.json({ error: 'Missing magic bytes' }, { status: 400 })
+    }
+    const sender = ('0x' + hex.slice(-52, -12)) as Address
+    const rawTx = hex.slice(0, -52) as `0x76${string}`
 
-    // Co-sign with fee payer account
-    // @ts-expect-error — Transaction.deserialize returns eip1559 type but
-    // the Tempo chain serializer handles it correctly at runtime (matches SDK Handler.ts)
-    const cosignedTx = await signTransaction(client, {
-      ...transaction,
-      account: feePayerAccount,
-      feePayer: feePayerAccount,
+    // 2. Deserialize — returns envelope with user's signature + feePayerSignature: null
+    const envelope = TransactionEnvelopeTempo.deserialize(rawTx)
+
+    // 3. Compute fee payer sign payload (keccak256 of tx serialized in 'feePayer' format)
+    const hash = TransactionEnvelopeTempo.getFeePayerSignPayload(envelope, { sender })
+
+    // 4. Fee payer signs the hash
+    const feePayerAccount = privateKeyToAccount(process.env.FEE_PAYER_PRIVATE_KEY as Hex)
+    const rawSig = await feePayerAccount.sign({ hash })
+    const feePayerSignature = parseRawSignature(rawSig)
+
+    // 5. Re-serialize with BOTH signatures (user's original + fee payer's new)
+    const cosignedTx = TransactionEnvelopeTempo.serialize(envelope, {
+      signature: envelope.signature,
+      feePayerSignature,
     })
 
-    // Broadcast to Tempo RPC
-    const hash = await client.request({
-      method: 'eth_sendRawTransaction',
-      params: [cosignedTx],
+    // 6. Broadcast via raw JSON-RPC
+    const rpcResponse = await fetch('https://rpc.moderato.tempo.xyz', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        method: 'eth_sendRawTransaction',
+        params: [cosignedTx],
+        id: 1,
+      }),
     })
-
-    return NextResponse.json({ hash })
+    const rpcResult = await rpcResponse.json()
+    if (rpcResult.error) {
+      return NextResponse.json({ error: rpcResult.error.message }, { status: 500 })
+    }
+    return NextResponse.json({ hash: rpcResult.result })
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Sponsor error'
     console.error('Sponsor error:', err)
     return NextResponse.json({ error: message }, { status: 500 })
   }
+}
+
+// Parse 65-byte hex signature into { r, s, yParity } for Tempo's Signature type
+function parseRawSignature(sig: Hex): { r: bigint; s: bigint; yParity: 0 | 1 } {
+  const r = BigInt(('0x' + sig.slice(2, 66)) as Hex)
+  const s = BigInt(('0x' + sig.slice(66, 130)) as Hex)
+  const v = parseInt(sig.slice(130, 132), 16)
+  return { r, s, yParity: (v === 27 || v === 0 ? 0 : 1) as 0 | 1 }
 }

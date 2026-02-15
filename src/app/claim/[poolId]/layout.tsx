@@ -37,7 +37,11 @@ export async function generateMetadata({ params }: { params: Promise<{ poolId: s
   return {
     title: `${memo} — Packet`,
     description,
+    other: {
+      'theme-color': '#ffd000',
+    },
     openGraph: {
+      url: `/claim/${rawPoolId}`,
       title: `${memo} — Packet`,
       description,
       images: [{ url: ogImageUrl, width: 1200, height: 630, alt: `Packet: ${memo}` }],

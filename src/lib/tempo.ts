@@ -25,6 +25,7 @@ export async function estimateBatchGas(from: Address, calls: { to: Address; data
             data: c.data,
             value: '0x0',
           })),
+          feePayer: true,
         },
       ],
       id: 1,
