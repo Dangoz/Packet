@@ -1,0 +1,102 @@
+{
+  "abi": [
+    {
+      "type": "function",
+      "name": "getNonce",
+      "inputs": [
+        { "name": "account", "type": "address", "internalType": "address" },
+        { "name": "nonceKey", "type": "uint256", "internalType": "uint256" }
+      ],
+      "outputs": [{ "name": "nonce", "type": "uint64", "internalType": "uint64" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "event",
+      "name": "NonceIncremented",
+      "inputs": [
+        { "name": "account", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "nonceKey", "type": "uint256", "indexed": true, "internalType": "uint256" },
+        { "name": "newNonce", "type": "uint64", "indexed": false, "internalType": "uint64" }
+      ],
+      "anonymous": false
+    },
+    { "type": "error", "name": "InvalidNonceKey", "inputs": [] },
+    { "type": "error", "name": "NonceOverflow", "inputs": [] },
+    { "type": "error", "name": "ProtocolNonceNotSupported", "inputs": [] }
+  ],
+  "bytecode": { "object": "0x", "sourceMap": "", "linkReferences": {} },
+  "deployedBytecode": { "object": "0x", "sourceMap": "", "linkReferences": {} },
+  "methodIdentifiers": { "getNonce(address,uint256)": "89535803" },
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.25+commit.b61c2a91\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"InvalidNonceKey\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"NonceOverflow\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"ProtocolNonceNotSupported\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"nonceKey\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint64\",\"name\":\"newNonce\",\"type\":\"uint64\"}],\"name\":\"NonceIncremented\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"nonceKey\",\"type\":\"uint256\"}],\"name\":\"getNonce\",\"outputs\":[{\"internalType\":\"uint64\",\"name\":\"nonce\",\"type\":\"uint64\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"This precompile manages user nonce keys (1-N) while protocol nonces (key 0)      are handled directly by account state. Each account can have multiple      independent nonce sequences identified by a nonce key.\",\"errors\":{\"ProtocolNonceNotSupported()\":[{\"details\":\"Protocol nonce should be accessed through account state, not this precompile\"}]},\"events\":{\"NonceIncremented(address,uint256,uint64)\":{\"params\":{\"account\":\"The account whose nonce was incremented\",\"newNonce\":\"The new nonce value after incrementing\",\"nonceKey\":\"The nonce key that was incremented\"}}},\"kind\":\"dev\",\"methods\":{\"getNonce(address,uint256)\":{\"params\":{\"account\":\"The account address\",\"nonceKey\":\"The nonce key (must be > 0, protocol nonce key 0 not supported)\"},\"returns\":{\"nonce\":\"The current nonce value\"}}},\"title\":\"INonce - Nonce Precompile Interface\",\"version\":1},\"userdoc\":{\"errors\":{\"InvalidNonceKey()\":[{\"notice\":\"Thrown when an invalid nonce key is provided\"}],\"NonceOverflow()\":[{\"notice\":\"Thrown when a nonce value would overflow\"}],\"ProtocolNonceNotSupported()\":[{\"notice\":\"Thrown when trying to access protocol nonce (key 0) through the precompile\"}]},\"events\":{\"NonceIncremented(address,uint256,uint64)\":{\"notice\":\"Emitted when a nonce is incremented for an account and nonce key\"}},\"kind\":\"user\",\"methods\":{\"getNonce(address,uint256)\":{\"notice\":\"Get the current nonce for a specific account and nonce key\"}},\"notice\":\"Interface for managing 2D nonces as per the Tempo Transaction spec\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"lib/tempo-std/src/interfaces/INonce.sol\":\"INonce\"},\"evmVersion\":\"cancun\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[\":forge-std/=lib/forge-std/src/\",\":tempo-std/=lib/tempo-std/src/\"]},\"sources\":{\"lib/tempo-std/src/interfaces/INonce.sol\":{\"keccak256\":\"0x22abc9ad788194b145429bcef8bbc71a604a908c25f478f7ddf193270b7b11fc\",\"license\":\"MIT OR Apache-2.0\",\"urls\":[\"bzz-raw://a844bb0e9ad86b692555c8905a35d0339b76bbfae34bcc2d0d20f0d945f0051c\",\"dweb:/ipfs/QmekXGiDvmGWGwFCFmNzzyVtJnrnWvAnzNRrEpmXJp7LiZ\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": { "version": "0.8.25+commit.b61c2a91" },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        { "inputs": [], "type": "error", "name": "InvalidNonceKey" },
+        { "inputs": [], "type": "error", "name": "NonceOverflow" },
+        { "inputs": [], "type": "error", "name": "ProtocolNonceNotSupported" },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "account", "type": "address", "indexed": true },
+            { "internalType": "uint256", "name": "nonceKey", "type": "uint256", "indexed": true },
+            { "internalType": "uint64", "name": "newNonce", "type": "uint64", "indexed": false }
+          ],
+          "type": "event",
+          "name": "NonceIncremented",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "account", "type": "address" },
+            { "internalType": "uint256", "name": "nonceKey", "type": "uint256" }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "getNonce",
+          "outputs": [{ "internalType": "uint64", "name": "nonce", "type": "uint64" }]
+        }
+      ],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {
+          "getNonce(address,uint256)": {
+            "params": {
+              "account": "The account address",
+              "nonceKey": "The nonce key (must be > 0, protocol nonce key 0 not supported)"
+            },
+            "returns": { "nonce": "The current nonce value" }
+          }
+        },
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {
+          "getNonce(address,uint256)": { "notice": "Get the current nonce for a specific account and nonce key" }
+        },
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": ["forge-std/=lib/forge-std/src/", "tempo-std/=lib/tempo-std/src/"],
+      "optimizer": { "enabled": false, "runs": 200 },
+      "metadata": { "bytecodeHash": "ipfs" },
+      "compilationTarget": { "lib/tempo-std/src/interfaces/INonce.sol": "INonce" },
+      "evmVersion": "cancun",
+      "libraries": {}
+    },
+    "sources": {
+      "lib/tempo-std/src/interfaces/INonce.sol": {
+        "keccak256": "0x22abc9ad788194b145429bcef8bbc71a604a908c25f478f7ddf193270b7b11fc",
+        "urls": [
+          "bzz-raw://a844bb0e9ad86b692555c8905a35d0339b76bbfae34bcc2d0d20f0d945f0051c",
+          "dweb:/ipfs/QmekXGiDvmGWGwFCFmNzzyVtJnrnWvAnzNRrEpmXJp7LiZ"
+        ],
+        "license": "MIT OR Apache-2.0"
+      }
+    },
+    "version": 1
+  },
+  "id": 25
+}

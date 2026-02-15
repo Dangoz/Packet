@@ -1,0 +1,157 @@
+{
+  "abi": [
+    {
+      "type": "function",
+      "name": "grantRole",
+      "inputs": [
+        { "name": "role", "type": "bytes32", "internalType": "bytes32" },
+        { "name": "account", "type": "address", "internalType": "address" }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "renounceRole",
+      "inputs": [{ "name": "role", "type": "bytes32", "internalType": "bytes32" }],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "revokeRole",
+      "inputs": [
+        { "name": "role", "type": "bytes32", "internalType": "bytes32" },
+        { "name": "account", "type": "address", "internalType": "address" }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "setRoleAdmin",
+      "inputs": [
+        { "name": "role", "type": "bytes32", "internalType": "bytes32" },
+        { "name": "adminRole", "type": "bytes32", "internalType": "bytes32" }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "event",
+      "name": "RoleAdminUpdated",
+      "inputs": [
+        { "name": "role", "type": "bytes32", "indexed": true, "internalType": "bytes32" },
+        { "name": "newAdminRole", "type": "bytes32", "indexed": true, "internalType": "bytes32" },
+        { "name": "sender", "type": "address", "indexed": true, "internalType": "address" }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "RoleMembershipUpdated",
+      "inputs": [
+        { "name": "role", "type": "bytes32", "indexed": true, "internalType": "bytes32" },
+        { "name": "account", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "sender", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "hasRole", "type": "bool", "indexed": false, "internalType": "bool" }
+      ],
+      "anonymous": false
+    },
+    { "type": "error", "name": "Unauthorized", "inputs": [] }
+  ],
+  "bytecode": { "object": "0x", "sourceMap": "", "linkReferences": {} },
+  "deployedBytecode": { "object": "0x", "sourceMap": "", "linkReferences": {} },
+  "methodIdentifiers": {
+    "grantRole(bytes32,address)": "2f2ff15d",
+    "renounceRole(bytes32)": "8bb9c5bf",
+    "revokeRole(bytes32,address)": "d547741f",
+    "setRoleAdmin(bytes32,bytes32)": "1e4e0091"
+  },
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.25+commit.b61c2a91\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"Unauthorized\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"role\",\"type\":\"bytes32\"},{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"newAdminRole\",\"type\":\"bytes32\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"}],\"name\":\"RoleAdminUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"role\",\"type\":\"bytes32\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"hasRole\",\"type\":\"bool\"}],\"name\":\"RoleMembershipUpdated\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"role\",\"type\":\"bytes32\"},{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"grantRole\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"role\",\"type\":\"bytes32\"}],\"name\":\"renounceRole\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"role\",\"type\":\"bytes32\"},{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"revokeRole\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"role\",\"type\":\"bytes32\"},{\"internalType\":\"bytes32\",\"name\":\"adminRole\",\"type\":\"bytes32\"}],\"name\":\"setRoleAdmin\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"lib/tempo-std/src/interfaces/ITIP20RolesAuth.sol\":\"ITIP20RolesAuth\"},\"evmVersion\":\"cancun\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[\":forge-std/=lib/forge-std/src/\",\":tempo-std/=lib/tempo-std/src/\"]},\"sources\":{\"lib/tempo-std/src/interfaces/ITIP20RolesAuth.sol\":{\"keccak256\":\"0xa8dd3d79223e111fb4361810eff11c5c5256ae5f5a2baa65a588ab7c17c12aee\",\"license\":\"MIT OR Apache-2.0\",\"urls\":[\"bzz-raw://46e45993705dc24e3d08cb3a56c7edf9d350a18fbd16f475dd06cfbd06afdd56\",\"dweb:/ipfs/QmYLjh31cRWkdgbp46DxzpXJZBwDyvAoSqwGkJVCj3hfoE\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": { "version": "0.8.25+commit.b61c2a91" },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        { "inputs": [], "type": "error", "name": "Unauthorized" },
+        {
+          "inputs": [
+            { "internalType": "bytes32", "name": "role", "type": "bytes32", "indexed": true },
+            { "internalType": "bytes32", "name": "newAdminRole", "type": "bytes32", "indexed": true },
+            { "internalType": "address", "name": "sender", "type": "address", "indexed": true }
+          ],
+          "type": "event",
+          "name": "RoleAdminUpdated",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            { "internalType": "bytes32", "name": "role", "type": "bytes32", "indexed": true },
+            { "internalType": "address", "name": "account", "type": "address", "indexed": true },
+            { "internalType": "address", "name": "sender", "type": "address", "indexed": true },
+            { "internalType": "bool", "name": "hasRole", "type": "bool", "indexed": false }
+          ],
+          "type": "event",
+          "name": "RoleMembershipUpdated",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            { "internalType": "bytes32", "name": "role", "type": "bytes32" },
+            { "internalType": "address", "name": "account", "type": "address" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "grantRole"
+        },
+        {
+          "inputs": [{ "internalType": "bytes32", "name": "role", "type": "bytes32" }],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "renounceRole"
+        },
+        {
+          "inputs": [
+            { "internalType": "bytes32", "name": "role", "type": "bytes32" },
+            { "internalType": "address", "name": "account", "type": "address" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "revokeRole"
+        },
+        {
+          "inputs": [
+            { "internalType": "bytes32", "name": "role", "type": "bytes32" },
+            { "internalType": "bytes32", "name": "adminRole", "type": "bytes32" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "setRoleAdmin"
+        }
+      ],
+      "devdoc": { "kind": "dev", "methods": {}, "version": 1 },
+      "userdoc": { "kind": "user", "methods": {}, "version": 1 }
+    },
+    "settings": {
+      "remappings": ["forge-std/=lib/forge-std/src/", "tempo-std/=lib/tempo-std/src/"],
+      "optimizer": { "enabled": false, "runs": 200 },
+      "metadata": { "bytecodeHash": "ipfs" },
+      "compilationTarget": { "lib/tempo-std/src/interfaces/ITIP20RolesAuth.sol": "ITIP20RolesAuth" },
+      "evmVersion": "cancun",
+      "libraries": {}
+    },
+    "sources": {
+      "lib/tempo-std/src/interfaces/ITIP20RolesAuth.sol": {
+        "keccak256": "0xa8dd3d79223e111fb4361810eff11c5c5256ae5f5a2baa65a588ab7c17c12aee",
+        "urls": [
+          "bzz-raw://46e45993705dc24e3d08cb3a56c7edf9d350a18fbd16f475dd06cfbd06afdd56",
+          "dweb:/ipfs/QmYLjh31cRWkdgbp46DxzpXJZBwDyvAoSqwGkJVCj3hfoE"
+        ],
+        "license": "MIT OR Apache-2.0"
+      }
+    },
+    "version": 1
+  },
+  "id": 30
+}

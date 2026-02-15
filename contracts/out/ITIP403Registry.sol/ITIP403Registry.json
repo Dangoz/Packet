@@ -1,0 +1,570 @@
+{
+  "abi": [
+    {
+      "type": "function",
+      "name": "compoundPolicyData",
+      "inputs": [{ "name": "policyId", "type": "uint64", "internalType": "uint64" }],
+      "outputs": [
+        { "name": "senderPolicyId", "type": "uint64", "internalType": "uint64" },
+        { "name": "recipientPolicyId", "type": "uint64", "internalType": "uint64" },
+        { "name": "mintRecipientPolicyId", "type": "uint64", "internalType": "uint64" }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "createCompoundPolicy",
+      "inputs": [
+        { "name": "senderPolicyId", "type": "uint64", "internalType": "uint64" },
+        { "name": "recipientPolicyId", "type": "uint64", "internalType": "uint64" },
+        { "name": "mintRecipientPolicyId", "type": "uint64", "internalType": "uint64" }
+      ],
+      "outputs": [{ "name": "newPolicyId", "type": "uint64", "internalType": "uint64" }],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "createPolicy",
+      "inputs": [
+        { "name": "admin", "type": "address", "internalType": "address" },
+        { "name": "policyType", "type": "uint8", "internalType": "enum ITIP403Registry.PolicyType" }
+      ],
+      "outputs": [{ "name": "newPolicyId", "type": "uint64", "internalType": "uint64" }],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "createPolicyWithAccounts",
+      "inputs": [
+        { "name": "admin", "type": "address", "internalType": "address" },
+        { "name": "policyType", "type": "uint8", "internalType": "enum ITIP403Registry.PolicyType" },
+        { "name": "accounts", "type": "address[]", "internalType": "address[]" }
+      ],
+      "outputs": [{ "name": "newPolicyId", "type": "uint64", "internalType": "uint64" }],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "isAuthorized",
+      "inputs": [
+        { "name": "policyId", "type": "uint64", "internalType": "uint64" },
+        { "name": "user", "type": "address", "internalType": "address" }
+      ],
+      "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "isAuthorizedMintRecipient",
+      "inputs": [
+        { "name": "policyId", "type": "uint64", "internalType": "uint64" },
+        { "name": "user", "type": "address", "internalType": "address" }
+      ],
+      "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "isAuthorizedRecipient",
+      "inputs": [
+        { "name": "policyId", "type": "uint64", "internalType": "uint64" },
+        { "name": "user", "type": "address", "internalType": "address" }
+      ],
+      "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "isAuthorizedSender",
+      "inputs": [
+        { "name": "policyId", "type": "uint64", "internalType": "uint64" },
+        { "name": "user", "type": "address", "internalType": "address" }
+      ],
+      "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "modifyPolicyBlacklist",
+      "inputs": [
+        { "name": "policyId", "type": "uint64", "internalType": "uint64" },
+        { "name": "account", "type": "address", "internalType": "address" },
+        { "name": "restricted", "type": "bool", "internalType": "bool" }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "modifyPolicyWhitelist",
+      "inputs": [
+        { "name": "policyId", "type": "uint64", "internalType": "uint64" },
+        { "name": "account", "type": "address", "internalType": "address" },
+        { "name": "allowed", "type": "bool", "internalType": "bool" }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "policyData",
+      "inputs": [{ "name": "policyId", "type": "uint64", "internalType": "uint64" }],
+      "outputs": [
+        { "name": "policyType", "type": "uint8", "internalType": "enum ITIP403Registry.PolicyType" },
+        { "name": "admin", "type": "address", "internalType": "address" }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "policyExists",
+      "inputs": [{ "name": "policyId", "type": "uint64", "internalType": "uint64" }],
+      "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "policyIdCounter",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "uint64", "internalType": "uint64" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "setPolicyAdmin",
+      "inputs": [
+        { "name": "policyId", "type": "uint64", "internalType": "uint64" },
+        { "name": "admin", "type": "address", "internalType": "address" }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "event",
+      "name": "BlacklistUpdated",
+      "inputs": [
+        { "name": "policyId", "type": "uint64", "indexed": true, "internalType": "uint64" },
+        { "name": "updater", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "account", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "restricted", "type": "bool", "indexed": false, "internalType": "bool" }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "CompoundPolicyCreated",
+      "inputs": [
+        { "name": "policyId", "type": "uint64", "indexed": true, "internalType": "uint64" },
+        { "name": "creator", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "senderPolicyId", "type": "uint64", "indexed": false, "internalType": "uint64" },
+        { "name": "recipientPolicyId", "type": "uint64", "indexed": false, "internalType": "uint64" },
+        { "name": "mintRecipientPolicyId", "type": "uint64", "indexed": false, "internalType": "uint64" }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "PolicyAdminUpdated",
+      "inputs": [
+        { "name": "policyId", "type": "uint64", "indexed": true, "internalType": "uint64" },
+        { "name": "updater", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "admin", "type": "address", "indexed": true, "internalType": "address" }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "PolicyCreated",
+      "inputs": [
+        { "name": "policyId", "type": "uint64", "indexed": true, "internalType": "uint64" },
+        { "name": "updater", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "policyType", "type": "uint8", "indexed": false, "internalType": "enum ITIP403Registry.PolicyType" }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "WhitelistUpdated",
+      "inputs": [
+        { "name": "policyId", "type": "uint64", "indexed": true, "internalType": "uint64" },
+        { "name": "updater", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "account", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "allowed", "type": "bool", "indexed": false, "internalType": "bool" }
+      ],
+      "anonymous": false
+    },
+    { "type": "error", "name": "IncompatiblePolicyType", "inputs": [] },
+    { "type": "error", "name": "InvalidPolicyType", "inputs": [] },
+    { "type": "error", "name": "PolicyNotFound", "inputs": [] },
+    { "type": "error", "name": "PolicyNotSimple", "inputs": [] },
+    { "type": "error", "name": "Unauthorized", "inputs": [] }
+  ],
+  "bytecode": { "object": "0x", "sourceMap": "", "linkReferences": {} },
+  "deployedBytecode": { "object": "0x", "sourceMap": "", "linkReferences": {} },
+  "methodIdentifiers": {
+    "compoundPolicyData(uint64)": "b6266019",
+    "createCompoundPolicy(uint64,uint64,uint64)": "5da414ee",
+    "createPolicy(address,uint8)": "ca5d55f6",
+    "createPolicyWithAccounts(address,uint8,address[])": "a2d3044f",
+    "isAuthorized(uint64,address)": "55a1179e",
+    "isAuthorizedMintRecipient(uint64,address)": "b389e305",
+    "isAuthorizedRecipient(uint64,address)": "6fbc13d6",
+    "isAuthorizedSender(uint64,address)": "14abd81d",
+    "modifyPolicyBlacklist(uint64,address,bool)": "c62b27d4",
+    "modifyPolicyWhitelist(uint64,address,bool)": "71ec67a3",
+    "policyData(uint64)": "50214329",
+    "policyExists(uint64)": "330f5637",
+    "policyIdCounter()": "3cc32f9c",
+    "setPolicyAdmin(uint64,address)": "25f7d376"
+  },
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.25+commit.b61c2a91\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"IncompatiblePolicyType\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidPolicyType\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"PolicyNotFound\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"PolicyNotSimple\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"Unauthorized\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint64\",\"name\":\"policyId\",\"type\":\"uint64\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"updater\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"restricted\",\"type\":\"bool\"}],\"name\":\"BlacklistUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint64\",\"name\":\"policyId\",\"type\":\"uint64\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"creator\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint64\",\"name\":\"senderPolicyId\",\"type\":\"uint64\"},{\"indexed\":false,\"internalType\":\"uint64\",\"name\":\"recipientPolicyId\",\"type\":\"uint64\"},{\"indexed\":false,\"internalType\":\"uint64\",\"name\":\"mintRecipientPolicyId\",\"type\":\"uint64\"}],\"name\":\"CompoundPolicyCreated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint64\",\"name\":\"policyId\",\"type\":\"uint64\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"updater\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"admin\",\"type\":\"address\"}],\"name\":\"PolicyAdminUpdated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint64\",\"name\":\"policyId\",\"type\":\"uint64\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"updater\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"enum ITIP403Registry.PolicyType\",\"name\":\"policyType\",\"type\":\"uint8\"}],\"name\":\"PolicyCreated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint64\",\"name\":\"policyId\",\"type\":\"uint64\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"updater\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"allowed\",\"type\":\"bool\"}],\"name\":\"WhitelistUpdated\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"policyId\",\"type\":\"uint64\"}],\"name\":\"compoundPolicyData\",\"outputs\":[{\"internalType\":\"uint64\",\"name\":\"senderPolicyId\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"recipientPolicyId\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"mintRecipientPolicyId\",\"type\":\"uint64\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"senderPolicyId\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"recipientPolicyId\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"mintRecipientPolicyId\",\"type\":\"uint64\"}],\"name\":\"createCompoundPolicy\",\"outputs\":[{\"internalType\":\"uint64\",\"name\":\"newPolicyId\",\"type\":\"uint64\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"admin\",\"type\":\"address\"},{\"internalType\":\"enum ITIP403Registry.PolicyType\",\"name\":\"policyType\",\"type\":\"uint8\"}],\"name\":\"createPolicy\",\"outputs\":[{\"internalType\":\"uint64\",\"name\":\"newPolicyId\",\"type\":\"uint64\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"admin\",\"type\":\"address\"},{\"internalType\":\"enum ITIP403Registry.PolicyType\",\"name\":\"policyType\",\"type\":\"uint8\"},{\"internalType\":\"address[]\",\"name\":\"accounts\",\"type\":\"address[]\"}],\"name\":\"createPolicyWithAccounts\",\"outputs\":[{\"internalType\":\"uint64\",\"name\":\"newPolicyId\",\"type\":\"uint64\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"policyId\",\"type\":\"uint64\"},{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"isAuthorized\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"policyId\",\"type\":\"uint64\"},{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"isAuthorizedMintRecipient\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"policyId\",\"type\":\"uint64\"},{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"isAuthorizedRecipient\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"policyId\",\"type\":\"uint64\"},{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"isAuthorizedSender\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"policyId\",\"type\":\"uint64\"},{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"restricted\",\"type\":\"bool\"}],\"name\":\"modifyPolicyBlacklist\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"policyId\",\"type\":\"uint64\"},{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"allowed\",\"type\":\"bool\"}],\"name\":\"modifyPolicyWhitelist\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"policyId\",\"type\":\"uint64\"}],\"name\":\"policyData\",\"outputs\":[{\"internalType\":\"enum ITIP403Registry.PolicyType\",\"name\":\"policyType\",\"type\":\"uint8\"},{\"internalType\":\"address\",\"name\":\"admin\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"policyId\",\"type\":\"uint64\"}],\"name\":\"policyExists\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"policyIdCounter\",\"outputs\":[{\"internalType\":\"uint64\",\"name\":\"\",\"type\":\"uint64\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"policyId\",\"type\":\"uint64\"},{\"internalType\":\"address\",\"name\":\"admin\",\"type\":\"address\"}],\"name\":\"setPolicyAdmin\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"events\":{\"BlacklistUpdated(uint64,address,address,bool)\":{\"params\":{\"account\":\"The account whose blacklist status was changed\",\"policyId\":\"The ID of the blacklist policy that was updated\",\"restricted\":\"Whether the account is now restricted (true) or not (false)\",\"updater\":\"The address that performed the update\"}},\"PolicyAdminUpdated(uint64,address,address)\":{\"params\":{\"admin\":\"The new admin address for the policy\",\"policyId\":\"The ID of the policy that was updated\",\"updater\":\"The address that performed the update\"}},\"PolicyCreated(uint64,address,uint8)\":{\"params\":{\"policyId\":\"The ID of the newly created policy\",\"policyType\":\"The type of policy that was created\",\"updater\":\"The address that created the policy\"}},\"WhitelistUpdated(uint64,address,address,bool)\":{\"params\":{\"account\":\"The account whose whitelist status was changed\",\"allowed\":\"Whether the account is now allowed (true) or not (false)\",\"policyId\":\"The ID of the whitelist policy that was updated\",\"updater\":\"The address that performed the update\"}}},\"kind\":\"dev\",\"methods\":{\"compoundPolicyData(uint64)\":{\"params\":{\"policyId\":\"ID of the compound policy to query\"},\"returns\":{\"mintRecipientPolicyId\":\"Policy ID for mint recipient checks\",\"recipientPolicyId\":\"Policy ID for recipient checks\",\"senderPolicyId\":\"Policy ID for sender checks\"}},\"createCompoundPolicy(uint64,uint64,uint64)\":{\"params\":{\"mintRecipientPolicyId\":\"Policy ID to check for mint recipients\",\"recipientPolicyId\":\"Policy ID to check for transfer recipients\",\"senderPolicyId\":\"Policy ID to check for transfer senders\"},\"returns\":{\"newPolicyId\":\"ID of the newly created compound policy\"}},\"createPolicy(address,uint8)\":{\"params\":{\"admin\":\"The address to be assigned as the admin of the new policy\",\"policyType\":\"The type of policy to create (whitelist or blacklist)\"},\"returns\":{\"newPolicyId\":\"The ID of the newly created policy\"}},\"createPolicyWithAccounts(address,uint8,address[])\":{\"params\":{\"accounts\":\"The initial accounts to add to the policy list\",\"admin\":\"The address to be assigned as the admin of the new policy\",\"policyType\":\"The type of policy to create (whitelist or blacklist)\"},\"returns\":{\"newPolicyId\":\"The ID of the newly created policy\"}},\"isAuthorized(uint64,address)\":{\"params\":{\"policyId\":\"The ID of the policy to check against\",\"user\":\"The address to check authorization for\"},\"returns\":{\"_0\":\"True if the user is authorized, false otherwise\"}},\"isAuthorizedMintRecipient(uint64,address)\":{\"params\":{\"policyId\":\"Policy ID to check against\",\"user\":\"Address to check\"},\"returns\":{\"_0\":\"True if authorized to receive mints\"}},\"isAuthorizedRecipient(uint64,address)\":{\"params\":{\"policyId\":\"Policy ID to check against\",\"user\":\"Address to check\"},\"returns\":{\"_0\":\"True if authorized to receive\"}},\"isAuthorizedSender(uint64,address)\":{\"params\":{\"policyId\":\"Policy ID to check against\",\"user\":\"Address to check\"},\"returns\":{\"_0\":\"True if authorized to send\"}},\"modifyPolicyBlacklist(uint64,address,bool)\":{\"params\":{\"account\":\"The account to update\",\"policyId\":\"The ID of the blacklist policy to modify\",\"restricted\":\"Whether to restrict (true) or unrestrict (false) the account\"}},\"modifyPolicyWhitelist(uint64,address,bool)\":{\"params\":{\"account\":\"The account to update\",\"allowed\":\"Whether to allow (true) or disallow (false) the account\",\"policyId\":\"The ID of the whitelist policy to modify\"}},\"policyData(uint64)\":{\"params\":{\"policyId\":\"The ID of the policy to query\"},\"returns\":{\"admin\":\"The admin address of the policy\",\"policyType\":\"The type of the policy (whitelist or blacklist)\"}},\"policyExists(uint64)\":{\"params\":{\"policyId\":\"The ID of the policy to check\"},\"returns\":{\"_0\":\"True if the policy exists, false otherwise\"}},\"policyIdCounter()\":{\"returns\":{\"_0\":\"The next policy ID that will be assigned to a newly created policy\"}},\"setPolicyAdmin(uint64,address)\":{\"params\":{\"admin\":\"The new admin address for the policy\",\"policyId\":\"The ID of the policy to update\"}}},\"title\":\"The interface for TIP-403 transfer policy registry\",\"version\":1},\"userdoc\":{\"errors\":{\"IncompatiblePolicyType()\":[{\"notice\":\"Error when attempting to operate on a policy with incompatible type\"}],\"InvalidPolicyType()\":[{\"notice\":\"Error when policy has an invalid type\"}],\"PolicyNotFound()\":[{\"notice\":\"Error when querying a policy that does not exist\"}],\"PolicyNotSimple()\":[{\"notice\":\"TIP-1015: Error when a compound policy references a non-simple policy\"}],\"Unauthorized()\":[{\"notice\":\"Error when caller lacks authorization to perform the requested action\"}]},\"events\":{\"BlacklistUpdated(uint64,address,address,bool)\":{\"notice\":\"Emitted when a blacklist policy is modified\"},\"CompoundPolicyCreated(uint64,address,uint64,uint64,uint64)\":{\"notice\":\"TIP-1015: Emitted when a new compound policy is created\"},\"PolicyAdminUpdated(uint64,address,address)\":{\"notice\":\"Emitted when a policy's admin is updated\"},\"PolicyCreated(uint64,address,uint8)\":{\"notice\":\"Emitted when a new policy is created\"},\"WhitelistUpdated(uint64,address,address,bool)\":{\"notice\":\"Emitted when a whitelist policy is modified\"}},\"kind\":\"user\",\"methods\":{\"compoundPolicyData(uint64)\":{\"notice\":\"TIP-1015: Returns the constituent policy IDs for a compound policy\"},\"createCompoundPolicy(uint64,uint64,uint64)\":{\"notice\":\"TIP-1015: Creates a new immutable compound policy\"},\"createPolicy(address,uint8)\":{\"notice\":\"Creates a new transfer policy without initial accounts\"},\"createPolicyWithAccounts(address,uint8,address[])\":{\"notice\":\"Creates a new transfer policy with initial accounts\"},\"isAuthorized(uint64,address)\":{\"notice\":\"Checks if a user is authorized under a specific policy\"},\"isAuthorizedMintRecipient(uint64,address)\":{\"notice\":\"TIP-1015: Checks if a user is authorized as a mint recipient\"},\"isAuthorizedRecipient(uint64,address)\":{\"notice\":\"TIP-1015: Checks if a user is authorized as a recipient\"},\"isAuthorizedSender(uint64,address)\":{\"notice\":\"TIP-1015: Checks if a user is authorized as a sender\"},\"modifyPolicyBlacklist(uint64,address,bool)\":{\"notice\":\"Modifies the blacklist status of an account for a blacklist policy\"},\"modifyPolicyWhitelist(uint64,address,bool)\":{\"notice\":\"Modifies the whitelist status of an account for a whitelist policy\"},\"policyData(uint64)\":{\"notice\":\"Returns the policy data for a given policy ID\"},\"policyExists(uint64)\":{\"notice\":\"Returns whether a policy exists\"},\"policyIdCounter()\":{\"notice\":\"Returns the current policy ID counter\"},\"setPolicyAdmin(uint64,address)\":{\"notice\":\"Updates the admin address for an existing policy\"}},\"notice\":\"Registry for managing transfer policies that control which addresses can send or receive tokens\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"lib/tempo-std/src/interfaces/ITIP403Registry.sol\":\"ITIP403Registry\"},\"evmVersion\":\"cancun\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[\":forge-std/=lib/forge-std/src/\",\":tempo-std/=lib/tempo-std/src/\"]},\"sources\":{\"lib/tempo-std/src/interfaces/ITIP403Registry.sol\":{\"keccak256\":\"0x8d7a9c94ed22fb822ee6903f86b46e4a27a74fa0a5a929334fc8d0a2d66ae4a8\",\"license\":\"MIT OR Apache-2.0\",\"urls\":[\"bzz-raw://f7babf99817db05949ca6d1bfc3df0368ad340d453207eeed970b63a100c51b7\",\"dweb:/ipfs/QmRWitRQLfkZ37gmpATduWnw5o3UySe4S6ZAkxoiTQBr1i\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": { "version": "0.8.25+commit.b61c2a91" },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        { "inputs": [], "type": "error", "name": "IncompatiblePolicyType" },
+        { "inputs": [], "type": "error", "name": "InvalidPolicyType" },
+        { "inputs": [], "type": "error", "name": "PolicyNotFound" },
+        { "inputs": [], "type": "error", "name": "PolicyNotSimple" },
+        { "inputs": [], "type": "error", "name": "Unauthorized" },
+        {
+          "inputs": [
+            { "internalType": "uint64", "name": "policyId", "type": "uint64", "indexed": true },
+            { "internalType": "address", "name": "updater", "type": "address", "indexed": true },
+            { "internalType": "address", "name": "account", "type": "address", "indexed": true },
+            { "internalType": "bool", "name": "restricted", "type": "bool", "indexed": false }
+          ],
+          "type": "event",
+          "name": "BlacklistUpdated",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            { "internalType": "uint64", "name": "policyId", "type": "uint64", "indexed": true },
+            { "internalType": "address", "name": "creator", "type": "address", "indexed": true },
+            { "internalType": "uint64", "name": "senderPolicyId", "type": "uint64", "indexed": false },
+            { "internalType": "uint64", "name": "recipientPolicyId", "type": "uint64", "indexed": false },
+            { "internalType": "uint64", "name": "mintRecipientPolicyId", "type": "uint64", "indexed": false }
+          ],
+          "type": "event",
+          "name": "CompoundPolicyCreated",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            { "internalType": "uint64", "name": "policyId", "type": "uint64", "indexed": true },
+            { "internalType": "address", "name": "updater", "type": "address", "indexed": true },
+            { "internalType": "address", "name": "admin", "type": "address", "indexed": true }
+          ],
+          "type": "event",
+          "name": "PolicyAdminUpdated",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            { "internalType": "uint64", "name": "policyId", "type": "uint64", "indexed": true },
+            { "internalType": "address", "name": "updater", "type": "address", "indexed": true },
+            {
+              "internalType": "enum ITIP403Registry.PolicyType",
+              "name": "policyType",
+              "type": "uint8",
+              "indexed": false
+            }
+          ],
+          "type": "event",
+          "name": "PolicyCreated",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            { "internalType": "uint64", "name": "policyId", "type": "uint64", "indexed": true },
+            { "internalType": "address", "name": "updater", "type": "address", "indexed": true },
+            { "internalType": "address", "name": "account", "type": "address", "indexed": true },
+            { "internalType": "bool", "name": "allowed", "type": "bool", "indexed": false }
+          ],
+          "type": "event",
+          "name": "WhitelistUpdated",
+          "anonymous": false
+        },
+        {
+          "inputs": [{ "internalType": "uint64", "name": "policyId", "type": "uint64" }],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "compoundPolicyData",
+          "outputs": [
+            { "internalType": "uint64", "name": "senderPolicyId", "type": "uint64" },
+            { "internalType": "uint64", "name": "recipientPolicyId", "type": "uint64" },
+            { "internalType": "uint64", "name": "mintRecipientPolicyId", "type": "uint64" }
+          ]
+        },
+        {
+          "inputs": [
+            { "internalType": "uint64", "name": "senderPolicyId", "type": "uint64" },
+            { "internalType": "uint64", "name": "recipientPolicyId", "type": "uint64" },
+            { "internalType": "uint64", "name": "mintRecipientPolicyId", "type": "uint64" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "createCompoundPolicy",
+          "outputs": [{ "internalType": "uint64", "name": "newPolicyId", "type": "uint64" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "admin", "type": "address" },
+            { "internalType": "enum ITIP403Registry.PolicyType", "name": "policyType", "type": "uint8" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "createPolicy",
+          "outputs": [{ "internalType": "uint64", "name": "newPolicyId", "type": "uint64" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "admin", "type": "address" },
+            { "internalType": "enum ITIP403Registry.PolicyType", "name": "policyType", "type": "uint8" },
+            { "internalType": "address[]", "name": "accounts", "type": "address[]" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "createPolicyWithAccounts",
+          "outputs": [{ "internalType": "uint64", "name": "newPolicyId", "type": "uint64" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "uint64", "name": "policyId", "type": "uint64" },
+            { "internalType": "address", "name": "user", "type": "address" }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "isAuthorized",
+          "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "uint64", "name": "policyId", "type": "uint64" },
+            { "internalType": "address", "name": "user", "type": "address" }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "isAuthorizedMintRecipient",
+          "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "uint64", "name": "policyId", "type": "uint64" },
+            { "internalType": "address", "name": "user", "type": "address" }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "isAuthorizedRecipient",
+          "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "uint64", "name": "policyId", "type": "uint64" },
+            { "internalType": "address", "name": "user", "type": "address" }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "isAuthorizedSender",
+          "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "uint64", "name": "policyId", "type": "uint64" },
+            { "internalType": "address", "name": "account", "type": "address" },
+            { "internalType": "bool", "name": "restricted", "type": "bool" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "modifyPolicyBlacklist"
+        },
+        {
+          "inputs": [
+            { "internalType": "uint64", "name": "policyId", "type": "uint64" },
+            { "internalType": "address", "name": "account", "type": "address" },
+            { "internalType": "bool", "name": "allowed", "type": "bool" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "modifyPolicyWhitelist"
+        },
+        {
+          "inputs": [{ "internalType": "uint64", "name": "policyId", "type": "uint64" }],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "policyData",
+          "outputs": [
+            { "internalType": "enum ITIP403Registry.PolicyType", "name": "policyType", "type": "uint8" },
+            { "internalType": "address", "name": "admin", "type": "address" }
+          ]
+        },
+        {
+          "inputs": [{ "internalType": "uint64", "name": "policyId", "type": "uint64" }],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "policyExists",
+          "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "policyIdCounter",
+          "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "uint64", "name": "policyId", "type": "uint64" },
+            { "internalType": "address", "name": "admin", "type": "address" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "setPolicyAdmin"
+        }
+      ],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {
+          "compoundPolicyData(uint64)": {
+            "params": { "policyId": "ID of the compound policy to query" },
+            "returns": {
+              "mintRecipientPolicyId": "Policy ID for mint recipient checks",
+              "recipientPolicyId": "Policy ID for recipient checks",
+              "senderPolicyId": "Policy ID for sender checks"
+            }
+          },
+          "createCompoundPolicy(uint64,uint64,uint64)": {
+            "params": {
+              "mintRecipientPolicyId": "Policy ID to check for mint recipients",
+              "recipientPolicyId": "Policy ID to check for transfer recipients",
+              "senderPolicyId": "Policy ID to check for transfer senders"
+            },
+            "returns": { "newPolicyId": "ID of the newly created compound policy" }
+          },
+          "createPolicy(address,uint8)": {
+            "params": {
+              "admin": "The address to be assigned as the admin of the new policy",
+              "policyType": "The type of policy to create (whitelist or blacklist)"
+            },
+            "returns": { "newPolicyId": "The ID of the newly created policy" }
+          },
+          "createPolicyWithAccounts(address,uint8,address[])": {
+            "params": {
+              "accounts": "The initial accounts to add to the policy list",
+              "admin": "The address to be assigned as the admin of the new policy",
+              "policyType": "The type of policy to create (whitelist or blacklist)"
+            },
+            "returns": { "newPolicyId": "The ID of the newly created policy" }
+          },
+          "isAuthorized(uint64,address)": {
+            "params": {
+              "policyId": "The ID of the policy to check against",
+              "user": "The address to check authorization for"
+            },
+            "returns": { "_0": "True if the user is authorized, false otherwise" }
+          },
+          "isAuthorizedMintRecipient(uint64,address)": {
+            "params": { "policyId": "Policy ID to check against", "user": "Address to check" },
+            "returns": { "_0": "True if authorized to receive mints" }
+          },
+          "isAuthorizedRecipient(uint64,address)": {
+            "params": { "policyId": "Policy ID to check against", "user": "Address to check" },
+            "returns": { "_0": "True if authorized to receive" }
+          },
+          "isAuthorizedSender(uint64,address)": {
+            "params": { "policyId": "Policy ID to check against", "user": "Address to check" },
+            "returns": { "_0": "True if authorized to send" }
+          },
+          "modifyPolicyBlacklist(uint64,address,bool)": {
+            "params": {
+              "account": "The account to update",
+              "policyId": "The ID of the blacklist policy to modify",
+              "restricted": "Whether to restrict (true) or unrestrict (false) the account"
+            }
+          },
+          "modifyPolicyWhitelist(uint64,address,bool)": {
+            "params": {
+              "account": "The account to update",
+              "allowed": "Whether to allow (true) or disallow (false) the account",
+              "policyId": "The ID of the whitelist policy to modify"
+            }
+          },
+          "policyData(uint64)": {
+            "params": { "policyId": "The ID of the policy to query" },
+            "returns": {
+              "admin": "The admin address of the policy",
+              "policyType": "The type of the policy (whitelist or blacklist)"
+            }
+          },
+          "policyExists(uint64)": {
+            "params": { "policyId": "The ID of the policy to check" },
+            "returns": { "_0": "True if the policy exists, false otherwise" }
+          },
+          "policyIdCounter()": {
+            "returns": { "_0": "The next policy ID that will be assigned to a newly created policy" }
+          },
+          "setPolicyAdmin(uint64,address)": {
+            "params": { "admin": "The new admin address for the policy", "policyId": "The ID of the policy to update" }
+          }
+        },
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {
+          "compoundPolicyData(uint64)": {
+            "notice": "TIP-1015: Returns the constituent policy IDs for a compound policy"
+          },
+          "createCompoundPolicy(uint64,uint64,uint64)": {
+            "notice": "TIP-1015: Creates a new immutable compound policy"
+          },
+          "createPolicy(address,uint8)": { "notice": "Creates a new transfer policy without initial accounts" },
+          "createPolicyWithAccounts(address,uint8,address[])": {
+            "notice": "Creates a new transfer policy with initial accounts"
+          },
+          "isAuthorized(uint64,address)": { "notice": "Checks if a user is authorized under a specific policy" },
+          "isAuthorizedMintRecipient(uint64,address)": {
+            "notice": "TIP-1015: Checks if a user is authorized as a mint recipient"
+          },
+          "isAuthorizedRecipient(uint64,address)": {
+            "notice": "TIP-1015: Checks if a user is authorized as a recipient"
+          },
+          "isAuthorizedSender(uint64,address)": { "notice": "TIP-1015: Checks if a user is authorized as a sender" },
+          "modifyPolicyBlacklist(uint64,address,bool)": {
+            "notice": "Modifies the blacklist status of an account for a blacklist policy"
+          },
+          "modifyPolicyWhitelist(uint64,address,bool)": {
+            "notice": "Modifies the whitelist status of an account for a whitelist policy"
+          },
+          "policyData(uint64)": { "notice": "Returns the policy data for a given policy ID" },
+          "policyExists(uint64)": { "notice": "Returns whether a policy exists" },
+          "policyIdCounter()": { "notice": "Returns the current policy ID counter" },
+          "setPolicyAdmin(uint64,address)": { "notice": "Updates the admin address for an existing policy" }
+        },
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": ["forge-std/=lib/forge-std/src/", "tempo-std/=lib/tempo-std/src/"],
+      "optimizer": { "enabled": false, "runs": 200 },
+      "metadata": { "bytecodeHash": "ipfs" },
+      "compilationTarget": { "lib/tempo-std/src/interfaces/ITIP403Registry.sol": "ITIP403Registry" },
+      "evmVersion": "cancun",
+      "libraries": {}
+    },
+    "sources": {
+      "lib/tempo-std/src/interfaces/ITIP403Registry.sol": {
+        "keccak256": "0x8d7a9c94ed22fb822ee6903f86b46e4a27a74fa0a5a929334fc8d0a2d66ae4a8",
+        "urls": [
+          "bzz-raw://f7babf99817db05949ca6d1bfc3df0368ad340d453207eeed970b63a100c51b7",
+          "dweb:/ipfs/QmRWitRQLfkZ37gmpATduWnw5o3UySe4S6ZAkxoiTQBr1i"
+        ],
+        "license": "MIT OR Apache-2.0"
+      }
+    },
+    "version": 1
+  },
+  "id": 31
+}

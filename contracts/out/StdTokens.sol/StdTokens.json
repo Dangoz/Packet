@@ -1,0 +1,52 @@
+{
+  "abi": [],
+  "bytecode": {
+    "object": "0x6055604b600b8282823980515f1a607314603f577f4e487b71000000000000000000000000000000000000000000000000000000005f525f60045260245ffd5b305f52607381538281f3fe730000000000000000000000000000000000000000301460806040525f80fdfea2646970667358221220da1513c42bb46933786c61594d927efac3c1343cf39a11b3b06649e2411b006c64736f6c63430008190033",
+    "sourceMap": "406:664:21:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x730000000000000000000000000000000000000000301460806040525f80fdfea2646970667358221220da1513c42bb46933786c61594d927efac3c1343cf39a11b3b06649e2411b006c64736f6c63430008190033",
+    "sourceMap": "406:664:21:-:0;;;;;;;;",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {},
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.25+commit.b61c2a91\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"title\":\"Standard Tokens Library for Tempo\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"notice\":\"<https://github.com/tempoxyz/tempo/blob/main/crates/contracts/src/precompiles/mod.rs><https://github.com/tempoxyz/tempo/blob/98ad3e3e2c400e9f2adf6da6e8a3523669f7c558/xtask/src/genesis_args.rs#L168-L200>\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"lib/tempo-std/src/StdTokens.sol\":\"StdTokens\"},\"evmVersion\":\"cancun\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[\":forge-std/=lib/forge-std/src/\",\":tempo-std/=lib/tempo-std/src/\"]},\"sources\":{\"lib/tempo-std/src/StdTokens.sol\":{\"keccak256\":\"0x8ea275c1e1212dda460d67dc74a49206df73739c8808a9f2aee16696d539268e\",\"license\":\"MIT OR Apache-2.0\",\"urls\":[\"bzz-raw://d37c51ddb2528aea6e6006fa24e12552387bb459c678c25e3323f2814b502ed5\",\"dweb:/ipfs/QmVgCYRBdp6NxXBMa2kf6SbxBW5Cd8o36tKBzb6UVFyRfX\"]},\"lib/tempo-std/src/interfaces/ITIP20.sol\":{\"keccak256\":\"0xbd0602dbd94a3e3469a7a1609ac37f540e125889ace050d655ec258c555a7fd0\",\"license\":\"MIT OR Apache-2.0\",\"urls\":[\"bzz-raw://5f7bb3b2f8d33703006cba1a3183bbbc8334469a7b1963bec4b731c2f6d4f8ba\",\"dweb:/ipfs/QmWH3BaNg8L1GuFYcSQTzZqwuBoP2oKd3q4uKRtgYFhMzG\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": { "version": "0.8.25+commit.b61c2a91" },
+    "language": "Solidity",
+    "output": {
+      "abi": [],
+      "devdoc": { "kind": "dev", "methods": {}, "version": 1 },
+      "userdoc": { "kind": "user", "methods": {}, "version": 1 }
+    },
+    "settings": {
+      "remappings": ["forge-std/=lib/forge-std/src/", "tempo-std/=lib/tempo-std/src/"],
+      "optimizer": { "enabled": false, "runs": 200 },
+      "metadata": { "bytecodeHash": "ipfs" },
+      "compilationTarget": { "lib/tempo-std/src/StdTokens.sol": "StdTokens" },
+      "evmVersion": "cancun",
+      "libraries": {}
+    },
+    "sources": {
+      "lib/tempo-std/src/StdTokens.sol": {
+        "keccak256": "0x8ea275c1e1212dda460d67dc74a49206df73739c8808a9f2aee16696d539268e",
+        "urls": [
+          "bzz-raw://d37c51ddb2528aea6e6006fa24e12552387bb459c678c25e3323f2814b502ed5",
+          "dweb:/ipfs/QmVgCYRBdp6NxXBMa2kf6SbxBW5Cd8o36tKBzb6UVFyRfX"
+        ],
+        "license": "MIT OR Apache-2.0"
+      },
+      "lib/tempo-std/src/interfaces/ITIP20.sol": {
+        "keccak256": "0xbd0602dbd94a3e3469a7a1609ac37f540e125889ace050d655ec258c555a7fd0",
+        "urls": [
+          "bzz-raw://5f7bb3b2f8d33703006cba1a3183bbbc8334469a7b1963bec4b731c2f6d4f8ba",
+          "dweb:/ipfs/QmWH3BaNg8L1GuFYcSQTzZqwuBoP2oKd3q4uKRtgYFhMzG"
+        ],
+        "license": "MIT OR Apache-2.0"
+      }
+    },
+    "version": 1
+  },
+  "id": 21
+}

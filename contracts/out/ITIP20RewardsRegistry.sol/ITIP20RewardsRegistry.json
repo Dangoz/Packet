@@ -1,0 +1,133 @@
+{
+  "abi": [
+    {
+      "type": "function",
+      "name": "addStream",
+      "inputs": [{ "name": "endTime", "type": "uint128", "internalType": "uint128" }],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    { "type": "function", "name": "finalizeStreams", "inputs": [], "outputs": [], "stateMutability": "nonpayable" },
+    {
+      "type": "function",
+      "name": "lastUpdatedTimestamp",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "uint128", "internalType": "uint128" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "removeStream",
+      "inputs": [{ "name": "endTime", "type": "uint128", "internalType": "uint128" }],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "streamIndex",
+      "inputs": [{ "name": "", "type": "bytes32", "internalType": "bytes32" }],
+      "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "streamsEndingAt",
+      "inputs": [
+        { "name": "", "type": "uint128", "internalType": "uint128" },
+        { "name": "", "type": "uint256", "internalType": "uint256" }
+      ],
+      "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+      "stateMutability": "view"
+    },
+    { "type": "error", "name": "StreamsAlreadyFinalized", "inputs": [] },
+    { "type": "error", "name": "Unauthorized", "inputs": [] }
+  ],
+  "bytecode": { "object": "0x", "sourceMap": "", "linkReferences": {} },
+  "deployedBytecode": { "object": "0x", "sourceMap": "", "linkReferences": {} },
+  "methodIdentifiers": {
+    "addStream(uint128)": "7d63f134",
+    "finalizeStreams()": "74160149",
+    "lastUpdatedTimestamp()": "fbaf894c",
+    "removeStream(uint128)": "0e88e53c",
+    "streamIndex(bytes32)": "83672de7",
+    "streamsEndingAt(uint128,uint256)": "24938d00"
+  },
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.25+commit.b61c2a91\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"StreamsAlreadyFinalized\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"Unauthorized\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"uint128\",\"name\":\"endTime\",\"type\":\"uint128\"}],\"name\":\"addStream\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"finalizeStreams\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"lastUpdatedTimestamp\",\"outputs\":[{\"internalType\":\"uint128\",\"name\":\"\",\"type\":\"uint128\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint128\",\"name\":\"endTime\",\"type\":\"uint128\"}],\"name\":\"removeStream\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"streamIndex\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint128\",\"name\":\"\",\"type\":\"uint128\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"streamsEndingAt\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"title\":\"Interface for TIP20RewardsRegistry\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"addStream(uint128)\":{\"notice\":\"Add a token to the registry for a given stream end time.\"},\"finalizeStreams()\":{\"notice\":\"Finalize streams for all tokens ending at the current timestamp.\"},\"removeStream(uint128)\":{\"notice\":\"Remove a stream before it ends (for cancellation).\"}},\"notice\":\"Registry contract for all TIP20 reward streams\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"lib/tempo-std/src/interfaces/ITIP20RewardsRegistry.sol\":\"ITIP20RewardsRegistry\"},\"evmVersion\":\"cancun\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[\":forge-std/=lib/forge-std/src/\",\":tempo-std/=lib/tempo-std/src/\"]},\"sources\":{\"lib/tempo-std/src/interfaces/ITIP20RewardsRegistry.sol\":{\"keccak256\":\"0x4763a79f120151a79d67b5249f94b2737ccf7f002f0fe2091a21a1fffbdc2b8c\",\"license\":\"MIT OR Apache-2.0\",\"urls\":[\"bzz-raw://ff229c2936dd59b424f072024fc81bb9cbff413c550f2c8c33289d145eaf3965\",\"dweb:/ipfs/QmRsY9344j6xM7Fx3VZrF4mDZu9qmUTtfgjuMRTrJJ7YJk\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": { "version": "0.8.25+commit.b61c2a91" },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        { "inputs": [], "type": "error", "name": "StreamsAlreadyFinalized" },
+        { "inputs": [], "type": "error", "name": "Unauthorized" },
+        {
+          "inputs": [{ "internalType": "uint128", "name": "endTime", "type": "uint128" }],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "addStream"
+        },
+        { "inputs": [], "stateMutability": "nonpayable", "type": "function", "name": "finalizeStreams" },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "lastUpdatedTimestamp",
+          "outputs": [{ "internalType": "uint128", "name": "", "type": "uint128" }]
+        },
+        {
+          "inputs": [{ "internalType": "uint128", "name": "endTime", "type": "uint128" }],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "removeStream"
+        },
+        {
+          "inputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "streamIndex",
+          "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "uint128", "name": "", "type": "uint128" },
+            { "internalType": "uint256", "name": "", "type": "uint256" }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "streamsEndingAt",
+          "outputs": [{ "internalType": "address", "name": "", "type": "address" }]
+        }
+      ],
+      "devdoc": { "kind": "dev", "methods": {}, "version": 1 },
+      "userdoc": {
+        "kind": "user",
+        "methods": {
+          "addStream(uint128)": { "notice": "Add a token to the registry for a given stream end time." },
+          "finalizeStreams()": { "notice": "Finalize streams for all tokens ending at the current timestamp." },
+          "removeStream(uint128)": { "notice": "Remove a stream before it ends (for cancellation)." }
+        },
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": ["forge-std/=lib/forge-std/src/", "tempo-std/=lib/tempo-std/src/"],
+      "optimizer": { "enabled": false, "runs": 200 },
+      "metadata": { "bytecodeHash": "ipfs" },
+      "compilationTarget": { "lib/tempo-std/src/interfaces/ITIP20RewardsRegistry.sol": "ITIP20RewardsRegistry" },
+      "evmVersion": "cancun",
+      "libraries": {}
+    },
+    "sources": {
+      "lib/tempo-std/src/interfaces/ITIP20RewardsRegistry.sol": {
+        "keccak256": "0x4763a79f120151a79d67b5249f94b2737ccf7f002f0fe2091a21a1fffbdc2b8c",
+        "urls": [
+          "bzz-raw://ff229c2936dd59b424f072024fc81bb9cbff413c550f2c8c33289d145eaf3965",
+          "dweb:/ipfs/QmRsY9344j6xM7Fx3VZrF4mDZu9qmUTtfgjuMRTrJJ7YJk"
+        ],
+        "license": "MIT OR Apache-2.0"
+      }
+    },
+    "version": 1
+  },
+  "id": 29
+}

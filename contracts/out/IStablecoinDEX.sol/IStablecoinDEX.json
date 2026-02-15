@@ -1,0 +1,685 @@
+{
+  "abi": [
+    {
+      "type": "function",
+      "name": "MAX_PRICE",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "uint32", "internalType": "uint32" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "MAX_TICK",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "int16", "internalType": "int16" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "MIN_ORDER_AMOUNT",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "uint128", "internalType": "uint128" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "MIN_PRICE",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "uint32", "internalType": "uint32" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "MIN_TICK",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "int16", "internalType": "int16" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "PRICE_SCALE",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "uint32", "internalType": "uint32" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "TICK_SPACING",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "int16", "internalType": "int16" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "balanceOf",
+      "inputs": [
+        { "name": "user", "type": "address", "internalType": "address" },
+        { "name": "token", "type": "address", "internalType": "address" }
+      ],
+      "outputs": [{ "name": "", "type": "uint128", "internalType": "uint128" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "books",
+      "inputs": [{ "name": "pairKey", "type": "bytes32", "internalType": "bytes32" }],
+      "outputs": [
+        { "name": "base", "type": "address", "internalType": "address" },
+        { "name": "quote", "type": "address", "internalType": "address" },
+        { "name": "bestBidTick", "type": "int16", "internalType": "int16" },
+        { "name": "bestAskTick", "type": "int16", "internalType": "int16" }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "cancel",
+      "inputs": [{ "name": "orderId", "type": "uint128", "internalType": "uint128" }],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "cancelStaleOrder",
+      "inputs": [{ "name": "orderId", "type": "uint128", "internalType": "uint128" }],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "createPair",
+      "inputs": [{ "name": "base", "type": "address", "internalType": "address" }],
+      "outputs": [{ "name": "key", "type": "bytes32", "internalType": "bytes32" }],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "getOrder",
+      "inputs": [{ "name": "orderId", "type": "uint128", "internalType": "uint128" }],
+      "outputs": [
+        {
+          "name": "",
+          "type": "tuple",
+          "internalType": "struct IStablecoinDEX.Order",
+          "components": [
+            { "name": "orderId", "type": "uint128", "internalType": "uint128" },
+            { "name": "maker", "type": "address", "internalType": "address" },
+            { "name": "bookKey", "type": "bytes32", "internalType": "bytes32" },
+            { "name": "isBid", "type": "bool", "internalType": "bool" },
+            { "name": "tick", "type": "int16", "internalType": "int16" },
+            { "name": "amount", "type": "uint128", "internalType": "uint128" },
+            { "name": "remaining", "type": "uint128", "internalType": "uint128" },
+            { "name": "prev", "type": "uint128", "internalType": "uint128" },
+            { "name": "next", "type": "uint128", "internalType": "uint128" },
+            { "name": "isFlip", "type": "bool", "internalType": "bool" },
+            { "name": "flipTick", "type": "int16", "internalType": "int16" }
+          ]
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "getTickLevel",
+      "inputs": [
+        { "name": "base", "type": "address", "internalType": "address" },
+        { "name": "tick", "type": "int16", "internalType": "int16" },
+        { "name": "isBid", "type": "bool", "internalType": "bool" }
+      ],
+      "outputs": [
+        { "name": "head", "type": "uint128", "internalType": "uint128" },
+        { "name": "tail", "type": "uint128", "internalType": "uint128" },
+        { "name": "totalLiquidity", "type": "uint128", "internalType": "uint128" }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "nextOrderId",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "uint128", "internalType": "uint128" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "pairKey",
+      "inputs": [
+        { "name": "tokenA", "type": "address", "internalType": "address" },
+        { "name": "tokenB", "type": "address", "internalType": "address" }
+      ],
+      "outputs": [{ "name": "key", "type": "bytes32", "internalType": "bytes32" }],
+      "stateMutability": "pure"
+    },
+    {
+      "type": "function",
+      "name": "place",
+      "inputs": [
+        { "name": "token", "type": "address", "internalType": "address" },
+        { "name": "amount", "type": "uint128", "internalType": "uint128" },
+        { "name": "isBid", "type": "bool", "internalType": "bool" },
+        { "name": "tick", "type": "int16", "internalType": "int16" }
+      ],
+      "outputs": [{ "name": "orderId", "type": "uint128", "internalType": "uint128" }],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "placeFlip",
+      "inputs": [
+        { "name": "token", "type": "address", "internalType": "address" },
+        { "name": "amount", "type": "uint128", "internalType": "uint128" },
+        { "name": "isBid", "type": "bool", "internalType": "bool" },
+        { "name": "tick", "type": "int16", "internalType": "int16" },
+        { "name": "flipTick", "type": "int16", "internalType": "int16" }
+      ],
+      "outputs": [{ "name": "orderId", "type": "uint128", "internalType": "uint128" }],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "priceToTick",
+      "inputs": [{ "name": "price", "type": "uint32", "internalType": "uint32" }],
+      "outputs": [{ "name": "tick", "type": "int16", "internalType": "int16" }],
+      "stateMutability": "pure"
+    },
+    {
+      "type": "function",
+      "name": "quoteSwapExactAmountIn",
+      "inputs": [
+        { "name": "tokenIn", "type": "address", "internalType": "address" },
+        { "name": "tokenOut", "type": "address", "internalType": "address" },
+        { "name": "amountIn", "type": "uint128", "internalType": "uint128" }
+      ],
+      "outputs": [{ "name": "amountOut", "type": "uint128", "internalType": "uint128" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "quoteSwapExactAmountOut",
+      "inputs": [
+        { "name": "tokenIn", "type": "address", "internalType": "address" },
+        { "name": "tokenOut", "type": "address", "internalType": "address" },
+        { "name": "amountOut", "type": "uint128", "internalType": "uint128" }
+      ],
+      "outputs": [{ "name": "amountIn", "type": "uint128", "internalType": "uint128" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "swapExactAmountIn",
+      "inputs": [
+        { "name": "tokenIn", "type": "address", "internalType": "address" },
+        { "name": "tokenOut", "type": "address", "internalType": "address" },
+        { "name": "amountIn", "type": "uint128", "internalType": "uint128" },
+        { "name": "minAmountOut", "type": "uint128", "internalType": "uint128" }
+      ],
+      "outputs": [{ "name": "amountOut", "type": "uint128", "internalType": "uint128" }],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "swapExactAmountOut",
+      "inputs": [
+        { "name": "tokenIn", "type": "address", "internalType": "address" },
+        { "name": "tokenOut", "type": "address", "internalType": "address" },
+        { "name": "amountOut", "type": "uint128", "internalType": "uint128" },
+        { "name": "maxAmountIn", "type": "uint128", "internalType": "uint128" }
+      ],
+      "outputs": [{ "name": "amountIn", "type": "uint128", "internalType": "uint128" }],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "tickToPrice",
+      "inputs": [{ "name": "tick", "type": "int16", "internalType": "int16" }],
+      "outputs": [{ "name": "price", "type": "uint32", "internalType": "uint32" }],
+      "stateMutability": "pure"
+    },
+    {
+      "type": "function",
+      "name": "withdraw",
+      "inputs": [
+        { "name": "token", "type": "address", "internalType": "address" },
+        { "name": "amount", "type": "uint128", "internalType": "uint128" }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "event",
+      "name": "OrderCancelled",
+      "inputs": [{ "name": "orderId", "type": "uint128", "indexed": true, "internalType": "uint128" }],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "OrderFilled",
+      "inputs": [
+        { "name": "orderId", "type": "uint128", "indexed": true, "internalType": "uint128" },
+        { "name": "maker", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "taker", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "amountFilled", "type": "uint128", "indexed": false, "internalType": "uint128" },
+        { "name": "partialFill", "type": "bool", "indexed": false, "internalType": "bool" }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "OrderPlaced",
+      "inputs": [
+        { "name": "orderId", "type": "uint128", "indexed": true, "internalType": "uint128" },
+        { "name": "maker", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "token", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "amount", "type": "uint128", "indexed": false, "internalType": "uint128" },
+        { "name": "isBid", "type": "bool", "indexed": false, "internalType": "bool" },
+        { "name": "tick", "type": "int16", "indexed": false, "internalType": "int16" },
+        { "name": "isFlipOrder", "type": "bool", "indexed": false, "internalType": "bool" },
+        { "name": "flipTick", "type": "int16", "indexed": false, "internalType": "int16" }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "PairCreated",
+      "inputs": [
+        { "name": "key", "type": "bytes32", "indexed": true, "internalType": "bytes32" },
+        { "name": "base", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "quote", "type": "address", "indexed": true, "internalType": "address" }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "error",
+      "name": "BelowMinimumOrderSize",
+      "inputs": [{ "name": "amount", "type": "uint128", "internalType": "uint128" }]
+    },
+    { "type": "error", "name": "IdenticalTokens", "inputs": [] },
+    { "type": "error", "name": "InsufficientBalance", "inputs": [] },
+    { "type": "error", "name": "InsufficientLiquidity", "inputs": [] },
+    { "type": "error", "name": "InsufficientOutput", "inputs": [] },
+    { "type": "error", "name": "InvalidBaseToken", "inputs": [] },
+    { "type": "error", "name": "InvalidFlipTick", "inputs": [] },
+    { "type": "error", "name": "InvalidTick", "inputs": [] },
+    { "type": "error", "name": "InvalidToken", "inputs": [] },
+    { "type": "error", "name": "MaxInputExceeded", "inputs": [] },
+    { "type": "error", "name": "OrderDoesNotExist", "inputs": [] },
+    { "type": "error", "name": "OrderNotStale", "inputs": [] },
+    { "type": "error", "name": "PairAlreadyExists", "inputs": [] },
+    { "type": "error", "name": "PairDoesNotExist", "inputs": [] },
+    {
+      "type": "error",
+      "name": "TickOutOfBounds",
+      "inputs": [{ "name": "tick", "type": "int16", "internalType": "int16" }]
+    },
+    { "type": "error", "name": "Unauthorized", "inputs": [] }
+  ],
+  "bytecode": { "object": "0x", "sourceMap": "", "linkReferences": {} },
+  "deployedBytecode": { "object": "0x", "sourceMap": "", "linkReferences": {} },
+  "methodIdentifiers": {
+    "MAX_PRICE()": "01c11d96",
+    "MAX_TICK()": "6882a888",
+    "MIN_ORDER_AMOUNT()": "40bf2aa4",
+    "MIN_PRICE()": "ad9f20a6",
+    "MIN_TICK()": "a1634b14",
+    "PRICE_SCALE()": "c33f59d3",
+    "TICK_SPACING()": "46ca626b",
+    "balanceOf(address,address)": "f7888aec",
+    "books(bytes32)": "0c0dee70",
+    "cancel(uint128)": "81649d06",
+    "cancelStaleOrder(uint128)": "928b0e7f",
+    "createPair(address)": "9ccb0744",
+    "getOrder(uint128)": "117d4128",
+    "getTickLevel(address,int16,bool)": "949bc662",
+    "nextOrderId()": "2a58b330",
+    "pairKey(address,address)": "cd27ca82",
+    "place(address,uint128,bool,int16)": "63813125",
+    "placeFlip(address,uint128,bool,int16,int16)": "922828f1",
+    "priceToTick(uint32)": "87b4e352",
+    "quoteSwapExactAmountIn(address,address,uint128)": "e7c98f1a",
+    "quoteSwapExactAmountOut(address,address,uint128)": "1576fa0e",
+    "swapExactAmountIn(address,address,uint128,uint128)": "f8856c0f",
+    "swapExactAmountOut(address,address,uint128,uint128)": "f0122b75",
+    "tickToPrice(int16)": "269a311d",
+    "withdraw(address,uint128)": "08fab167"
+  },
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.25+commit.b61c2a91\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint128\",\"name\":\"amount\",\"type\":\"uint128\"}],\"name\":\"BelowMinimumOrderSize\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"IdenticalTokens\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InsufficientBalance\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InsufficientLiquidity\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InsufficientOutput\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidBaseToken\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidFlipTick\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidTick\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidToken\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"MaxInputExceeded\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"OrderDoesNotExist\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"OrderNotStale\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"PairAlreadyExists\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"PairDoesNotExist\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"int16\",\"name\":\"tick\",\"type\":\"int16\"}],\"name\":\"TickOutOfBounds\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"Unauthorized\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint128\",\"name\":\"orderId\",\"type\":\"uint128\"}],\"name\":\"OrderCancelled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint128\",\"name\":\"orderId\",\"type\":\"uint128\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"maker\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"taker\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint128\",\"name\":\"amountFilled\",\"type\":\"uint128\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"partialFill\",\"type\":\"bool\"}],\"name\":\"OrderFilled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint128\",\"name\":\"orderId\",\"type\":\"uint128\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"maker\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint128\",\"name\":\"amount\",\"type\":\"uint128\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"isBid\",\"type\":\"bool\"},{\"indexed\":false,\"internalType\":\"int16\",\"name\":\"tick\",\"type\":\"int16\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"isFlipOrder\",\"type\":\"bool\"},{\"indexed\":false,\"internalType\":\"int16\",\"name\":\"flipTick\",\"type\":\"int16\"}],\"name\":\"OrderPlaced\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"key\",\"type\":\"bytes32\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"base\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"quote\",\"type\":\"address\"}],\"name\":\"PairCreated\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"MAX_PRICE\",\"outputs\":[{\"internalType\":\"uint32\",\"name\":\"\",\"type\":\"uint32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"MAX_TICK\",\"outputs\":[{\"internalType\":\"int16\",\"name\":\"\",\"type\":\"int16\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"MIN_ORDER_AMOUNT\",\"outputs\":[{\"internalType\":\"uint128\",\"name\":\"\",\"type\":\"uint128\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"MIN_PRICE\",\"outputs\":[{\"internalType\":\"uint32\",\"name\":\"\",\"type\":\"uint32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"MIN_TICK\",\"outputs\":[{\"internalType\":\"int16\",\"name\":\"\",\"type\":\"int16\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"PRICE_SCALE\",\"outputs\":[{\"internalType\":\"uint32\",\"name\":\"\",\"type\":\"uint32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"TICK_SPACING\",\"outputs\":[{\"internalType\":\"int16\",\"name\":\"\",\"type\":\"int16\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"internalType\":\"uint128\",\"name\":\"\",\"type\":\"uint128\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"pairKey\",\"type\":\"bytes32\"}],\"name\":\"books\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"base\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"quote\",\"type\":\"address\"},{\"internalType\":\"int16\",\"name\":\"bestBidTick\",\"type\":\"int16\"},{\"internalType\":\"int16\",\"name\":\"bestAskTick\",\"type\":\"int16\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint128\",\"name\":\"orderId\",\"type\":\"uint128\"}],\"name\":\"cancel\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint128\",\"name\":\"orderId\",\"type\":\"uint128\"}],\"name\":\"cancelStaleOrder\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"base\",\"type\":\"address\"}],\"name\":\"createPair\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"key\",\"type\":\"bytes32\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint128\",\"name\":\"orderId\",\"type\":\"uint128\"}],\"name\":\"getOrder\",\"outputs\":[{\"components\":[{\"internalType\":\"uint128\",\"name\":\"orderId\",\"type\":\"uint128\"},{\"internalType\":\"address\",\"name\":\"maker\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"bookKey\",\"type\":\"bytes32\"},{\"internalType\":\"bool\",\"name\":\"isBid\",\"type\":\"bool\"},{\"internalType\":\"int16\",\"name\":\"tick\",\"type\":\"int16\"},{\"internalType\":\"uint128\",\"name\":\"amount\",\"type\":\"uint128\"},{\"internalType\":\"uint128\",\"name\":\"remaining\",\"type\":\"uint128\"},{\"internalType\":\"uint128\",\"name\":\"prev\",\"type\":\"uint128\"},{\"internalType\":\"uint128\",\"name\":\"next\",\"type\":\"uint128\"},{\"internalType\":\"bool\",\"name\":\"isFlip\",\"type\":\"bool\"},{\"internalType\":\"int16\",\"name\":\"flipTick\",\"type\":\"int16\"}],\"internalType\":\"struct IStablecoinDEX.Order\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"base\",\"type\":\"address\"},{\"internalType\":\"int16\",\"name\":\"tick\",\"type\":\"int16\"},{\"internalType\":\"bool\",\"name\":\"isBid\",\"type\":\"bool\"}],\"name\":\"getTickLevel\",\"outputs\":[{\"internalType\":\"uint128\",\"name\":\"head\",\"type\":\"uint128\"},{\"internalType\":\"uint128\",\"name\":\"tail\",\"type\":\"uint128\"},{\"internalType\":\"uint128\",\"name\":\"totalLiquidity\",\"type\":\"uint128\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"nextOrderId\",\"outputs\":[{\"internalType\":\"uint128\",\"name\":\"\",\"type\":\"uint128\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"tokenA\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"tokenB\",\"type\":\"address\"}],\"name\":\"pairKey\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"key\",\"type\":\"bytes32\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"uint128\",\"name\":\"amount\",\"type\":\"uint128\"},{\"internalType\":\"bool\",\"name\":\"isBid\",\"type\":\"bool\"},{\"internalType\":\"int16\",\"name\":\"tick\",\"type\":\"int16\"}],\"name\":\"place\",\"outputs\":[{\"internalType\":\"uint128\",\"name\":\"orderId\",\"type\":\"uint128\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"uint128\",\"name\":\"amount\",\"type\":\"uint128\"},{\"internalType\":\"bool\",\"name\":\"isBid\",\"type\":\"bool\"},{\"internalType\":\"int16\",\"name\":\"tick\",\"type\":\"int16\"},{\"internalType\":\"int16\",\"name\":\"flipTick\",\"type\":\"int16\"}],\"name\":\"placeFlip\",\"outputs\":[{\"internalType\":\"uint128\",\"name\":\"orderId\",\"type\":\"uint128\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint32\",\"name\":\"price\",\"type\":\"uint32\"}],\"name\":\"priceToTick\",\"outputs\":[{\"internalType\":\"int16\",\"name\":\"tick\",\"type\":\"int16\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"tokenIn\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"tokenOut\",\"type\":\"address\"},{\"internalType\":\"uint128\",\"name\":\"amountIn\",\"type\":\"uint128\"}],\"name\":\"quoteSwapExactAmountIn\",\"outputs\":[{\"internalType\":\"uint128\",\"name\":\"amountOut\",\"type\":\"uint128\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"tokenIn\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"tokenOut\",\"type\":\"address\"},{\"internalType\":\"uint128\",\"name\":\"amountOut\",\"type\":\"uint128\"}],\"name\":\"quoteSwapExactAmountOut\",\"outputs\":[{\"internalType\":\"uint128\",\"name\":\"amountIn\",\"type\":\"uint128\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"tokenIn\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"tokenOut\",\"type\":\"address\"},{\"internalType\":\"uint128\",\"name\":\"amountIn\",\"type\":\"uint128\"},{\"internalType\":\"uint128\",\"name\":\"minAmountOut\",\"type\":\"uint128\"}],\"name\":\"swapExactAmountIn\",\"outputs\":[{\"internalType\":\"uint128\",\"name\":\"amountOut\",\"type\":\"uint128\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"tokenIn\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"tokenOut\",\"type\":\"address\"},{\"internalType\":\"uint128\",\"name\":\"amountOut\",\"type\":\"uint128\"},{\"internalType\":\"uint128\",\"name\":\"maxAmountIn\",\"type\":\"uint128\"}],\"name\":\"swapExactAmountOut\",\"outputs\":[{\"internalType\":\"uint128\",\"name\":\"amountIn\",\"type\":\"uint128\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"int16\",\"name\":\"tick\",\"type\":\"int16\"}],\"name\":\"tickToPrice\",\"outputs\":[{\"internalType\":\"uint32\",\"name\":\"price\",\"type\":\"uint32\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"uint128\",\"name\":\"amount\",\"type\":\"uint128\"}],\"name\":\"withdraw\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"lib/tempo-std/src/interfaces/IStablecoinDEX.sol\":\"IStablecoinDEX\"},\"evmVersion\":\"cancun\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[\":forge-std/=lib/forge-std/src/\",\":tempo-std/=lib/tempo-std/src/\"]},\"sources\":{\"lib/tempo-std/src/interfaces/IStablecoinDEX.sol\":{\"keccak256\":\"0x67c30b8647052353d2c910b7984059a8c552a2ceeb98dabec128226780e2e116\",\"license\":\"MIT OR Apache-2.0\",\"urls\":[\"bzz-raw://1d21fa2a1d9ff68cd83689b16edfb8d5491c2a5f6ed0d75ced0d990ca7ff8096\",\"dweb:/ipfs/QmS3ETV84z1BC82HCPTKKiLzhfB1YA2ujox6duM2ncRVw5\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": { "version": "0.8.25+commit.b61c2a91" },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        {
+          "inputs": [{ "internalType": "uint128", "name": "amount", "type": "uint128" }],
+          "type": "error",
+          "name": "BelowMinimumOrderSize"
+        },
+        { "inputs": [], "type": "error", "name": "IdenticalTokens" },
+        { "inputs": [], "type": "error", "name": "InsufficientBalance" },
+        { "inputs": [], "type": "error", "name": "InsufficientLiquidity" },
+        { "inputs": [], "type": "error", "name": "InsufficientOutput" },
+        { "inputs": [], "type": "error", "name": "InvalidBaseToken" },
+        { "inputs": [], "type": "error", "name": "InvalidFlipTick" },
+        { "inputs": [], "type": "error", "name": "InvalidTick" },
+        { "inputs": [], "type": "error", "name": "InvalidToken" },
+        { "inputs": [], "type": "error", "name": "MaxInputExceeded" },
+        { "inputs": [], "type": "error", "name": "OrderDoesNotExist" },
+        { "inputs": [], "type": "error", "name": "OrderNotStale" },
+        { "inputs": [], "type": "error", "name": "PairAlreadyExists" },
+        { "inputs": [], "type": "error", "name": "PairDoesNotExist" },
+        {
+          "inputs": [{ "internalType": "int16", "name": "tick", "type": "int16" }],
+          "type": "error",
+          "name": "TickOutOfBounds"
+        },
+        { "inputs": [], "type": "error", "name": "Unauthorized" },
+        {
+          "inputs": [{ "internalType": "uint128", "name": "orderId", "type": "uint128", "indexed": true }],
+          "type": "event",
+          "name": "OrderCancelled",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            { "internalType": "uint128", "name": "orderId", "type": "uint128", "indexed": true },
+            { "internalType": "address", "name": "maker", "type": "address", "indexed": true },
+            { "internalType": "address", "name": "taker", "type": "address", "indexed": true },
+            { "internalType": "uint128", "name": "amountFilled", "type": "uint128", "indexed": false },
+            { "internalType": "bool", "name": "partialFill", "type": "bool", "indexed": false }
+          ],
+          "type": "event",
+          "name": "OrderFilled",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            { "internalType": "uint128", "name": "orderId", "type": "uint128", "indexed": true },
+            { "internalType": "address", "name": "maker", "type": "address", "indexed": true },
+            { "internalType": "address", "name": "token", "type": "address", "indexed": true },
+            { "internalType": "uint128", "name": "amount", "type": "uint128", "indexed": false },
+            { "internalType": "bool", "name": "isBid", "type": "bool", "indexed": false },
+            { "internalType": "int16", "name": "tick", "type": "int16", "indexed": false },
+            { "internalType": "bool", "name": "isFlipOrder", "type": "bool", "indexed": false },
+            { "internalType": "int16", "name": "flipTick", "type": "int16", "indexed": false }
+          ],
+          "type": "event",
+          "name": "OrderPlaced",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            { "internalType": "bytes32", "name": "key", "type": "bytes32", "indexed": true },
+            { "internalType": "address", "name": "base", "type": "address", "indexed": true },
+            { "internalType": "address", "name": "quote", "type": "address", "indexed": true }
+          ],
+          "type": "event",
+          "name": "PairCreated",
+          "anonymous": false
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "MAX_PRICE",
+          "outputs": [{ "internalType": "uint32", "name": "", "type": "uint32" }]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "MAX_TICK",
+          "outputs": [{ "internalType": "int16", "name": "", "type": "int16" }]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "MIN_ORDER_AMOUNT",
+          "outputs": [{ "internalType": "uint128", "name": "", "type": "uint128" }]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "MIN_PRICE",
+          "outputs": [{ "internalType": "uint32", "name": "", "type": "uint32" }]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "MIN_TICK",
+          "outputs": [{ "internalType": "int16", "name": "", "type": "int16" }]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "PRICE_SCALE",
+          "outputs": [{ "internalType": "uint32", "name": "", "type": "uint32" }]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "TICK_SPACING",
+          "outputs": [{ "internalType": "int16", "name": "", "type": "int16" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "user", "type": "address" },
+            { "internalType": "address", "name": "token", "type": "address" }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "balanceOf",
+          "outputs": [{ "internalType": "uint128", "name": "", "type": "uint128" }]
+        },
+        {
+          "inputs": [{ "internalType": "bytes32", "name": "pairKey", "type": "bytes32" }],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "books",
+          "outputs": [
+            { "internalType": "address", "name": "base", "type": "address" },
+            { "internalType": "address", "name": "quote", "type": "address" },
+            { "internalType": "int16", "name": "bestBidTick", "type": "int16" },
+            { "internalType": "int16", "name": "bestAskTick", "type": "int16" }
+          ]
+        },
+        {
+          "inputs": [{ "internalType": "uint128", "name": "orderId", "type": "uint128" }],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "cancel"
+        },
+        {
+          "inputs": [{ "internalType": "uint128", "name": "orderId", "type": "uint128" }],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "cancelStaleOrder"
+        },
+        {
+          "inputs": [{ "internalType": "address", "name": "base", "type": "address" }],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "createPair",
+          "outputs": [{ "internalType": "bytes32", "name": "key", "type": "bytes32" }]
+        },
+        {
+          "inputs": [{ "internalType": "uint128", "name": "orderId", "type": "uint128" }],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "getOrder",
+          "outputs": [
+            {
+              "internalType": "struct IStablecoinDEX.Order",
+              "name": "",
+              "type": "tuple",
+              "components": [
+                { "internalType": "uint128", "name": "orderId", "type": "uint128" },
+                { "internalType": "address", "name": "maker", "type": "address" },
+                { "internalType": "bytes32", "name": "bookKey", "type": "bytes32" },
+                { "internalType": "bool", "name": "isBid", "type": "bool" },
+                { "internalType": "int16", "name": "tick", "type": "int16" },
+                { "internalType": "uint128", "name": "amount", "type": "uint128" },
+                { "internalType": "uint128", "name": "remaining", "type": "uint128" },
+                { "internalType": "uint128", "name": "prev", "type": "uint128" },
+                { "internalType": "uint128", "name": "next", "type": "uint128" },
+                { "internalType": "bool", "name": "isFlip", "type": "bool" },
+                { "internalType": "int16", "name": "flipTick", "type": "int16" }
+              ]
+            }
+          ]
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "base", "type": "address" },
+            { "internalType": "int16", "name": "tick", "type": "int16" },
+            { "internalType": "bool", "name": "isBid", "type": "bool" }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "getTickLevel",
+          "outputs": [
+            { "internalType": "uint128", "name": "head", "type": "uint128" },
+            { "internalType": "uint128", "name": "tail", "type": "uint128" },
+            { "internalType": "uint128", "name": "totalLiquidity", "type": "uint128" }
+          ]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "nextOrderId",
+          "outputs": [{ "internalType": "uint128", "name": "", "type": "uint128" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "tokenA", "type": "address" },
+            { "internalType": "address", "name": "tokenB", "type": "address" }
+          ],
+          "stateMutability": "pure",
+          "type": "function",
+          "name": "pairKey",
+          "outputs": [{ "internalType": "bytes32", "name": "key", "type": "bytes32" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "token", "type": "address" },
+            { "internalType": "uint128", "name": "amount", "type": "uint128" },
+            { "internalType": "bool", "name": "isBid", "type": "bool" },
+            { "internalType": "int16", "name": "tick", "type": "int16" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "place",
+          "outputs": [{ "internalType": "uint128", "name": "orderId", "type": "uint128" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "token", "type": "address" },
+            { "internalType": "uint128", "name": "amount", "type": "uint128" },
+            { "internalType": "bool", "name": "isBid", "type": "bool" },
+            { "internalType": "int16", "name": "tick", "type": "int16" },
+            { "internalType": "int16", "name": "flipTick", "type": "int16" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "placeFlip",
+          "outputs": [{ "internalType": "uint128", "name": "orderId", "type": "uint128" }]
+        },
+        {
+          "inputs": [{ "internalType": "uint32", "name": "price", "type": "uint32" }],
+          "stateMutability": "pure",
+          "type": "function",
+          "name": "priceToTick",
+          "outputs": [{ "internalType": "int16", "name": "tick", "type": "int16" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "tokenIn", "type": "address" },
+            { "internalType": "address", "name": "tokenOut", "type": "address" },
+            { "internalType": "uint128", "name": "amountIn", "type": "uint128" }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "quoteSwapExactAmountIn",
+          "outputs": [{ "internalType": "uint128", "name": "amountOut", "type": "uint128" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "tokenIn", "type": "address" },
+            { "internalType": "address", "name": "tokenOut", "type": "address" },
+            { "internalType": "uint128", "name": "amountOut", "type": "uint128" }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "quoteSwapExactAmountOut",
+          "outputs": [{ "internalType": "uint128", "name": "amountIn", "type": "uint128" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "tokenIn", "type": "address" },
+            { "internalType": "address", "name": "tokenOut", "type": "address" },
+            { "internalType": "uint128", "name": "amountIn", "type": "uint128" },
+            { "internalType": "uint128", "name": "minAmountOut", "type": "uint128" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "swapExactAmountIn",
+          "outputs": [{ "internalType": "uint128", "name": "amountOut", "type": "uint128" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "tokenIn", "type": "address" },
+            { "internalType": "address", "name": "tokenOut", "type": "address" },
+            { "internalType": "uint128", "name": "amountOut", "type": "uint128" },
+            { "internalType": "uint128", "name": "maxAmountIn", "type": "uint128" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "swapExactAmountOut",
+          "outputs": [{ "internalType": "uint128", "name": "amountIn", "type": "uint128" }]
+        },
+        {
+          "inputs": [{ "internalType": "int16", "name": "tick", "type": "int16" }],
+          "stateMutability": "pure",
+          "type": "function",
+          "name": "tickToPrice",
+          "outputs": [{ "internalType": "uint32", "name": "price", "type": "uint32" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "token", "type": "address" },
+            { "internalType": "uint128", "name": "amount", "type": "uint128" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "withdraw"
+        }
+      ],
+      "devdoc": { "kind": "dev", "methods": {}, "version": 1 },
+      "userdoc": { "kind": "user", "methods": {}, "version": 1 }
+    },
+    "settings": {
+      "remappings": ["forge-std/=lib/forge-std/src/", "tempo-std/=lib/tempo-std/src/"],
+      "optimizer": { "enabled": false, "runs": 200 },
+      "metadata": { "bytecodeHash": "ipfs" },
+      "compilationTarget": { "lib/tempo-std/src/interfaces/IStablecoinDEX.sol": "IStablecoinDEX" },
+      "evmVersion": "cancun",
+      "libraries": {}
+    },
+    "sources": {
+      "lib/tempo-std/src/interfaces/IStablecoinDEX.sol": {
+        "keccak256": "0x67c30b8647052353d2c910b7984059a8c552a2ceeb98dabec128226780e2e116",
+        "urls": [
+          "bzz-raw://1d21fa2a1d9ff68cd83689b16edfb8d5491c2a5f6ed0d75ced0d990ca7ff8096",
+          "dweb:/ipfs/QmS3ETV84z1BC82HCPTKKiLzhfB1YA2ujox6duM2ncRVw5"
+        ],
+        "license": "MIT OR Apache-2.0"
+      }
+    },
+    "version": 1
+  },
+  "id": 26
+}

@@ -1,0 +1,124 @@
+{
+  "abi": [],
+  "bytecode": {
+    "object": "0x6055604b600b8282823980515f1a607314603f577f4e487b71000000000000000000000000000000000000000000000000000000005f525f60045260245ffd5b305f52607381538281f3fe730000000000000000000000000000000000000000301460806040525f80fdfea2646970667358221220a5692e8fbe801151c57ae5b251f7de74fe4b0e7f323911b7c808b9049a99874764736f6c63430008190033",
+    "sourceMap": "745:1602:20:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x730000000000000000000000000000000000000000301460806040525f80fdfea2646970667358221220a5692e8fbe801151c57ae5b251f7de74fe4b0e7f323911b7c808b9049a99874764736f6c63430008190033",
+    "sourceMap": "745:1602:20:-:0;;;;;;;;",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {},
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.25+commit.b61c2a91\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"title\":\"Standard Precompiles Library for Tempo\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"notice\":\"<https://github.com/tempoxyz/tempo/blob/main/crates/contracts/src/precompiles/mod.rs>\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"lib/tempo-std/src/StdPrecompiles.sol\":\"StdPrecompiles\"},\"evmVersion\":\"cancun\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[\":forge-std/=lib/forge-std/src/\",\":tempo-std/=lib/tempo-std/src/\"]},\"sources\":{\"lib/tempo-std/src/StdPrecompiles.sol\":{\"keccak256\":\"0x06b7571cb45b932b52b80203c88563767e84642bed0e4b3c364b02f83eb48db1\",\"license\":\"MIT OR Apache-2.0\",\"urls\":[\"bzz-raw://0418a06f5548aede62d17977d5aa2c75c2e66a527bee66f999f2650f555c9214\",\"dweb:/ipfs/QmSnTTtpr6B7syKWWUKcTyboTsevZmYR3QHtDds9ubpDqv\"]},\"lib/tempo-std/src/interfaces/IAccountKeychain.sol\":{\"keccak256\":\"0xb7e98bb430c004baf3c435dba3cf75d198bdda0e957598c9e388ee9c17d01281\",\"license\":\"MIT OR Apache-2.0\",\"urls\":[\"bzz-raw://58799f63a67cff408f18a93a343aacec5e5a7006230ea8a8cd59242b5a6b18d2\",\"dweb:/ipfs/QmVMNWLbwnzonazwcgH3HjZ11kJvXh7U3rnRdaxFAuhErw\"]},\"lib/tempo-std/src/interfaces/IFeeAMM.sol\":{\"keccak256\":\"0x8e0a75e9f4f4ec247882aed28723c0567e856ad347baa0c0bdea7f80bc82aa01\",\"license\":\"MIT OR Apache-2.0\",\"urls\":[\"bzz-raw://21a4aa7f0f112da38988d19c5d04da1da7d0d6d279bf061d4db9c41155c9b09c\",\"dweb:/ipfs/QmdxxNUgTtQgjizxCAWJ4L4c8TaCkwAkbrqNxNP1TnHPCD\"]},\"lib/tempo-std/src/interfaces/IFeeManager.sol\":{\"keccak256\":\"0xe54e3aed199507abff82f32d5ae2d4a4b94f2027a62a6d8a9d7fa311baf3a95f\",\"license\":\"MIT OR Apache-2.0\",\"urls\":[\"bzz-raw://a15fc13b3beb464ad8de04f8c7ba56d6d304a6d8adb4e3ae8d1968a79d1a3b0a\",\"dweb:/ipfs/QmQMf831qVkYpr1EZZMsBrssKCCXWEWu1dirg6fJXA5DMD\"]},\"lib/tempo-std/src/interfaces/INonce.sol\":{\"keccak256\":\"0x22abc9ad788194b145429bcef8bbc71a604a908c25f478f7ddf193270b7b11fc\",\"license\":\"MIT OR Apache-2.0\",\"urls\":[\"bzz-raw://a844bb0e9ad86b692555c8905a35d0339b76bbfae34bcc2d0d20f0d945f0051c\",\"dweb:/ipfs/QmekXGiDvmGWGwFCFmNzzyVtJnrnWvAnzNRrEpmXJp7LiZ\"]},\"lib/tempo-std/src/interfaces/IStablecoinDEX.sol\":{\"keccak256\":\"0x67c30b8647052353d2c910b7984059a8c552a2ceeb98dabec128226780e2e116\",\"license\":\"MIT OR Apache-2.0\",\"urls\":[\"bzz-raw://1d21fa2a1d9ff68cd83689b16edfb8d5491c2a5f6ed0d75ced0d990ca7ff8096\",\"dweb:/ipfs/QmS3ETV84z1BC82HCPTKKiLzhfB1YA2ujox6duM2ncRVw5\"]},\"lib/tempo-std/src/interfaces/ITIP20.sol\":{\"keccak256\":\"0xbd0602dbd94a3e3469a7a1609ac37f540e125889ace050d655ec258c555a7fd0\",\"license\":\"MIT OR Apache-2.0\",\"urls\":[\"bzz-raw://5f7bb3b2f8d33703006cba1a3183bbbc8334469a7b1963bec4b731c2f6d4f8ba\",\"dweb:/ipfs/QmWH3BaNg8L1GuFYcSQTzZqwuBoP2oKd3q4uKRtgYFhMzG\"]},\"lib/tempo-std/src/interfaces/ITIP20Factory.sol\":{\"keccak256\":\"0x093a8dd6d3fb45230c7f13fb4b05bbd45894b92584fe73facf0718c3b12e9963\",\"license\":\"MIT OR Apache-2.0\",\"urls\":[\"bzz-raw://a167e751fbde862a767f486fcbfe33d69c13c7ff9659d2cdb487ea20d88206ae\",\"dweb:/ipfs/QmRYFXd2rqDswhuATumnjpachvpiLfAHV1xsxY7GyBoE67\"]},\"lib/tempo-std/src/interfaces/ITIP20RewardsRegistry.sol\":{\"keccak256\":\"0x4763a79f120151a79d67b5249f94b2737ccf7f002f0fe2091a21a1fffbdc2b8c\",\"license\":\"MIT OR Apache-2.0\",\"urls\":[\"bzz-raw://ff229c2936dd59b424f072024fc81bb9cbff413c550f2c8c33289d145eaf3965\",\"dweb:/ipfs/QmRsY9344j6xM7Fx3VZrF4mDZu9qmUTtfgjuMRTrJJ7YJk\"]},\"lib/tempo-std/src/interfaces/ITIP403Registry.sol\":{\"keccak256\":\"0x8d7a9c94ed22fb822ee6903f86b46e4a27a74fa0a5a929334fc8d0a2d66ae4a8\",\"license\":\"MIT OR Apache-2.0\",\"urls\":[\"bzz-raw://f7babf99817db05949ca6d1bfc3df0368ad340d453207eeed970b63a100c51b7\",\"dweb:/ipfs/QmRWitRQLfkZ37gmpATduWnw5o3UySe4S6ZAkxoiTQBr1i\"]},\"lib/tempo-std/src/interfaces/IValidatorConfig.sol\":{\"keccak256\":\"0x0879346ad658d19b43227ac282f6930e9f9b178c98509f133d2ee3de22e9a4a2\",\"license\":\"MIT OR Apache-2.0\",\"urls\":[\"bzz-raw://fa7f92022972e504824cf9df544b638e49eb054b77787b43f62dd5d4ed92b931\",\"dweb:/ipfs/Qmabiyxr5LoV8DvBbPvQGmc3JeJok46Vr3MHdKB3RBnrT2\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": { "version": "0.8.25+commit.b61c2a91" },
+    "language": "Solidity",
+    "output": {
+      "abi": [],
+      "devdoc": { "kind": "dev", "methods": {}, "version": 1 },
+      "userdoc": { "kind": "user", "methods": {}, "version": 1 }
+    },
+    "settings": {
+      "remappings": ["forge-std/=lib/forge-std/src/", "tempo-std/=lib/tempo-std/src/"],
+      "optimizer": { "enabled": false, "runs": 200 },
+      "metadata": { "bytecodeHash": "ipfs" },
+      "compilationTarget": { "lib/tempo-std/src/StdPrecompiles.sol": "StdPrecompiles" },
+      "evmVersion": "cancun",
+      "libraries": {}
+    },
+    "sources": {
+      "lib/tempo-std/src/StdPrecompiles.sol": {
+        "keccak256": "0x06b7571cb45b932b52b80203c88563767e84642bed0e4b3c364b02f83eb48db1",
+        "urls": [
+          "bzz-raw://0418a06f5548aede62d17977d5aa2c75c2e66a527bee66f999f2650f555c9214",
+          "dweb:/ipfs/QmSnTTtpr6B7syKWWUKcTyboTsevZmYR3QHtDds9ubpDqv"
+        ],
+        "license": "MIT OR Apache-2.0"
+      },
+      "lib/tempo-std/src/interfaces/IAccountKeychain.sol": {
+        "keccak256": "0xb7e98bb430c004baf3c435dba3cf75d198bdda0e957598c9e388ee9c17d01281",
+        "urls": [
+          "bzz-raw://58799f63a67cff408f18a93a343aacec5e5a7006230ea8a8cd59242b5a6b18d2",
+          "dweb:/ipfs/QmVMNWLbwnzonazwcgH3HjZ11kJvXh7U3rnRdaxFAuhErw"
+        ],
+        "license": "MIT OR Apache-2.0"
+      },
+      "lib/tempo-std/src/interfaces/IFeeAMM.sol": {
+        "keccak256": "0x8e0a75e9f4f4ec247882aed28723c0567e856ad347baa0c0bdea7f80bc82aa01",
+        "urls": [
+          "bzz-raw://21a4aa7f0f112da38988d19c5d04da1da7d0d6d279bf061d4db9c41155c9b09c",
+          "dweb:/ipfs/QmdxxNUgTtQgjizxCAWJ4L4c8TaCkwAkbrqNxNP1TnHPCD"
+        ],
+        "license": "MIT OR Apache-2.0"
+      },
+      "lib/tempo-std/src/interfaces/IFeeManager.sol": {
+        "keccak256": "0xe54e3aed199507abff82f32d5ae2d4a4b94f2027a62a6d8a9d7fa311baf3a95f",
+        "urls": [
+          "bzz-raw://a15fc13b3beb464ad8de04f8c7ba56d6d304a6d8adb4e3ae8d1968a79d1a3b0a",
+          "dweb:/ipfs/QmQMf831qVkYpr1EZZMsBrssKCCXWEWu1dirg6fJXA5DMD"
+        ],
+        "license": "MIT OR Apache-2.0"
+      },
+      "lib/tempo-std/src/interfaces/INonce.sol": {
+        "keccak256": "0x22abc9ad788194b145429bcef8bbc71a604a908c25f478f7ddf193270b7b11fc",
+        "urls": [
+          "bzz-raw://a844bb0e9ad86b692555c8905a35d0339b76bbfae34bcc2d0d20f0d945f0051c",
+          "dweb:/ipfs/QmekXGiDvmGWGwFCFmNzzyVtJnrnWvAnzNRrEpmXJp7LiZ"
+        ],
+        "license": "MIT OR Apache-2.0"
+      },
+      "lib/tempo-std/src/interfaces/IStablecoinDEX.sol": {
+        "keccak256": "0x67c30b8647052353d2c910b7984059a8c552a2ceeb98dabec128226780e2e116",
+        "urls": [
+          "bzz-raw://1d21fa2a1d9ff68cd83689b16edfb8d5491c2a5f6ed0d75ced0d990ca7ff8096",
+          "dweb:/ipfs/QmS3ETV84z1BC82HCPTKKiLzhfB1YA2ujox6duM2ncRVw5"
+        ],
+        "license": "MIT OR Apache-2.0"
+      },
+      "lib/tempo-std/src/interfaces/ITIP20.sol": {
+        "keccak256": "0xbd0602dbd94a3e3469a7a1609ac37f540e125889ace050d655ec258c555a7fd0",
+        "urls": [
+          "bzz-raw://5f7bb3b2f8d33703006cba1a3183bbbc8334469a7b1963bec4b731c2f6d4f8ba",
+          "dweb:/ipfs/QmWH3BaNg8L1GuFYcSQTzZqwuBoP2oKd3q4uKRtgYFhMzG"
+        ],
+        "license": "MIT OR Apache-2.0"
+      },
+      "lib/tempo-std/src/interfaces/ITIP20Factory.sol": {
+        "keccak256": "0x093a8dd6d3fb45230c7f13fb4b05bbd45894b92584fe73facf0718c3b12e9963",
+        "urls": [
+          "bzz-raw://a167e751fbde862a767f486fcbfe33d69c13c7ff9659d2cdb487ea20d88206ae",
+          "dweb:/ipfs/QmRYFXd2rqDswhuATumnjpachvpiLfAHV1xsxY7GyBoE67"
+        ],
+        "license": "MIT OR Apache-2.0"
+      },
+      "lib/tempo-std/src/interfaces/ITIP20RewardsRegistry.sol": {
+        "keccak256": "0x4763a79f120151a79d67b5249f94b2737ccf7f002f0fe2091a21a1fffbdc2b8c",
+        "urls": [
+          "bzz-raw://ff229c2936dd59b424f072024fc81bb9cbff413c550f2c8c33289d145eaf3965",
+          "dweb:/ipfs/QmRsY9344j6xM7Fx3VZrF4mDZu9qmUTtfgjuMRTrJJ7YJk"
+        ],
+        "license": "MIT OR Apache-2.0"
+      },
+      "lib/tempo-std/src/interfaces/ITIP403Registry.sol": {
+        "keccak256": "0x8d7a9c94ed22fb822ee6903f86b46e4a27a74fa0a5a929334fc8d0a2d66ae4a8",
+        "urls": [
+          "bzz-raw://f7babf99817db05949ca6d1bfc3df0368ad340d453207eeed970b63a100c51b7",
+          "dweb:/ipfs/QmRWitRQLfkZ37gmpATduWnw5o3UySe4S6ZAkxoiTQBr1i"
+        ],
+        "license": "MIT OR Apache-2.0"
+      },
+      "lib/tempo-std/src/interfaces/IValidatorConfig.sol": {
+        "keccak256": "0x0879346ad658d19b43227ac282f6930e9f9b178c98509f133d2ee3de22e9a4a2",
+        "urls": [
+          "bzz-raw://fa7f92022972e504824cf9df544b638e49eb054b77787b43f62dd5d4ed92b931",
+          "dweb:/ipfs/Qmabiyxr5LoV8DvBbPvQGmc3JeJok46Vr3MHdKB3RBnrT2"
+        ],
+        "license": "MIT OR Apache-2.0"
+      }
+    },
+    "version": 1
+  },
+  "id": 20
+}

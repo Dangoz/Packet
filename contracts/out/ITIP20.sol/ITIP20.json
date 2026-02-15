@@ -1,0 +1,1129 @@
+{
+  "abi": [
+    {
+      "type": "function",
+      "name": "BURN_BLOCKED_ROLE",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "bytes32", "internalType": "bytes32" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "ISSUER_ROLE",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "bytes32", "internalType": "bytes32" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "PAUSE_ROLE",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "bytes32", "internalType": "bytes32" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "UNPAUSE_ROLE",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "bytes32", "internalType": "bytes32" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "allowance",
+      "inputs": [
+        { "name": "owner", "type": "address", "internalType": "address" },
+        { "name": "spender", "type": "address", "internalType": "address" }
+      ],
+      "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "approve",
+      "inputs": [
+        { "name": "spender", "type": "address", "internalType": "address" },
+        { "name": "amount", "type": "uint256", "internalType": "uint256" }
+      ],
+      "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "balanceOf",
+      "inputs": [{ "name": "account", "type": "address", "internalType": "address" }],
+      "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "burn",
+      "inputs": [{ "name": "amount", "type": "uint256", "internalType": "uint256" }],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "burnBlocked",
+      "inputs": [
+        { "name": "from", "type": "address", "internalType": "address" },
+        { "name": "amount", "type": "uint256", "internalType": "uint256" }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "burnWithMemo",
+      "inputs": [
+        { "name": "amount", "type": "uint256", "internalType": "uint256" },
+        { "name": "memo", "type": "bytes32", "internalType": "bytes32" }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "changeTransferPolicyId",
+      "inputs": [{ "name": "newPolicyId", "type": "uint64", "internalType": "uint64" }],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "claimRewards",
+      "inputs": [],
+      "outputs": [{ "name": "maxAmount", "type": "uint256", "internalType": "uint256" }],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "completeQuoteTokenUpdate",
+      "inputs": [],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "currency",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "string", "internalType": "string" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "decimals",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "uint8", "internalType": "uint8" }],
+      "stateMutability": "pure"
+    },
+    {
+      "type": "function",
+      "name": "distributeReward",
+      "inputs": [{ "name": "amount", "type": "uint256", "internalType": "uint256" }],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "getPendingRewards",
+      "inputs": [{ "name": "account", "type": "address", "internalType": "address" }],
+      "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "globalRewardPerToken",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "mint",
+      "inputs": [
+        { "name": "to", "type": "address", "internalType": "address" },
+        { "name": "amount", "type": "uint256", "internalType": "uint256" }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "mintWithMemo",
+      "inputs": [
+        { "name": "to", "type": "address", "internalType": "address" },
+        { "name": "amount", "type": "uint256", "internalType": "uint256" },
+        { "name": "memo", "type": "bytes32", "internalType": "bytes32" }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "name",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "string", "internalType": "string" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "nextQuoteToken",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "address", "internalType": "contract ITIP20" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "optedInSupply",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "uint128", "internalType": "uint128" }],
+      "stateMutability": "view"
+    },
+    { "type": "function", "name": "pause", "inputs": [], "outputs": [], "stateMutability": "nonpayable" },
+    {
+      "type": "function",
+      "name": "paused",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "quoteToken",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "address", "internalType": "contract ITIP20" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "setNextQuoteToken",
+      "inputs": [{ "name": "newQuoteToken", "type": "address", "internalType": "contract ITIP20" }],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "setRewardRecipient",
+      "inputs": [{ "name": "newRewardRecipient", "type": "address", "internalType": "address" }],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "setSupplyCap",
+      "inputs": [{ "name": "newSupplyCap", "type": "uint256", "internalType": "uint256" }],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "supplyCap",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "symbol",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "string", "internalType": "string" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "systemTransferFrom",
+      "inputs": [
+        { "name": "from", "type": "address", "internalType": "address" },
+        { "name": "to", "type": "address", "internalType": "address" },
+        { "name": "amount", "type": "uint256", "internalType": "uint256" }
+      ],
+      "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "totalSupply",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "transfer",
+      "inputs": [
+        { "name": "to", "type": "address", "internalType": "address" },
+        { "name": "amount", "type": "uint256", "internalType": "uint256" }
+      ],
+      "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "transferFeePostTx",
+      "inputs": [
+        { "name": "to", "type": "address", "internalType": "address" },
+        { "name": "refund", "type": "uint256", "internalType": "uint256" },
+        { "name": "actualUsed", "type": "uint256", "internalType": "uint256" }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "transferFeePreTx",
+      "inputs": [
+        { "name": "from", "type": "address", "internalType": "address" },
+        { "name": "amount", "type": "uint256", "internalType": "uint256" }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "transferFrom",
+      "inputs": [
+        { "name": "from", "type": "address", "internalType": "address" },
+        { "name": "to", "type": "address", "internalType": "address" },
+        { "name": "amount", "type": "uint256", "internalType": "uint256" }
+      ],
+      "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "transferFromWithMemo",
+      "inputs": [
+        { "name": "from", "type": "address", "internalType": "address" },
+        { "name": "to", "type": "address", "internalType": "address" },
+        { "name": "amount", "type": "uint256", "internalType": "uint256" },
+        { "name": "memo", "type": "bytes32", "internalType": "bytes32" }
+      ],
+      "outputs": [{ "name": "", "type": "bool", "internalType": "bool" }],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "transferPolicyId",
+      "inputs": [],
+      "outputs": [{ "name": "", "type": "uint64", "internalType": "uint64" }],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "transferWithMemo",
+      "inputs": [
+        { "name": "to", "type": "address", "internalType": "address" },
+        { "name": "amount", "type": "uint256", "internalType": "uint256" },
+        { "name": "memo", "type": "bytes32", "internalType": "bytes32" }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    { "type": "function", "name": "unpause", "inputs": [], "outputs": [], "stateMutability": "nonpayable" },
+    {
+      "type": "function",
+      "name": "userRewardInfo",
+      "inputs": [{ "name": "", "type": "address", "internalType": "address" }],
+      "outputs": [
+        { "name": "rewardRecipient", "type": "address", "internalType": "address" },
+        { "name": "rewardPerToken", "type": "uint256", "internalType": "uint256" },
+        { "name": "rewardBalance", "type": "uint256", "internalType": "uint256" }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "event",
+      "name": "Approval",
+      "inputs": [
+        { "name": "owner", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "spender", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "amount", "type": "uint256", "indexed": false, "internalType": "uint256" }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "Burn",
+      "inputs": [
+        { "name": "from", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "amount", "type": "uint256", "indexed": false, "internalType": "uint256" }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "BurnBlocked",
+      "inputs": [
+        { "name": "from", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "amount", "type": "uint256", "indexed": false, "internalType": "uint256" }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "Mint",
+      "inputs": [
+        { "name": "to", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "amount", "type": "uint256", "indexed": false, "internalType": "uint256" }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "NextQuoteTokenSet",
+      "inputs": [
+        { "name": "updater", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "nextQuoteToken", "type": "address", "indexed": true, "internalType": "contract ITIP20" }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "PauseStateUpdate",
+      "inputs": [
+        { "name": "updater", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "isPaused", "type": "bool", "indexed": false, "internalType": "bool" }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "QuoteTokenUpdate",
+      "inputs": [
+        { "name": "updater", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "newQuoteToken", "type": "address", "indexed": true, "internalType": "contract ITIP20" }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "RewardDistributed",
+      "inputs": [
+        { "name": "funder", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "amount", "type": "uint256", "indexed": false, "internalType": "uint256" }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "RewardRecipientSet",
+      "inputs": [
+        { "name": "holder", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "recipient", "type": "address", "indexed": true, "internalType": "address" }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "SupplyCapUpdate",
+      "inputs": [
+        { "name": "updater", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "newSupplyCap", "type": "uint256", "indexed": true, "internalType": "uint256" }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "Transfer",
+      "inputs": [
+        { "name": "from", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "to", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "amount", "type": "uint256", "indexed": false, "internalType": "uint256" }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "TransferPolicyUpdate",
+      "inputs": [
+        { "name": "updater", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "newPolicyId", "type": "uint64", "indexed": true, "internalType": "uint64" }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "event",
+      "name": "TransferWithMemo",
+      "inputs": [
+        { "name": "from", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "to", "type": "address", "indexed": true, "internalType": "address" },
+        { "name": "amount", "type": "uint256", "indexed": false, "internalType": "uint256" },
+        { "name": "memo", "type": "bytes32", "indexed": true, "internalType": "bytes32" }
+      ],
+      "anonymous": false
+    },
+    { "type": "error", "name": "ContractPaused", "inputs": [] },
+    { "type": "error", "name": "InsufficientAllowance", "inputs": [] },
+    {
+      "type": "error",
+      "name": "InsufficientBalance",
+      "inputs": [
+        { "name": "currentBalance", "type": "uint256", "internalType": "uint256" },
+        { "name": "expectedBalance", "type": "uint256", "internalType": "uint256" },
+        { "name": "", "type": "address", "internalType": "address" }
+      ]
+    },
+    { "type": "error", "name": "InvalidAmount", "inputs": [] },
+    { "type": "error", "name": "InvalidBaseToken", "inputs": [] },
+    { "type": "error", "name": "InvalidCurrency", "inputs": [] },
+    { "type": "error", "name": "InvalidQuoteToken", "inputs": [] },
+    { "type": "error", "name": "InvalidRecipient", "inputs": [] },
+    { "type": "error", "name": "InvalidSupplyCap", "inputs": [] },
+    { "type": "error", "name": "InvalidToken", "inputs": [] },
+    { "type": "error", "name": "InvalidTransferPolicyId", "inputs": [] },
+    { "type": "error", "name": "NoOptedInSupply", "inputs": [] },
+    { "type": "error", "name": "PolicyForbids", "inputs": [] },
+    { "type": "error", "name": "ProtectedAddress", "inputs": [] },
+    { "type": "error", "name": "SupplyCapExceeded", "inputs": [] }
+  ],
+  "bytecode": { "object": "0x", "sourceMap": "", "linkReferences": {} },
+  "deployedBytecode": { "object": "0x", "sourceMap": "", "linkReferences": {} },
+  "methodIdentifiers": {
+    "BURN_BLOCKED_ROLE()": "32ad9be8",
+    "ISSUER_ROLE()": "82aefa24",
+    "PAUSE_ROLE()": "389ed267",
+    "UNPAUSE_ROLE()": "309756fb",
+    "allowance(address,address)": "dd62ed3e",
+    "approve(address,uint256)": "095ea7b3",
+    "balanceOf(address)": "70a08231",
+    "burn(uint256)": "42966c68",
+    "burnBlocked(address,uint256)": "ec0cf3dc",
+    "burnWithMemo(uint256,bytes32)": "38f23b0b",
+    "changeTransferPolicyId(uint64)": "fd5e9420",
+    "claimRewards()": "372500ab",
+    "completeQuoteTokenUpdate()": "638bc4a3",
+    "currency()": "e5a6b10f",
+    "decimals()": "313ce567",
+    "distributeReward(uint256)": "940a4e45",
+    "getPendingRewards(address)": "f6ed2017",
+    "globalRewardPerToken()": "726ce324",
+    "mint(address,uint256)": "40c10f19",
+    "mintWithMemo(address,uint256,bytes32)": "e44f0b12",
+    "name()": "06fdde03",
+    "nextQuoteToken()": "7d0819b7",
+    "optedInSupply()": "8ef39dce",
+    "pause()": "8456cb59",
+    "paused()": "5c975abb",
+    "quoteToken()": "217a4b70",
+    "setNextQuoteToken(address)": "4593223f",
+    "setRewardRecipient(address)": "e521136f",
+    "setSupplyCap(uint256)": "b6a3f59a",
+    "supplyCap()": "8f770ad0",
+    "symbol()": "95d89b41",
+    "systemTransferFrom(address,address,uint256)": "fbd6948f",
+    "totalSupply()": "18160ddd",
+    "transfer(address,uint256)": "a9059cbb",
+    "transferFeePostTx(address,uint256,uint256)": "a7d69099",
+    "transferFeePreTx(address,uint256)": "05dbb5e0",
+    "transferFrom(address,address,uint256)": "23b872dd",
+    "transferFromWithMemo(address,address,uint256,bytes32)": "929c2539",
+    "transferPolicyId()": "9c4bad29",
+    "transferWithMemo(address,uint256,bytes32)": "95777d59",
+    "unpause()": "3f4ba83a",
+    "userRewardInfo(address)": "360b8ed9"
+  },
+  "rawMetadata": "{\"compiler\":{\"version\":\"0.8.25+commit.b61c2a91\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"ContractPaused\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InsufficientAllowance\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"currentBalance\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"expectedBalance\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"InsufficientBalance\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidAmount\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidBaseToken\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidCurrency\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidQuoteToken\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidRecipient\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidSupplyCap\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidToken\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidTransferPolicyId\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"NoOptedInSupply\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"PolicyForbids\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"ProtectedAddress\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"SupplyCapExceeded\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"Approval\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"Burn\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"BurnBlocked\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"Mint\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"updater\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"contract ITIP20\",\"name\":\"nextQuoteToken\",\"type\":\"address\"}],\"name\":\"NextQuoteTokenSet\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"updater\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"isPaused\",\"type\":\"bool\"}],\"name\":\"PauseStateUpdate\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"updater\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"contract ITIP20\",\"name\":\"newQuoteToken\",\"type\":\"address\"}],\"name\":\"QuoteTokenUpdate\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"funder\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"RewardDistributed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"holder\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"}],\"name\":\"RewardRecipientSet\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"updater\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"newSupplyCap\",\"type\":\"uint256\"}],\"name\":\"SupplyCapUpdate\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"Transfer\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"updater\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"uint64\",\"name\":\"newPolicyId\",\"type\":\"uint64\"}],\"name\":\"TransferPolicyUpdate\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"memo\",\"type\":\"bytes32\"}],\"name\":\"TransferWithMemo\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"BURN_BLOCKED_ROLE\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"ISSUER_ROLE\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"PAUSE_ROLE\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"UNPAUSE_ROLE\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"}],\"name\":\"allowance\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"approve\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"burn\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"burnBlocked\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"bytes32\",\"name\":\"memo\",\"type\":\"bytes32\"}],\"name\":\"burnWithMemo\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint64\",\"name\":\"newPolicyId\",\"type\":\"uint64\"}],\"name\":\"changeTransferPolicyId\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"claimRewards\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"maxAmount\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"completeQuoteTokenUpdate\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"currency\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"decimals\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"\",\"type\":\"uint8\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"distributeReward\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"getPendingRewards\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"globalRewardPerToken\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"mint\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"bytes32\",\"name\":\"memo\",\"type\":\"bytes32\"}],\"name\":\"mintWithMemo\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"nextQuoteToken\",\"outputs\":[{\"internalType\":\"contract ITIP20\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"optedInSupply\",\"outputs\":[{\"internalType\":\"uint128\",\"name\":\"\",\"type\":\"uint128\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"pause\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"paused\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"quoteToken\",\"outputs\":[{\"internalType\":\"contract ITIP20\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract ITIP20\",\"name\":\"newQuoteToken\",\"type\":\"address\"}],\"name\":\"setNextQuoteToken\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newRewardRecipient\",\"type\":\"address\"}],\"name\":\"setRewardRecipient\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"newSupplyCap\",\"type\":\"uint256\"}],\"name\":\"setSupplyCap\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"supplyCap\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"symbol\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"systemTransferFrom\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"totalSupply\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"transfer\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"refund\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"actualUsed\",\"type\":\"uint256\"}],\"name\":\"transferFeePostTx\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"transferFeePreTx\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"transferFrom\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"bytes32\",\"name\":\"memo\",\"type\":\"bytes32\"}],\"name\":\"transferFromWithMemo\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"transferPolicyId\",\"outputs\":[{\"internalType\":\"uint64\",\"name\":\"\",\"type\":\"uint64\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"bytes32\",\"name\":\"memo\",\"type\":\"bytes32\"}],\"name\":\"transferWithMemo\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"unpause\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"userRewardInfo\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"rewardRecipient\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"rewardPerToken\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"rewardBalance\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"events\":{\"Approval(address,address,uint256)\":{\"params\":{\"amount\":\"The amount of tokens approved for spending.\",\"owner\":\"The address that owns the tokens.\",\"spender\":\"The address that is approved to spend the tokens.\"}},\"Burn(address,uint256)\":{\"params\":{\"amount\":\"The amount of tokens burned.\",\"from\":\"The address from which tokens were burned.\"}},\"BurnBlocked(address,uint256)\":{\"params\":{\"amount\":\"The amount of tokens burned.\",\"from\":\"The address from which tokens were forcibly burned.\"}},\"Mint(address,uint256)\":{\"params\":{\"amount\":\"The amount of tokens minted.\",\"to\":\"The address that received the newly minted tokens.\"}},\"PauseStateUpdate(address,bool)\":{\"params\":{\"isPaused\":\"The new pause state of the contract.\",\"updater\":\"The address that initiated the pause state change.\"}},\"SupplyCapUpdate(address,uint256)\":{\"params\":{\"newSupplyCap\":\"The new maximum supply limit for the token.\",\"updater\":\"The address that initiated the supply cap update.\"}},\"Transfer(address,address,uint256)\":{\"params\":{\"amount\":\"The amount of tokens transferred.\",\"from\":\"The address tokens were transferred from.\",\"to\":\"The address tokens were transferred to.\"}},\"TransferPolicyUpdate(address,uint64)\":{\"params\":{\"newPolicyId\":\"The new policy identifier that will govern transfers.\",\"updater\":\"The address that initiated the policy update.\"}},\"TransferWithMemo(address,address,uint256,bytes32)\":{\"params\":{\"amount\":\"The amount of tokens transferred.\",\"from\":\"The address tokens were transferred from.\",\"memo\":\"The memo attached to the transfer.\",\"to\":\"The address tokens were transferred to.\"}}},\"kind\":\"dev\",\"methods\":{\"BURN_BLOCKED_ROLE()\":{\"returns\":{\"_0\":\"The burn blocked role identifier.\"}},\"ISSUER_ROLE()\":{\"returns\":{\"_0\":\"The issuer role identifier.\"}},\"PAUSE_ROLE()\":{\"returns\":{\"_0\":\"The pause role identifier.\"}},\"UNPAUSE_ROLE()\":{\"returns\":{\"_0\":\"The unpause role identifier.\"}},\"allowance(address,address)\":{\"params\":{\"owner\":\"The address that owns the tokens.\",\"spender\":\"The address that is approved to spend the tokens.\"},\"returns\":{\"_0\":\"The allowance amount.\"}},\"balanceOf(address)\":{\"params\":{\"account\":\"The address to query the balance of.\"},\"returns\":{\"_0\":\"The token balance of the account.\"}},\"burn(uint256)\":{\"params\":{\"amount\":\"The amount of tokens to burn.\"}},\"burnBlocked(address,uint256)\":{\"params\":{\"amount\":\"The amount of tokens to burn.\",\"from\":\"The address to burn tokens from.\"}},\"burnWithMemo(uint256,bytes32)\":{\"params\":{\"amount\":\"The amount of tokens to burn.\",\"memo\":\"The memo to attach to the burn operation.\"}},\"changeTransferPolicyId(uint64)\":{\"params\":{\"newPolicyId\":\"The new policy identifier to set.\"}},\"getPendingRewards(address)\":{\"details\":\"Returns the total pending claimable reward amount, including stored balance and newly accrued rewards.\",\"params\":{\"account\":\"The address to query pending rewards for.\"},\"returns\":{\"_0\":\"The total pending claimable reward amount.\"}},\"mint(address,uint256)\":{\"params\":{\"amount\":\"The amount of tokens to mint.\",\"to\":\"The address to mint tokens to.\"}},\"mintWithMemo(address,uint256,bytes32)\":{\"params\":{\"amount\":\"The amount of tokens to mint.\",\"memo\":\"The memo to attach to the mint operation.\",\"to\":\"The address to mint tokens to.\"}},\"paused()\":{\"returns\":{\"_0\":\"True if the contract is paused, false otherwise.\"}},\"supplyCap()\":{\"returns\":{\"_0\":\"The supply cap amount.\"}},\"totalSupply()\":{\"returns\":{\"_0\":\"The total amount of tokens in circulation.\"}},\"transfer(address,uint256)\":{\"params\":{\"amount\":\"The amount of tokens to transfer.\",\"to\":\"The address to transfer tokens to.\"},\"returns\":{\"_0\":\"success True if the transfer was successful.\"}},\"transferFrom(address,address,uint256)\":{\"params\":{\"amount\":\"The amount of tokens to transfer.\",\"from\":\"The address to transfer tokens from.\",\"to\":\"The address to transfer tokens to.\"},\"returns\":{\"_0\":\"success True if the transfer was successful.\"}},\"transferFromWithMemo(address,address,uint256,bytes32)\":{\"params\":{\"amount\":\"The amount of tokens to transfer.\",\"from\":\"The address to transfer tokens from.\",\"memo\":\"The memo to attach to the transfer.\",\"to\":\"The address to transfer tokens to.\"},\"returns\":{\"_0\":\"success True if the transfer was successful.\"}},\"transferPolicyId()\":{\"returns\":{\"_0\":\"The active transfer policy ID.\"}},\"transferWithMemo(address,uint256,bytes32)\":{\"params\":{\"amount\":\"The amount of tokens to transfer.\",\"memo\":\"The memo to attach to the transfer.\",\"to\":\"The address to transfer tokens to.\"}}},\"title\":\"The interface for TIP-20 compliant tokens\",\"version\":1},\"userdoc\":{\"errors\":{\"ContractPaused()\":[{\"notice\":\"Error when attempting an operation while the contract is paused.\"}],\"InsufficientAllowance()\":[{\"notice\":\"Error when the spender has insufficient allowance for the requested transfer.\"}],\"InsufficientBalance(uint256,uint256,address)\":[{\"notice\":\"Error when an account has insufficient balance for the requested operation.\"}],\"InvalidCurrency()\":[{\"notice\":\"Error when an invalid currency identifier is provided.\"}],\"InvalidRecipient()\":[{\"notice\":\"Error when attempting to transfer to an invalid recipient address.\"}],\"PolicyForbids()\":[{\"notice\":\"Error when a transfer is blocked by the current transfer policy.\"}],\"ProtectedAddress()\":[{\"notice\":\"Error when attempting to burn from a protected address.\"}]},\"events\":{\"Approval(address,address,uint256)\":{\"notice\":\"Emitted when an allowance is set between owner and spender.\"},\"Burn(address,uint256)\":{\"notice\":\"Emitted when tokens are burned.\"},\"BurnBlocked(address,uint256)\":{\"notice\":\"Emitted when tokens are forcibly burned from a blocked account.\"},\"Mint(address,uint256)\":{\"notice\":\"Emitted when tokens are minted.\"},\"PauseStateUpdate(address,bool)\":{\"notice\":\"Emitted when the contract's pause state changes.\"},\"SupplyCapUpdate(address,uint256)\":{\"notice\":\"Emitted when the supply cap is updated.\"},\"Transfer(address,address,uint256)\":{\"notice\":\"Emitted when tokens are transferred.\"},\"TransferPolicyUpdate(address,uint64)\":{\"notice\":\"Emitted when the transfer policy is updated.\"},\"TransferWithMemo(address,address,uint256,bytes32)\":{\"notice\":\"Emitted when tokens are transferred with an attached memo.\"}},\"kind\":\"user\",\"methods\":{\"BURN_BLOCKED_ROLE()\":{\"notice\":\"Returns the role identifier for burning tokens from blocked accounts.\"},\"ISSUER_ROLE()\":{\"notice\":\"Returns the role identifier for issuing tokens.\"},\"PAUSE_ROLE()\":{\"notice\":\"Returns the role identifier for pausing the contract.\"},\"UNPAUSE_ROLE()\":{\"notice\":\"Returns the role identifier for unpausing the contract.\"},\"allowance(address,address)\":{\"notice\":\"Returns the amount of tokens that spender is allowed to spend on behalf of owner.\"},\"balanceOf(address)\":{\"notice\":\"Returns the token balance of a specific account.\"},\"burn(uint256)\":{\"notice\":\"Burns tokens from the caller's balance.\"},\"burnBlocked(address,uint256)\":{\"notice\":\"Burns tokens from a blocked account (admin function).\"},\"burnWithMemo(uint256,bytes32)\":{\"notice\":\"Burns tokens from the caller's balance with an attached memo.\"},\"changeTransferPolicyId(uint64)\":{\"notice\":\"Changes the transfer policy identifier.\"},\"getPendingRewards(address)\":{\"notice\":\"Calculates the pending claimable rewards for an account without modifying state.\"},\"mint(address,uint256)\":{\"notice\":\"Mints new tokens to a specified address.\"},\"mintWithMemo(address,uint256,bytes32)\":{\"notice\":\"Mints new tokens to a specified address with an attached memo.\"},\"pause()\":{\"notice\":\"Pauses the contract, preventing transfers and other operations.\"},\"paused()\":{\"notice\":\"Returns whether the contract is currently paused.\"},\"supplyCap()\":{\"notice\":\"Returns the maximum supply cap for the token.\"},\"totalSupply()\":{\"notice\":\"Returns the total token supply.\"},\"transfer(address,uint256)\":{\"notice\":\"Transfers tokens from caller to another address.\"},\"transferFrom(address,address,uint256)\":{\"notice\":\"Transfers tokens from one address to another using allowance.\"},\"transferFromWithMemo(address,address,uint256,bytes32)\":{\"notice\":\"Transfers tokens from one address to another with a memo using allowance.\"},\"transferPolicyId()\":{\"notice\":\"Returns the current transfer policy identifier.\"},\"transferWithMemo(address,uint256,bytes32)\":{\"notice\":\"Transfers tokens with an attached memo.\"},\"unpause()\":{\"notice\":\"Unpauses the contract, allowing transfers and other operations to resume.\"}},\"notice\":\"A token standard that extends ERC-20 with additional features including transfer policies, memo support, and pause functionality\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"lib/tempo-std/src/interfaces/ITIP20.sol\":\"ITIP20\"},\"evmVersion\":\"cancun\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[\":forge-std/=lib/forge-std/src/\",\":tempo-std/=lib/tempo-std/src/\"]},\"sources\":{\"lib/tempo-std/src/interfaces/ITIP20.sol\":{\"keccak256\":\"0xbd0602dbd94a3e3469a7a1609ac37f540e125889ace050d655ec258c555a7fd0\",\"license\":\"MIT OR Apache-2.0\",\"urls\":[\"bzz-raw://5f7bb3b2f8d33703006cba1a3183bbbc8334469a7b1963bec4b731c2f6d4f8ba\",\"dweb:/ipfs/QmWH3BaNg8L1GuFYcSQTzZqwuBoP2oKd3q4uKRtgYFhMzG\"]}},\"version\":1}",
+  "metadata": {
+    "compiler": { "version": "0.8.25+commit.b61c2a91" },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        { "inputs": [], "type": "error", "name": "ContractPaused" },
+        { "inputs": [], "type": "error", "name": "InsufficientAllowance" },
+        {
+          "inputs": [
+            { "internalType": "uint256", "name": "currentBalance", "type": "uint256" },
+            { "internalType": "uint256", "name": "expectedBalance", "type": "uint256" },
+            { "internalType": "address", "name": "", "type": "address" }
+          ],
+          "type": "error",
+          "name": "InsufficientBalance"
+        },
+        { "inputs": [], "type": "error", "name": "InvalidAmount" },
+        { "inputs": [], "type": "error", "name": "InvalidBaseToken" },
+        { "inputs": [], "type": "error", "name": "InvalidCurrency" },
+        { "inputs": [], "type": "error", "name": "InvalidQuoteToken" },
+        { "inputs": [], "type": "error", "name": "InvalidRecipient" },
+        { "inputs": [], "type": "error", "name": "InvalidSupplyCap" },
+        { "inputs": [], "type": "error", "name": "InvalidToken" },
+        { "inputs": [], "type": "error", "name": "InvalidTransferPolicyId" },
+        { "inputs": [], "type": "error", "name": "NoOptedInSupply" },
+        { "inputs": [], "type": "error", "name": "PolicyForbids" },
+        { "inputs": [], "type": "error", "name": "ProtectedAddress" },
+        { "inputs": [], "type": "error", "name": "SupplyCapExceeded" },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "owner", "type": "address", "indexed": true },
+            { "internalType": "address", "name": "spender", "type": "address", "indexed": true },
+            { "internalType": "uint256", "name": "amount", "type": "uint256", "indexed": false }
+          ],
+          "type": "event",
+          "name": "Approval",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "from", "type": "address", "indexed": true },
+            { "internalType": "uint256", "name": "amount", "type": "uint256", "indexed": false }
+          ],
+          "type": "event",
+          "name": "Burn",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "from", "type": "address", "indexed": true },
+            { "internalType": "uint256", "name": "amount", "type": "uint256", "indexed": false }
+          ],
+          "type": "event",
+          "name": "BurnBlocked",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "to", "type": "address", "indexed": true },
+            { "internalType": "uint256", "name": "amount", "type": "uint256", "indexed": false }
+          ],
+          "type": "event",
+          "name": "Mint",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "updater", "type": "address", "indexed": true },
+            { "internalType": "contract ITIP20", "name": "nextQuoteToken", "type": "address", "indexed": true }
+          ],
+          "type": "event",
+          "name": "NextQuoteTokenSet",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "updater", "type": "address", "indexed": true },
+            { "internalType": "bool", "name": "isPaused", "type": "bool", "indexed": false }
+          ],
+          "type": "event",
+          "name": "PauseStateUpdate",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "updater", "type": "address", "indexed": true },
+            { "internalType": "contract ITIP20", "name": "newQuoteToken", "type": "address", "indexed": true }
+          ],
+          "type": "event",
+          "name": "QuoteTokenUpdate",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "funder", "type": "address", "indexed": true },
+            { "internalType": "uint256", "name": "amount", "type": "uint256", "indexed": false }
+          ],
+          "type": "event",
+          "name": "RewardDistributed",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "holder", "type": "address", "indexed": true },
+            { "internalType": "address", "name": "recipient", "type": "address", "indexed": true }
+          ],
+          "type": "event",
+          "name": "RewardRecipientSet",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "updater", "type": "address", "indexed": true },
+            { "internalType": "uint256", "name": "newSupplyCap", "type": "uint256", "indexed": true }
+          ],
+          "type": "event",
+          "name": "SupplyCapUpdate",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "from", "type": "address", "indexed": true },
+            { "internalType": "address", "name": "to", "type": "address", "indexed": true },
+            { "internalType": "uint256", "name": "amount", "type": "uint256", "indexed": false }
+          ],
+          "type": "event",
+          "name": "Transfer",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "updater", "type": "address", "indexed": true },
+            { "internalType": "uint64", "name": "newPolicyId", "type": "uint64", "indexed": true }
+          ],
+          "type": "event",
+          "name": "TransferPolicyUpdate",
+          "anonymous": false
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "from", "type": "address", "indexed": true },
+            { "internalType": "address", "name": "to", "type": "address", "indexed": true },
+            { "internalType": "uint256", "name": "amount", "type": "uint256", "indexed": false },
+            { "internalType": "bytes32", "name": "memo", "type": "bytes32", "indexed": true }
+          ],
+          "type": "event",
+          "name": "TransferWithMemo",
+          "anonymous": false
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "BURN_BLOCKED_ROLE",
+          "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "ISSUER_ROLE",
+          "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "PAUSE_ROLE",
+          "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "UNPAUSE_ROLE",
+          "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "owner", "type": "address" },
+            { "internalType": "address", "name": "spender", "type": "address" }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "allowance",
+          "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "spender", "type": "address" },
+            { "internalType": "uint256", "name": "amount", "type": "uint256" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "approve",
+          "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }]
+        },
+        {
+          "inputs": [{ "internalType": "address", "name": "account", "type": "address" }],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "balanceOf",
+          "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+        },
+        {
+          "inputs": [{ "internalType": "uint256", "name": "amount", "type": "uint256" }],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "burn"
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "from", "type": "address" },
+            { "internalType": "uint256", "name": "amount", "type": "uint256" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "burnBlocked"
+        },
+        {
+          "inputs": [
+            { "internalType": "uint256", "name": "amount", "type": "uint256" },
+            { "internalType": "bytes32", "name": "memo", "type": "bytes32" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "burnWithMemo"
+        },
+        {
+          "inputs": [{ "internalType": "uint64", "name": "newPolicyId", "type": "uint64" }],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "changeTransferPolicyId"
+        },
+        {
+          "inputs": [],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "claimRewards",
+          "outputs": [{ "internalType": "uint256", "name": "maxAmount", "type": "uint256" }]
+        },
+        { "inputs": [], "stateMutability": "nonpayable", "type": "function", "name": "completeQuoteTokenUpdate" },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "currency",
+          "outputs": [{ "internalType": "string", "name": "", "type": "string" }]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "pure",
+          "type": "function",
+          "name": "decimals",
+          "outputs": [{ "internalType": "uint8", "name": "", "type": "uint8" }]
+        },
+        {
+          "inputs": [{ "internalType": "uint256", "name": "amount", "type": "uint256" }],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "distributeReward"
+        },
+        {
+          "inputs": [{ "internalType": "address", "name": "account", "type": "address" }],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "getPendingRewards",
+          "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "globalRewardPerToken",
+          "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "to", "type": "address" },
+            { "internalType": "uint256", "name": "amount", "type": "uint256" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "mint"
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "to", "type": "address" },
+            { "internalType": "uint256", "name": "amount", "type": "uint256" },
+            { "internalType": "bytes32", "name": "memo", "type": "bytes32" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "mintWithMemo"
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "name",
+          "outputs": [{ "internalType": "string", "name": "", "type": "string" }]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "nextQuoteToken",
+          "outputs": [{ "internalType": "contract ITIP20", "name": "", "type": "address" }]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "optedInSupply",
+          "outputs": [{ "internalType": "uint128", "name": "", "type": "uint128" }]
+        },
+        { "inputs": [], "stateMutability": "nonpayable", "type": "function", "name": "pause" },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "paused",
+          "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "quoteToken",
+          "outputs": [{ "internalType": "contract ITIP20", "name": "", "type": "address" }]
+        },
+        {
+          "inputs": [{ "internalType": "contract ITIP20", "name": "newQuoteToken", "type": "address" }],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "setNextQuoteToken"
+        },
+        {
+          "inputs": [{ "internalType": "address", "name": "newRewardRecipient", "type": "address" }],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "setRewardRecipient"
+        },
+        {
+          "inputs": [{ "internalType": "uint256", "name": "newSupplyCap", "type": "uint256" }],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "setSupplyCap"
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "supplyCap",
+          "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "symbol",
+          "outputs": [{ "internalType": "string", "name": "", "type": "string" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "from", "type": "address" },
+            { "internalType": "address", "name": "to", "type": "address" },
+            { "internalType": "uint256", "name": "amount", "type": "uint256" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "systemTransferFrom",
+          "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "totalSupply",
+          "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "to", "type": "address" },
+            { "internalType": "uint256", "name": "amount", "type": "uint256" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "transfer",
+          "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "to", "type": "address" },
+            { "internalType": "uint256", "name": "refund", "type": "uint256" },
+            { "internalType": "uint256", "name": "actualUsed", "type": "uint256" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "transferFeePostTx"
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "from", "type": "address" },
+            { "internalType": "uint256", "name": "amount", "type": "uint256" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "transferFeePreTx"
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "from", "type": "address" },
+            { "internalType": "address", "name": "to", "type": "address" },
+            { "internalType": "uint256", "name": "amount", "type": "uint256" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "transferFrom",
+          "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "from", "type": "address" },
+            { "internalType": "address", "name": "to", "type": "address" },
+            { "internalType": "uint256", "name": "amount", "type": "uint256" },
+            { "internalType": "bytes32", "name": "memo", "type": "bytes32" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "transferFromWithMemo",
+          "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "transferPolicyId",
+          "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }]
+        },
+        {
+          "inputs": [
+            { "internalType": "address", "name": "to", "type": "address" },
+            { "internalType": "uint256", "name": "amount", "type": "uint256" },
+            { "internalType": "bytes32", "name": "memo", "type": "bytes32" }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "transferWithMemo"
+        },
+        { "inputs": [], "stateMutability": "nonpayable", "type": "function", "name": "unpause" },
+        {
+          "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "userRewardInfo",
+          "outputs": [
+            { "internalType": "address", "name": "rewardRecipient", "type": "address" },
+            { "internalType": "uint256", "name": "rewardPerToken", "type": "uint256" },
+            { "internalType": "uint256", "name": "rewardBalance", "type": "uint256" }
+          ]
+        }
+      ],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {
+          "BURN_BLOCKED_ROLE()": { "returns": { "_0": "The burn blocked role identifier." } },
+          "ISSUER_ROLE()": { "returns": { "_0": "The issuer role identifier." } },
+          "PAUSE_ROLE()": { "returns": { "_0": "The pause role identifier." } },
+          "UNPAUSE_ROLE()": { "returns": { "_0": "The unpause role identifier." } },
+          "allowance(address,address)": {
+            "params": {
+              "owner": "The address that owns the tokens.",
+              "spender": "The address that is approved to spend the tokens."
+            },
+            "returns": { "_0": "The allowance amount." }
+          },
+          "balanceOf(address)": {
+            "params": { "account": "The address to query the balance of." },
+            "returns": { "_0": "The token balance of the account." }
+          },
+          "burn(uint256)": { "params": { "amount": "The amount of tokens to burn." } },
+          "burnBlocked(address,uint256)": {
+            "params": { "amount": "The amount of tokens to burn.", "from": "The address to burn tokens from." }
+          },
+          "burnWithMemo(uint256,bytes32)": {
+            "params": { "amount": "The amount of tokens to burn.", "memo": "The memo to attach to the burn operation." }
+          },
+          "changeTransferPolicyId(uint64)": { "params": { "newPolicyId": "The new policy identifier to set." } },
+          "getPendingRewards(address)": {
+            "details": "Returns the total pending claimable reward amount, including stored balance and newly accrued rewards.",
+            "params": { "account": "The address to query pending rewards for." },
+            "returns": { "_0": "The total pending claimable reward amount." }
+          },
+          "mint(address,uint256)": {
+            "params": { "amount": "The amount of tokens to mint.", "to": "The address to mint tokens to." }
+          },
+          "mintWithMemo(address,uint256,bytes32)": {
+            "params": {
+              "amount": "The amount of tokens to mint.",
+              "memo": "The memo to attach to the mint operation.",
+              "to": "The address to mint tokens to."
+            }
+          },
+          "paused()": { "returns": { "_0": "True if the contract is paused, false otherwise." } },
+          "supplyCap()": { "returns": { "_0": "The supply cap amount." } },
+          "totalSupply()": { "returns": { "_0": "The total amount of tokens in circulation." } },
+          "transfer(address,uint256)": {
+            "params": { "amount": "The amount of tokens to transfer.", "to": "The address to transfer tokens to." },
+            "returns": { "_0": "success True if the transfer was successful." }
+          },
+          "transferFrom(address,address,uint256)": {
+            "params": {
+              "amount": "The amount of tokens to transfer.",
+              "from": "The address to transfer tokens from.",
+              "to": "The address to transfer tokens to."
+            },
+            "returns": { "_0": "success True if the transfer was successful." }
+          },
+          "transferFromWithMemo(address,address,uint256,bytes32)": {
+            "params": {
+              "amount": "The amount of tokens to transfer.",
+              "from": "The address to transfer tokens from.",
+              "memo": "The memo to attach to the transfer.",
+              "to": "The address to transfer tokens to."
+            },
+            "returns": { "_0": "success True if the transfer was successful." }
+          },
+          "transferPolicyId()": { "returns": { "_0": "The active transfer policy ID." } },
+          "transferWithMemo(address,uint256,bytes32)": {
+            "params": {
+              "amount": "The amount of tokens to transfer.",
+              "memo": "The memo to attach to the transfer.",
+              "to": "The address to transfer tokens to."
+            }
+          }
+        },
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {
+          "BURN_BLOCKED_ROLE()": { "notice": "Returns the role identifier for burning tokens from blocked accounts." },
+          "ISSUER_ROLE()": { "notice": "Returns the role identifier for issuing tokens." },
+          "PAUSE_ROLE()": { "notice": "Returns the role identifier for pausing the contract." },
+          "UNPAUSE_ROLE()": { "notice": "Returns the role identifier for unpausing the contract." },
+          "allowance(address,address)": {
+            "notice": "Returns the amount of tokens that spender is allowed to spend on behalf of owner."
+          },
+          "balanceOf(address)": { "notice": "Returns the token balance of a specific account." },
+          "burn(uint256)": { "notice": "Burns tokens from the caller's balance." },
+          "burnBlocked(address,uint256)": { "notice": "Burns tokens from a blocked account (admin function)." },
+          "burnWithMemo(uint256,bytes32)": {
+            "notice": "Burns tokens from the caller's balance with an attached memo."
+          },
+          "changeTransferPolicyId(uint64)": { "notice": "Changes the transfer policy identifier." },
+          "getPendingRewards(address)": {
+            "notice": "Calculates the pending claimable rewards for an account without modifying state."
+          },
+          "mint(address,uint256)": { "notice": "Mints new tokens to a specified address." },
+          "mintWithMemo(address,uint256,bytes32)": {
+            "notice": "Mints new tokens to a specified address with an attached memo."
+          },
+          "pause()": { "notice": "Pauses the contract, preventing transfers and other operations." },
+          "paused()": { "notice": "Returns whether the contract is currently paused." },
+          "supplyCap()": { "notice": "Returns the maximum supply cap for the token." },
+          "totalSupply()": { "notice": "Returns the total token supply." },
+          "transfer(address,uint256)": { "notice": "Transfers tokens from caller to another address." },
+          "transferFrom(address,address,uint256)": {
+            "notice": "Transfers tokens from one address to another using allowance."
+          },
+          "transferFromWithMemo(address,address,uint256,bytes32)": {
+            "notice": "Transfers tokens from one address to another with a memo using allowance."
+          },
+          "transferPolicyId()": { "notice": "Returns the current transfer policy identifier." },
+          "transferWithMemo(address,uint256,bytes32)": { "notice": "Transfers tokens with an attached memo." },
+          "unpause()": { "notice": "Unpauses the contract, allowing transfers and other operations to resume." }
+        },
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": ["forge-std/=lib/forge-std/src/", "tempo-std/=lib/tempo-std/src/"],
+      "optimizer": { "enabled": false, "runs": 200 },
+      "metadata": { "bytecodeHash": "ipfs" },
+      "compilationTarget": { "lib/tempo-std/src/interfaces/ITIP20.sol": "ITIP20" },
+      "evmVersion": "cancun",
+      "libraries": {}
+    },
+    "sources": {
+      "lib/tempo-std/src/interfaces/ITIP20.sol": {
+        "keccak256": "0xbd0602dbd94a3e3469a7a1609ac37f540e125889ace050d655ec258c555a7fd0",
+        "urls": [
+          "bzz-raw://5f7bb3b2f8d33703006cba1a3183bbbc8334469a7b1963bec4b731c2f6d4f8ba",
+          "dweb:/ipfs/QmWH3BaNg8L1GuFYcSQTzZqwuBoP2oKd3q4uKRtgYFhMzG"
+        ],
+        "license": "MIT OR Apache-2.0"
+      }
+    },
+    "version": 1
+  },
+  "id": 27
+}
