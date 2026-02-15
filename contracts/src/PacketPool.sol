@@ -11,6 +11,9 @@ contract PacketPool {
     // $0.01 minimum per share (with 6-decimal stablecoins)
     uint256 public constant MIN_AMOUNT = 10_000;
 
+    // Default expiry duration: 24 hours
+    uint256 public constant DEFAULT_EXPIRY = 24 hours;
+
     // ── Types ────────────────────────────────────────────────────────
     struct Pool {
         address creator;
@@ -20,6 +23,7 @@ contract PacketPool {
         uint8 totalShares;
         uint8 claimedShares;
         uint256 commitBlock; // block number at creation, used for randomness
+        uint256 expiresAt;   // timestamp after which creator can refund unclaimed funds
         bytes32 memo;
         bool exists;
     }
@@ -37,7 +41,8 @@ contract PacketPool {
         address token,
         uint256 amount,
         uint8 shares,
-        bytes32 memo
+        bytes32 memo,
+        uint256 expiresAt
     );
     event Claimed(
         bytes32 indexed poolId,
@@ -45,24 +50,33 @@ contract PacketPool {
         uint256 amount,
         uint8 claimIndex
     );
+    event Refunded(
+        bytes32 indexed poolId,
+        address indexed creator,
+        uint256 amount
+    );
 
     // ── Errors ───────────────────────────────────────────────────────
     error PoolAlreadyExists();
     error PoolNotFound();
     error PoolFullyClaimed();
+    error PoolExpired();
+    error PoolNotExpired();
     error AlreadyClaimed();
     error InvalidShares();
     error InvalidAmount();
+    error NotPoolCreator();
+    error NothingToRefund();
     error TransferFailed();
 
     // ── Pool Creation ────────────────────────────────────────────────
 
-    /// @notice Create a new red envelope pool.
+    /// @notice Create a new red envelope pool with default 24h expiry.
     /// @dev    Caller must approve this contract for `amount` of `token` first.
     /// @param poolId   Unique identifier (generate off-chain, e.g. keccak256 of uuid)
     /// @param shares   Number of shares (1–255)
     /// @param memo     32-byte memo attached to the deposit (e.g. "Happy New Year!")
-    /// @param token    TIP-20 token address to use (e.g. AlphaUSD)
+    /// @param token    TIP-20 token address to use (e.g. pathUSD)
     /// @param amount   Total amount to deposit (6-decimal units)
     function createPool(
         bytes32 poolId,
@@ -71,6 +85,35 @@ contract PacketPool {
         address token,
         uint256 amount
     ) external {
+        _createPool(poolId, shares, memo, token, amount, DEFAULT_EXPIRY);
+    }
+
+    /// @notice Create a new red envelope pool with custom expiry duration.
+    /// @param poolId   Unique identifier
+    /// @param shares   Number of shares (1–255)
+    /// @param memo     32-byte memo
+    /// @param token    TIP-20 token address
+    /// @param amount   Total amount to deposit (6-decimal units)
+    /// @param duration Seconds until the pool expires (creator can refund after)
+    function createPoolWithExpiry(
+        bytes32 poolId,
+        uint8 shares,
+        bytes32 memo,
+        address token,
+        uint256 amount,
+        uint256 duration
+    ) external {
+        _createPool(poolId, shares, memo, token, amount, duration);
+    }
+
+    function _createPool(
+        bytes32 poolId,
+        uint8 shares,
+        bytes32 memo,
+        address token,
+        uint256 amount,
+        uint256 duration
+    ) internal {
         if (pools[poolId].exists) revert PoolAlreadyExists();
         if (shares == 0) revert InvalidShares();
         if (amount < uint256(shares) * MIN_AMOUNT) revert InvalidAmount();
@@ -84,6 +127,8 @@ contract PacketPool {
         );
         if (!success) revert TransferFailed();
 
+        uint256 expiresAt = block.timestamp + duration;
+
         pools[poolId] = Pool({
             creator: msg.sender,
             token: token,
@@ -92,11 +137,12 @@ contract PacketPool {
             totalShares: shares,
             claimedShares: 0,
             commitBlock: block.number,
+            expiresAt: expiresAt,
             memo: memo,
             exists: true
         });
 
-        emit PoolCreated(poolId, msg.sender, token, amount, shares, memo);
+        emit PoolCreated(poolId, msg.sender, token, amount, shares, memo, expiresAt);
     }
 
     // ── Claiming ─────────────────────────────────────────────────────
@@ -107,6 +153,7 @@ contract PacketPool {
         Pool storage pool = pools[poolId];
         if (!pool.exists) revert PoolNotFound();
         if (pool.claimedShares >= pool.totalShares) revert PoolFullyClaimed();
+        if (block.timestamp >= pool.expiresAt) revert PoolExpired();
         if (hasClaimed[poolId][msg.sender]) revert AlreadyClaimed();
 
         uint8 claimIndex = pool.claimedShares;
@@ -124,6 +171,27 @@ contract PacketPool {
         ITIP20(pool.token).transferWithMemo(msg.sender, amount, pool.memo);
 
         emit Claimed(poolId, msg.sender, amount, claimIndex);
+    }
+
+    // ── Refund ──────────────────────────────────────────────────────
+
+    /// @notice Refund unclaimed funds to the pool creator after expiry.
+    /// @param poolId The pool to refund
+    function refund(bytes32 poolId) external {
+        Pool storage pool = pools[poolId];
+        if (!pool.exists) revert PoolNotFound();
+        if (msg.sender != pool.creator) revert NotPoolCreator();
+        if (block.timestamp < pool.expiresAt) revert PoolNotExpired();
+        if (pool.remainingAmount == 0) revert NothingToRefund();
+
+        uint256 amount = pool.remainingAmount;
+        pool.remainingAmount = 0;
+        // Mark all unclaimed shares as claimed so the pool is fully settled
+        pool.claimedShares = pool.totalShares;
+
+        ITIP20(pool.token).transferWithMemo(msg.sender, amount, pool.memo);
+
+        emit Refunded(poolId, msg.sender, amount);
     }
 
     // ── Randomness ───────────────────────────────────────────────────

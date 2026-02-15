@@ -21,6 +21,7 @@ const publicClient = createPublicClient({
 
 export function useBalance(address: string | undefined) {
   const [balance, setBalance] = useState<string>('0.00')
+  const [rawBalance, setRawBalance] = useState<number>(0)
   const [symbol, setSymbol] = useState<string>('')
   const [loading, setLoading] = useState(true)
   const [hasInitialFetch, setHasInitialFetch] = useState(false)
@@ -63,6 +64,8 @@ export function useBalance(address: string | undefined) {
         const formatted = formatUnits(balance, decimals)
         const number = parseFloat(formatted)
 
+        setRawBalance(number)
+
         // Format with compact notation for large numbers
         let displayBalance: string
         if (number >= 1_000_000) {
@@ -92,5 +95,5 @@ export function useBalance(address: string | undefined) {
     return () => clearInterval(interval)
   }, [address, hasInitialFetch])
 
-  return { balance, symbol, loading }
+  return { balance, rawBalance, symbol, loading }
 }

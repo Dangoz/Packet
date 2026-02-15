@@ -7,6 +7,9 @@ settings:
 importers:
   .:
     dependencies:
+      '@number-flow/react':
+        specifier: ^0.5.11
+        version: 0.5.11(react-dom@19.1.4(react@19.1.4))(react@19.1.4)
       '@privy-io/node':
         specifier: ^0.6.2
         version: 0.6.2(viem@2.43.1(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.2.1))
@@ -1018,6 +1021,13 @@ packages:
     resolution:
       { integrity: sha512-nn5ozdjYQpUCZlWGuxcJY/KpxkWQs4DcbMCmKojjyrYDEAGy4Ce19NN4v5MduafTwJlbKc99UA8YhSVqq9yPZA== }
     engines: { node: '>=12.4.0' }
+
+  '@number-flow/react@0.5.11':
+    resolution:
+      { integrity: sha512-xo7QFAfQlKiIRbLjoIjZNXsNQmY+QxkyxkNWy+BCP9u1/SkqyqQ/1pYWa7d175V2r4OdmvCvlAnACSYOP1pTaw== }
+    peerDependencies:
+      react: ^18 || ^19
+      react-dom: ^18 || ^19
 
   '@open-draft/deferred-promise@2.2.0':
     resolution:
@@ -4308,6 +4318,10 @@ packages:
       jiti:
         optional: true
 
+  esm-env@1.2.2:
+    resolution:
+      { integrity: sha512-Epxrv+Nr/CaL4ZcFGPJIYLWFom+YeV1DqMLHJoEd9SYRxNbaFruBwfEX/kkHUJf55j2+TUbmDcmuilbP1TmXHA== }
+
   espree@10.4.0:
     resolution:
       { integrity: sha512-j6PAQ2uUr79PZhBjP5C5fhl8e39FmRnOjsD5lGnWrFU8i2G776tBK7+nP8KuQUTTyAZUwfQqXAgrVH5MbH9CYQ== }
@@ -5698,6 +5712,10 @@ packages:
     resolution:
       { integrity: sha512-9qny7Z9DsQU8Ou39ERsPU4OZQlSTP47ShQzuKZ6PRXpYLtIFgl/DEBYEXKlvcEa+9tHVcK8CF81Y2V72qaZhWA== }
     engines: { node: '>=18' }
+
+  number-flow@0.5.9:
+    resolution:
+      { integrity: sha512-o3102c/4qRd6eV4n+rw6B/UP8+FosbhIxj4uA6GsjhryrGZRVtCtKIKEeBiOwUV52cUGJneeu0treELcV7U/lw== }
 
   obj-multiplex@1.0.0:
     resolution:
@@ -8499,6 +8517,13 @@ snapshots:
       fastq: 1.19.1
 
   '@nolyfill/is-core-module@1.0.39': {}
+
+  '@number-flow/react@0.5.11(react-dom@19.1.4(react@19.1.4))(react@19.1.4)':
+    dependencies:
+      esm-env: 1.2.2
+      number-flow: 0.5.9
+      react: 19.1.4
+      react-dom: 19.1.4(react@19.1.4)
 
   '@open-draft/deferred-promise@2.2.0': {}
 
@@ -13168,6 +13193,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  esm-env@1.2.2: {}
+
   espree@10.4.0:
     dependencies:
       acorn: 8.15.0
@@ -14234,6 +14261,10 @@ snapshots:
     dependencies:
       path-key: 4.0.0
       unicorn-magic: 0.3.0
+
+  number-flow@0.5.9:
+    dependencies:
+      esm-env: 1.2.2
 
   obj-multiplex@1.0.0:
     dependencies:

@@ -356,9 +356,11 @@ contract PacketPoolTest is Test {
 
         _fundAndApprove(ALICE, amount);
 
+        uint256 expectedExpiry = block.timestamp + pool.DEFAULT_EXPIRY();
+
         vm.prank(ALICE);
         vm.expectEmit(true, true, false, true);
-        emit PacketPool.PoolCreated(poolId, ALICE, address(token), amount, 3, memo);
+        emit PacketPool.PoolCreated(poolId, ALICE, address(token), amount, 3, memo, expectedExpiry);
         pool.createPool(poolId, 3, memo, address(token), amount);
     }
 
@@ -506,5 +508,148 @@ contract PacketPoolTest is Test {
                 "Fuzz: every claim >= MIN_AMOUNT"
             );
         }
+    }
+
+    // ── Expiration Tests ──────────────────────────────────────────────
+
+    function test_CreatePool_HasDefaultExpiry() public {
+        bytes32 poolId = keccak256("expiry-default");
+        uint256 amount = 10 * ONE_DOLLAR;
+        _createPool(ALICE, poolId, 3, amount);
+
+        PacketPool.Pool memory p = pool.getPool(poolId);
+        assertEq(p.expiresAt, block.timestamp + 24 hours, "Default expiry = 24h");
+    }
+
+    function test_CreatePoolWithExpiry_CustomDuration() public {
+        bytes32 poolId = keccak256("expiry-custom");
+        uint256 amount = 10 * ONE_DOLLAR;
+        uint256 duration = 1 hours;
+
+        _fundAndApprove(ALICE, amount);
+        vm.prank(ALICE);
+        pool.createPoolWithExpiry(poolId, 3, bytes32("custom"), address(token), amount, duration);
+
+        PacketPool.Pool memory p = pool.getPool(poolId);
+        assertEq(p.expiresAt, block.timestamp + duration, "Custom expiry = 1h");
+        assertTrue(p.exists);
+    }
+
+    function test_Claim_RevertIfPoolExpired() public {
+        bytes32 poolId = keccak256("expired-claim");
+        _createPool(ALICE, poolId, 3, 10 * ONE_DOLLAR);
+        vm.roll(block.number + 1);
+
+        // Warp past expiry (24h + 1s)
+        vm.warp(block.timestamp + 24 hours + 1);
+
+        vm.prank(BOB);
+        vm.expectRevert(PacketPool.PoolExpired.selector);
+        pool.claim(poolId);
+    }
+
+    // ── Refund Tests ──────────────────────────────────────────────────
+
+    function test_Refund_AfterExpiry() public {
+        bytes32 poolId = keccak256("refund-ok");
+        uint256 amount = 10 * ONE_DOLLAR;
+        _createPool(ALICE, poolId, 3, amount);
+
+        // Warp past expiry
+        vm.warp(block.timestamp + 24 hours + 1);
+
+        vm.prank(ALICE);
+        pool.refund(poolId);
+
+        // Alice got all funds back
+        assertEq(token.balanceOf(ALICE), amount, "Creator refunded full amount");
+
+        // Pool state updated
+        PacketPool.Pool memory p = pool.getPool(poolId);
+        assertEq(p.remainingAmount, 0);
+        assertEq(p.claimedShares, p.totalShares, "Shares set to total after refund");
+    }
+
+    function test_Refund_PartialClaims() public {
+        bytes32 poolId = keccak256("refund-partial");
+        uint256 amount = 10 * ONE_DOLLAR;
+        _createPool(ALICE, poolId, 3, amount);
+        vm.roll(block.number + 1);
+
+        // BOB claims one share
+        vm.prank(BOB);
+        pool.claim(poolId);
+        uint256 bobGot = token.balanceOf(BOB);
+
+        // Warp past expiry
+        vm.warp(block.timestamp + 24 hours + 1);
+
+        vm.prank(ALICE);
+        pool.refund(poolId);
+
+        // Alice gets the remainder
+        uint256 aliceGot = token.balanceOf(ALICE);
+        assertEq(aliceGot + bobGot, amount, "Refund + claims = total");
+        assertEq(token.balanceOf(address(pool)), 0, "Contract drained");
+    }
+
+    function test_Refund_RevertIfNotCreator() public {
+        bytes32 poolId = keccak256("refund-not-creator");
+        _createPool(ALICE, poolId, 3, 10 * ONE_DOLLAR);
+
+        vm.warp(block.timestamp + 24 hours + 1);
+
+        vm.prank(BOB);
+        vm.expectRevert(PacketPool.NotPoolCreator.selector);
+        pool.refund(poolId);
+    }
+
+    function test_Refund_RevertIfNotExpired() public {
+        bytes32 poolId = keccak256("refund-not-expired");
+        _createPool(ALICE, poolId, 3, 10 * ONE_DOLLAR);
+
+        // Don't warp — still within expiry
+        vm.prank(ALICE);
+        vm.expectRevert(PacketPool.PoolNotExpired.selector);
+        pool.refund(poolId);
+    }
+
+    function test_Refund_RevertIfNothingToRefund() public {
+        bytes32 poolId = keccak256("refund-nothing");
+        uint256 amount = 2 * ONE_DOLLAR;
+        _createPool(ALICE, poolId, 2, amount);
+        vm.roll(block.number + 1);
+
+        // Fully claim
+        vm.prank(BOB);
+        pool.claim(poolId);
+        vm.prank(CAROL);
+        pool.claim(poolId);
+
+        // Warp past expiry
+        vm.warp(block.timestamp + 24 hours + 1);
+
+        vm.prank(ALICE);
+        vm.expectRevert(PacketPool.NothingToRefund.selector);
+        pool.refund(poolId);
+    }
+
+    function test_Refund_RevertIfPoolNotFound() public {
+        vm.prank(ALICE);
+        vm.expectRevert(PacketPool.PoolNotFound.selector);
+        pool.refund(keccak256("nonexistent"));
+    }
+
+    function test_Refund_EmitsRefunded() public {
+        bytes32 poolId = keccak256("refund-event");
+        uint256 amount = 10 * ONE_DOLLAR;
+        _createPool(ALICE, poolId, 3, amount);
+
+        vm.warp(block.timestamp + 24 hours + 1);
+
+        vm.prank(ALICE);
+        vm.expectEmit(true, true, false, true);
+        emit PacketPool.Refunded(poolId, ALICE, amount);
+        pool.refund(poolId);
     }
 }

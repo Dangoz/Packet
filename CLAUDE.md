@@ -22,18 +22,20 @@ This is a hackathon project for the **Canteen x Tempo Hackathon** (Track 1: Cons
 | **Landing Page**   | Done   | Hero, features grid, Lucky Split explainer, CTA.                                                                                |
 | **Login Page**     | Done   | Split-screen login (branding left, Privy login right).                                                                          |
 | **Wallet UI**      | Done   | Template page with balance card, send/receive/batch modals, transaction history.                                                |
+| **App Routing**    | Done   | Nested routes (`/app/create`, `/app/packets`, `/app/claims`) with shared layout, tab bar, auth guard, enter animations.         |
+| **App Header**     | Done   | Floating header with logo, redesigned profile pill (diamond avatar, HUD popover), balance strip with corner ticks & NumberFlow. |
 
 ### What's NOT Built Yet
 
-| Feature                      | Notes                                                                                                                     |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| **Lucky Split frontend UI**  | No pool creation form, no claim page, no share link generation. Contract is ready but no frontend calls it.               |
-| **QR scanning**              | `qrcode.react` generates QR codes, but there is NO scanning library installed. `html5-qrcode` is not a dependency.        |
-| **Dynamic QR**               | No pre-filled amount QR codes. Current QR just encodes wallet address.                                                    |
-| **Claim reveal animation**   | The "reveal moment" UX for showing random amount is not implemented.                                                      |
-| **Pool expiration / refund** | Contract has no mechanism for creator to reclaim unclaimed funds.                                                         |
-| **Pool cancellation**        | Once created, a pool cannot be cancelled. Funds are locked until all shares are claimed.                                  |
-| **Contract deployment**      | Deployed to Tempo Moderato testnet at `0x3886199015edfB471D93C01519918976F211E3dF`. Address stored in `src/constants.ts`. |
+| Feature                      | Notes                                                                                                                                                                         |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Lucky Split frontend UI**  | Stub pages exist at `/app/create`, `/app/packets`, `/app/claims` but no pool creation form, claim flow, or share link generation. Contract is ready but no frontend calls it. |
+| **QR scanning**              | `qrcode.react` generates QR codes, but there is NO scanning library installed. `html5-qrcode` is not a dependency.                                                            |
+| **Dynamic QR**               | No pre-filled amount QR codes. Current QR just encodes wallet address.                                                                                                        |
+| **Claim reveal animation**   | The "reveal moment" UX for showing random amount is not implemented.                                                                                                          |
+| **Pool expiration / refund** | Contract has no mechanism for creator to reclaim unclaimed funds.                                                                                                             |
+| **Pool cancellation**        | Once created, a pool cannot be cancelled. Funds are locked until all shares are claimed.                                                                                      |
+| **Contract deployment**      | Deployed to Tempo Moderato testnet at `0x3886199015edfB471D93C01519918976F211E3dF`. Address stored in `src/constants.ts`.                                                     |
 
 ## Project Structure
 
@@ -67,7 +69,8 @@ privy-tempo/
     ├── providers/
     │   └── PrivyProvider.tsx        # Privy config + React Query
     ├── lib/
-    │   └── utils.ts                # cn() classname utility
+    │   ├── utils.ts                # cn() classname utility
+    │   └── user.ts                 # getDisplayInfo() — shared Privy user display helper
     ├── hooks/
     │   ├── useBalance.ts           # pathUSD balance polling (10s)
     │   ├── useSend.ts              # Single transfer with memo via Tempo SDK
@@ -96,9 +99,15 @@ privy-tempo/
     └── app/
         ├── layout.tsx              # Root layout with Privy provider, Geist fonts
         ├── globals.css             # Design tokens, Tailwind theme, Packet utilities
-        ├── page.tsx                # Landing page (437 lines)
-        ├── login/page.tsx          # Login page (266 lines)
-        ├── app/page.tsx            # Authenticated dashboard stub (35 lines)
+        ├── page.tsx                # Landing page (500 lines)
+        ├── login/page.tsx          # Login page (497 lines)
+        ├── app/
+        │   ├── layout.tsx          # Shared app layout: header, balance strip, tab bar, auth guard
+        │   ├── template.tsx        # Enter animation wrapper (motion.div fade+slide)
+        │   ├── page.tsx            # Redirects to /app/create
+        │   ├── create/page.tsx     # Create tab content
+        │   ├── packets/page.tsx    # Packets tab content
+        │   └── claims/page.tsx     # Claims tab content
         ├── template/page.tsx       # Main wallet interface (134 lines)
         └── api/
             ├── find/route.ts       # POST: resolve phone/email → wallet address via Privy
@@ -142,6 +151,7 @@ privy-tempo/
 | Smart Contract | Solidity (Foundry)                     | 0.8.13 / 0.8.25              |
 | Styling        | Tailwind CSS v4 + shadcn/ui (new-york) | 4.x                          |
 | Animation      | Motion (formerly framer-motion)        | 12.23.26                     |
+| Number Anim    | @number-flow/react                     | 0.5.11                       |
 | QR Generation  | qrcode.react                           | 4.2.0                        |
 | Data Fetching  | TanStack React Query                   | 5.90.12                      |
 | Validation     | Zod                                    | 4.1.13                       |
@@ -483,6 +493,17 @@ The visual identity blends four pillars:
 ### CSS Custom Properties
 
 All Packet tokens are prefixed `--pkt-*` and exposed as Tailwind classes via `@theme inline` in `globals.css`. The breakpoint for desktop layout is `md:` (768px) across all pages.
+
+### Animation: NumberFlow
+
+`@number-flow/react` is installed for smooth animated number transitions. Use `<NumberFlow />` wherever dollar amounts, balances, or counts change dynamically:
+
+```tsx
+import NumberFlow from '@number-flow/react'
+;<NumberFlow value={42.15} format={{ style: 'currency', currency: 'USD' }} />
+```
+
+Good candidates: balance display, claim reveal amount, pool remaining amount, leaderboard scores, stat counters.
 
 ### Component Patterns
 
