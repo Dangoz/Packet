@@ -8,7 +8,7 @@
  * 4. Serialize signed tx and broadcast via eth_sendRawTransaction
  */
 
-import { alphaUsd } from '@/constants'
+import { pathUsd } from '@/constants'
 import { useWallets } from '@privy-io/react-auth'
 import { useState } from 'react'
 import { createPublicClient, http, encodeFunctionData, parseUnits, type Address, type Hex } from 'viem'
@@ -19,9 +19,9 @@ import { TransactionEnvelopeTempo, SignatureEnvelope } from 'tempo.ts/ox'
 const tempoModerato = Chain.define({
   id: 42431,
   name: 'Tempo Moderato',
-  nativeCurrency: { name: 'AlphaUSD', symbol: 'aUSD', decimals: 6 },
+  nativeCurrency: { name: 'pathUSD', symbol: 'pathUSD', decimals: 6 },
   rpcUrls: { default: { http: ['https://rpc.moderato.tempo.xyz'] } },
-  feeToken: alphaUsd,
+  feeToken: pathUsd,
 })()
 
 export interface Recipient {
@@ -81,11 +81,11 @@ export function useBatchSendRaw() {
 
       // 3. Resolve addresses and get token metadata
       const addresses = await Promise.all(recipients.map((r) => resolveAddress(r.email)))
-      const metadata = await publicClient.token.getMetadata({ token: alphaUsd })
+      const metadata = await publicClient.token.getMetadata({ token: pathUsd })
 
       // 4. Build calls array
       const calls = recipients.map((recipient, i) => ({
-        to: alphaUsd as Address,
+        to: pathUsd as Address,
         data: encodeFunctionData({
           abi: Abis.tip20,
           functionName: 'transfer',
@@ -116,7 +116,7 @@ export function useBatchSendRaw() {
         gas: gasEstimate * 2n, // Buffer for batch
         maxFeePerGas: feeData.maxFeePerGas,
         maxPriorityFeePerGas: feeData.maxPriorityFeePerGas,
-        feeToken: alphaUsd as Address,
+        feeToken: pathUsd as Address,
       })
 
       // 9. Get sign payload (the hash to sign)

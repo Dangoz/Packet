@@ -1,4 +1,4 @@
-import { alphaUsd } from '@/constants'
+import { pathUsd } from '@/constants'
 import { useWallets } from '@privy-io/react-auth'
 import { useState } from 'react'
 import { tempoActions } from 'tempo.ts/viem'
@@ -18,11 +18,11 @@ import {
 const tempoModerato = defineChain({
   id: 42431,
   name: 'Tempo Moderato',
-  nativeCurrency: { name: 'AlphaUSD', symbol: 'aUSD', decimals: 6 },
+  nativeCurrency: { name: 'pathUSD', symbol: 'pathUSD', decimals: 6 },
   rpcUrls: {
     default: { http: ['https://rpc.moderato.tempo.xyz'] },
   },
-  feeToken: alphaUsd,
+  feeToken: pathUsd,
 })
 
 export function useSend() {
@@ -67,14 +67,14 @@ export function useSend() {
         .extend(tempoActions())
 
       const metadata = await publicClient.token.getMetadata({
-        token: alphaUsd,
+        token: pathUsd,
       })
       const recipient = await getAddress(to)
       const { receipt } = await client.token.transferSync({
         to: recipient,
         amount: parseUnits(amount, metadata.decimals),
         memo: stringToHex(memo || to),
-        token: alphaUsd,
+        token: pathUsd,
       })
 
       setTxHash(receipt.transactionHash)

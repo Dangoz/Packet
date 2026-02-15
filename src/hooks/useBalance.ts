@@ -1,4 +1,4 @@
-import { alphaUsd } from '@/constants'
+import { pathUsd } from '@/constants'
 import { useEffect, useState } from 'react'
 import { Abis } from 'tempo.ts/viem'
 import { Address, createPublicClient, defineChain, formatUnits, http } from 'viem'
@@ -7,11 +7,11 @@ import { Address, createPublicClient, defineChain, formatUnits, http } from 'vie
 const tempoModerato = defineChain({
   id: 42431,
   name: 'Tempo Moderato',
-  nativeCurrency: { name: 'AlphaUSD', symbol: 'aUSD', decimals: 6 },
+  nativeCurrency: { name: 'pathUSD', symbol: 'pathUSD', decimals: 6 },
   rpcUrls: {
     default: { http: ['https://rpc.moderato.tempo.xyz'] },
   },
-  feeToken: alphaUsd,
+  feeToken: pathUsd,
 })
 
 const publicClient = createPublicClient({
@@ -37,18 +37,18 @@ export function useBalance(address: string | undefined) {
       try {
         const [balanceResult, decimalsResult, symbolResult] = await Promise.all([
           publicClient.readContract({
-            address: alphaUsd,
+            address: pathUsd,
             abi: Abis.tip20,
             functionName: 'balanceOf',
             args: [address as Address],
           }),
           publicClient.readContract({
-            address: alphaUsd,
+            address: pathUsd,
             abi: Abis.tip20,
             functionName: 'decimals',
           }),
           publicClient.readContract({
-            address: alphaUsd,
+            address: pathUsd,
             abi: Abis.tip20,
             functionName: 'symbol',
           }),

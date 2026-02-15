@@ -5,17 +5,17 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { defineChain } from 'viem'
 
-const alphaUsd = '0x20c0000000000000000000000000000000000001'
+const pathUsd = '0x20c0000000000000000000000000000000000000'
 
 // Define Tempo Moderato chain
 const tempo = defineChain({
   id: 42431,
   name: 'Tempo Moderato',
-  nativeCurrency: { name: 'AlphaUSD', symbol: 'aUSD', decimals: 6 },
+  nativeCurrency: { name: 'pathUSD', symbol: 'pathUSD', decimals: 6 },
   rpcUrls: {
     default: { http: ['https://rpc.moderato.tempo.xyz'] },
   },
-  feeToken: alphaUsd,
+  feeToken: pathUsd,
 })
 
 const queryClient = new QueryClient()
