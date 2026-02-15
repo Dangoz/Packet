@@ -10,6 +10,7 @@
 
 import { pathUsd } from '@/constants'
 import { txToast } from '@/lib/txToast'
+import { estimateBatchGas } from '@/lib/tempo'
 import { useWallets } from '@privy-io/react-auth'
 import { useState } from 'react'
 import { createPublicClient, http, encodeFunctionData, parseUnits, type Address, type Hex } from 'viem'
@@ -88,27 +89,21 @@ export function useBatchSendRaw() {
         }),
       }))
 
-      // 5. Get gas estimate
-      const gasEstimate = await publicClient.estimateGas({
-        account: wallet.address as Address,
-        to: calls[0].to,
-        data: calls[0].data,
-      })
+      // 5. Estimate gas for the full batch, fee data, and nonce in parallel
+      const [gasEstimate, feeData, nonce] = await Promise.all([
+        estimateBatchGas(wallet.address as Address, calls),
+        publicClient.estimateFeesPerGas(),
+        publicClient.getTransactionCount({
+          address: wallet.address as Address,
+        }),
+      ])
 
-      // 6. Get fee data
-      const feeData = await publicClient.estimateFeesPerGas()
-
-      // 7. Get nonce
-      const nonce = await publicClient.getTransactionCount({
-        address: wallet.address as Address,
-      })
-
-      // 8. Build Tempo transaction envelope
+      // 6. Build Tempo transaction envelope
       const envelope = TransactionEnvelopeTempo.from({
         chainId: tempoModerato.id,
         calls,
         nonce: BigInt(nonce),
-        gas: gasEstimate * 2n, // Buffer for batch
+        gas: gasEstimate,
         maxFeePerGas: feeData.maxFeePerGas,
         maxPriorityFeePerGas: feeData.maxPriorityFeePerGas,
         feeToken: pathUsd as Address,

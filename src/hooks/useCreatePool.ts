@@ -12,6 +12,7 @@
 import { pathUsd, packetPoolAddress } from '@/constants'
 import { packetPoolAbi } from '@/abi/PacketPool'
 import { txToast } from '@/lib/txToast'
+import { estimateBatchGas } from '@/lib/tempo'
 import { useWallets } from '@privy-io/react-auth'
 import { useState } from 'react'
 import {
@@ -107,13 +108,9 @@ export function useCreatePool() {
         },
       ]
 
-      // Get gas estimate, fee data, and nonce
+      // Estimate gas for the full batch, fee data, and nonce in parallel
       const [gasEstimate, feeData, nonce] = await Promise.all([
-        publicClient.estimateGas({
-          account: wallet.address as Address,
-          to: calls[0].to,
-          data: calls[0].data,
-        }),
+        estimateBatchGas(wallet.address as Address, calls),
         publicClient.estimateFeesPerGas(),
         publicClient.getTransactionCount({
           address: wallet.address as Address,
@@ -125,7 +122,7 @@ export function useCreatePool() {
         chainId: tempoModerato.id,
         calls,
         nonce: BigInt(nonce),
-        gas: gasEstimate * 3n,
+        gas: gasEstimate,
         maxFeePerGas: feeData.maxFeePerGas,
         maxPriorityFeePerGas: feeData.maxPriorityFeePerGas,
         feeToken: pathUsd as Address,

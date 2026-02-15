@@ -182,8 +182,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               </span>
               <span className="font-mono text-[9px] tracking-widest text-pkt-text-tertiary">PathUSD</span>
             </div>
-            <span className="hidden sm:inline font-mono text-[10px] italic tracking-[0.15em] text-pkt-accent/40">
-              tempo.moderato
+            <span className="hidden items-center gap-2 sm:flex font-mono text-[10px] uppercase tracking-wider">
+              <span className="text-pkt-accent/50">{'//'}</span>
+              <span className="text-pkt-text-tertiary">Tempo Moderato</span>
             </span>
           </div>
 
