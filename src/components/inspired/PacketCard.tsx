@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils'
+import { ChevronRight } from 'lucide-react'
 
 export function PacketCard({
   children,
@@ -16,7 +17,7 @@ export function PacketCard({
       {header && (
         <div className="border-b border-pkt-border bg-white/[0.03] px-5 py-4">
           <h2 className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-pkt-text">
-            <span className="font-mono text-pkt-accent">{'//'}</span>
+            <ChevronRight className="h-3.5 w-3.5 text-pkt-accent" />
             {header}
           </h2>
         </div>

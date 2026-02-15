@@ -9,6 +9,7 @@
  */
 
 import { pathUsd } from '@/constants'
+import { txToast } from '@/lib/txToast'
 import { useWallets } from '@privy-io/react-auth'
 import { useState } from 'react'
 import { createPublicClient, http, encodeFunctionData, parseUnits, type Address, type Hex } from 'viem'
@@ -46,32 +47,26 @@ export function useBatchSendRaw() {
   const sendBatch = async (recipients: Recipient[]) => {
     setResult({ txHash: null, status: 'building', error: null })
 
-    console.log('All wallets:', wallets)
+    const t = txToast()
 
     // Find the Privy embedded wallet (not MetaMask or other injected wallets)
     const wallet = wallets.find((w) => w.walletClientType === 'privy')
     if (!wallet?.address) {
-      console.log(
-        'Available wallet types:',
-        wallets.map((w) => w.walletClientType),
-      )
       setResult({
         txHash: null,
         status: 'error',
         error: 'No Privy embedded wallet found. Login with email/SMS to use batch transactions.',
       })
+      t.error('No Privy embedded wallet found')
       return
     }
 
-    console.log('Using Privy embedded wallet:', wallet)
-    console.log('Wallet methods:', Object.keys(wallet))
-
     try {
+      t.loading('Building batch transaction...')
+
       // 1. Switch chain and get provider
       await wallet.switchChain(tempoModerato.id)
       const provider = await wallet.getEthereumProvider()
-      console.log('Provider:', provider)
-      console.log('Provider methods:', Object.keys(provider))
 
       // 2. Create public client for RPC calls
       const publicClient = createPublicClient({
@@ -121,21 +116,18 @@ export function useBatchSendRaw() {
 
       // 9. Get sign payload (the hash to sign)
       const signPayload = TransactionEnvelopeTempo.getSignPayload(envelope)
-      console.log('Sign payload:', signPayload)
 
       setResult({ txHash: null, status: 'signing', error: null })
+      t.loading('Awaiting signature...')
 
       // 10. Sign the hash with secp256k1_sign
-      console.log('Calling secp256k1_sign with payload:', signPayload)
       const rawSignature = await provider.request({
         method: 'secp256k1_sign',
         params: [signPayload],
       })
-      console.log('Raw signature:', rawSignature)
 
       // 11. Parse signature into r, s, v components
       const signature = parseSignature(rawSignature)
-      console.log('Parsed signature:', signature)
 
       // 12. Serialize the signed transaction
       const signedTx = TransactionEnvelopeTempo.serialize(envelope, {
@@ -148,9 +140,9 @@ export function useBatchSendRaw() {
           },
         }),
       })
-      console.log('Signed tx:', signedTx)
 
       setResult({ txHash: null, status: 'broadcasting', error: null })
+      t.loading('Broadcasting to Tempo...')
 
       // 13. Broadcast via eth_sendRawTransaction directly to Tempo RPC
       const response = await fetch('https://rpc.moderato.tempo.xyz', {
@@ -165,7 +157,6 @@ export function useBatchSendRaw() {
       })
 
       const rpcResult = await response.json()
-      console.log('RPC result:', rpcResult)
 
       if (rpcResult.error) {
         throw new Error(rpcResult.error.message || 'RPC error')
@@ -173,12 +164,14 @@ export function useBatchSendRaw() {
 
       const txHash = rpcResult.result as string
       setResult({ txHash, status: 'success', error: null })
+      t.success(txHash, 'Batch payment sent')
 
       return txHash
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Unknown error'
       console.error('Batch send error:', err)
       setResult({ txHash: null, status: 'error', error: errorMsg })
+      t.error(errorMsg, 'Batch payment failed')
     }
   }
 

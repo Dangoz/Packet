@@ -1,4 +1,5 @@
 export { GridBackground } from './GridBackground'
+export { PacketLogo } from './PacketLogo'
 export { PacketButton } from './PacketButton'
 export { PacketCard } from './PacketCard'
 export { PacketBadge } from './PacketBadge'

@@ -4,6 +4,7 @@ import { usePrivy } from '@privy-io/react-auth'
 import { useRouter } from 'next/navigation'
 import { useEffect, useMemo } from 'react'
 import { motion } from 'motion/react'
+import { PacketLogo } from '@/components/inspired'
 
 const fade = (delay: number) => ({
   initial: { opacity: 0, y: 24 },
@@ -197,12 +198,7 @@ export default function LandingPage() {
             NAV
         ════════════════════════════════════════════════════ */}
         <motion.nav {...fade(0)} className="mx-auto flex max-w-7xl items-center justify-between px-8 pt-6 md:px-12">
-          <div className="flex items-center gap-3">
-            <div className="grid h-8 w-8 place-items-center border border-pkt-border bg-white/[0.06] -skew-x-6">
-              <div className="h-2 w-2 bg-pkt-accent skew-x-6" />
-            </div>
-            <span className="font-mono text-sm font-bold uppercase tracking-[3px] text-pkt-text">Packet</span>
-          </div>
+          <PacketLogo />
 
           <div className="flex items-center gap-6">
             <div className="hidden items-center gap-2 sm:flex">

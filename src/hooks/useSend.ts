@@ -1,4 +1,5 @@
 import { pathUsd } from '@/constants'
+import { txToast } from '@/lib/txToast'
 import { useWallets } from '@privy-io/react-auth'
 import { useState } from 'react'
 import { tempoActions } from 'tempo.ts/viem'
@@ -37,16 +38,21 @@ export function useSend() {
     setError(null)
     setTxHash(null)
 
+    const t = txToast()
+
     // Use the Privy embedded wallet, not MetaMask
     const wallet = wallets.find((w) => w.walletClientType === 'privy')
     if (!wallet?.address) {
       const errMsg = 'No Privy embedded wallet found'
       setError(errMsg)
       setIsSending(false)
+      t.error(errMsg)
       throw new Error(errMsg)
     }
 
     try {
+      t.loading('Preparing transfer...')
+
       // Switch wallet to Tempo Moderato chain
       await wallet.switchChain(tempoModerato.id)
 
@@ -70,6 +76,9 @@ export function useSend() {
         token: pathUsd,
       })
       const recipient = await getAddress(to)
+
+      t.loading('Sending payment...')
+
       const { receipt } = await client.token.transferSync({
         to: recipient,
         amount: parseUnits(amount, metadata.decimals),
@@ -78,9 +87,11 @@ export function useSend() {
       })
 
       setTxHash(receipt.transactionHash)
+      t.success(receipt.transactionHash, 'Payment sent')
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to send'
       setError(errorMessage)
+      t.error(errorMessage, 'Payment failed')
       throw err
     } finally {
       setIsSending(false)

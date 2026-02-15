@@ -4,17 +4,20 @@ import { usePrivy, useWallets } from '@privy-io/react-auth'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import Link from 'next/link'
-import NumberFlow from '@number-flow/react'
+import NumberFlow, { continuous } from '@number-flow/react'
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover'
-import { GridBackground } from '@/components/inspired'
+import { Plus, Inbox, Gift, Fingerprint } from 'lucide-react'
+import { GridBackground, PacketLogo } from '@/components/inspired'
 import { useBalance } from '@/hooks/useBalance'
 import { getDisplayInfo } from '@/lib/user'
 import { cn } from '@/lib/utils'
 
+const TAB_ICONS = { plus: Plus, inbox: Inbox, gift: Gift } as const
+
 const TABS = [
-  { key: 'create', href: '/app/create', label: 'Create', prefix: '[+]' },
-  { key: 'packets', href: '/app/packets', label: 'Packets', prefix: '//' },
-  { key: 'claims', href: '/app/claims', label: 'Claims', prefix: '//' },
+  { key: 'create', href: '/app/create', label: 'Create', icon: 'plus' },
+  { key: 'packets', href: '/app/packets', label: 'Packets', icon: 'inbox' },
+  { key: 'claims', href: '/app/claims', label: 'Claims', icon: 'gift' },
 ] as const
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
@@ -51,11 +54,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-40">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3 md:px-8">
           {/* Logo */}
-          <Link href="/app/create" className="flex items-center gap-3">
-            <div className="grid h-8 w-8 place-items-center border border-pkt-border bg-white/[0.06] -skew-x-6">
-              <div className="h-2 w-2 bg-pkt-accent skew-x-6" />
-            </div>
-            <span className="font-mono text-sm font-bold uppercase tracking-[3px] text-pkt-text">Packet</span>
+          <Link href="/app/create">
+            <PacketLogo />
           </Link>
 
           {/* Profile */}
@@ -101,7 +101,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               {/* Identity */}
               <div className="border-b border-pkt-border px-4 py-4">
                 <div className="mb-3 flex items-center gap-2">
-                  <span className="font-mono text-[9px] text-pkt-accent/60">{'// identity'}</span>
+                  <Fingerprint className="inline h-3 w-3 text-pkt-accent/60" />
+                  <span className="font-mono text-[9px] text-pkt-accent/60">identity</span>
                   <div className="h-px flex-1 bg-pkt-border" />
                 </div>
                 <div className="flex items-center gap-3">
@@ -158,81 +159,62 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       </header>
 
       {/* ═══ Content ═══ */}
-      <main className="mx-auto max-w-5xl px-4 py-6 md:px-8">
-        {/* Balance strip */}
-        <div className="relative mb-6 border border-pkt-border bg-pkt-surface/50 px-5 py-4">
-          {/* Corner ticks */}
-          <div className="pointer-events-none absolute -left-px -top-px h-3 w-3 border-l-2 border-t-2 border-pkt-accent/40" />
-          <div className="pointer-events-none absolute -bottom-px -right-px h-3 w-3 border-b-2 border-r-2 border-pkt-accent/40" />
-
-          <div className="flex items-center justify-between">
-            {/* Left: section marker + amount */}
-            <div className="flex items-center gap-4">
-              {/* Diamond accent */}
-              <div className="hidden h-3 w-3 rotate-45 border border-pkt-accent/30 bg-pkt-accent/10 sm:block" />
-
-              <div>
-                <div className="mb-1 flex items-center gap-2">
-                  <span className="font-mono text-[9px] text-pkt-accent/60">{'// balance'}</span>
-                  <div className="hidden h-px w-8 bg-pkt-border sm:block" />
-                </div>
-                <div className="flex items-baseline gap-2.5">
-                  <span className="font-mono text-2xl font-bold text-pkt-text md:text-3xl">
-                    {balanceLoading ? (
-                      <span className="text-pkt-text-tertiary">{'$\u2014'}</span>
-                    ) : (
-                      <NumberFlow
-                        value={rawBalance}
-                        format={{
-                          style: 'currency',
-                          currency: 'USD',
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        }}
-                      />
-                    )}
-                  </span>
-                  <span className="font-mono text-[10px] uppercase tracking-widest text-pkt-text-tertiary">
-                    {'[ PathUSD ]'}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right: network indicator */}
-            <div className="hidden flex-col items-end gap-1 sm:flex">
-              <span className="font-mono text-[9px] uppercase tracking-widest text-pkt-text-tertiary">
-                {'[ network ]'}
+      <main className="px-4 pt-10 pb-6 md:px-8">
+        <div className="mx-auto max-w-5xl">
+          {/* Balance strip */}
+          <div className="flex items-center justify-between border-b border-pkt-border px-1 pb-3">
+            <div className="flex items-baseline gap-2">
+              <span className="font-mono text-xl font-bold text-pkt-text">
+                <NumberFlow
+                  value={rawBalance}
+                  format={{
+                    style: 'currency',
+                    currency: 'USD',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  }}
+                  transformTiming={{ duration: 300, easing: 'ease-out' }}
+                  spinTiming={{ duration: 1400, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
+                  trend={1}
+                  plugins={[continuous]}
+                  willChange
+                />
               </span>
-              <div className="flex items-center gap-1.5">
-                <span className="h-1 w-1 rounded-full bg-emerald-400 shadow-[0_0_4px_rgba(52,211,153,0.5)]" />
-                <span className="font-mono text-[10px] text-pkt-text-secondary">tempo.moderato</span>
-              </div>
+              <span className="font-mono text-[9px] tracking-widest text-pkt-text-tertiary">PathUSD</span>
             </div>
+            <span className="hidden sm:inline font-mono text-[10px] italic tracking-[0.15em] text-pkt-accent/40">
+              tempo.moderato
+            </span>
           </div>
-        </div>
 
-        {/* Tab Navigation */}
-        <div className="mb-6 flex border border-pkt-border">
-          {TABS.map((tab) => (
-            <Link
-              key={tab.key}
-              href={tab.href}
-              className={cn(
-                'flex flex-1 items-center justify-center gap-2 py-3 font-mono text-xs uppercase tracking-wider transition-colors',
-                activeTab === tab.key
-                  ? 'bg-pkt-accent font-bold text-black'
-                  : 'bg-transparent text-pkt-text-secondary hover:bg-white/[0.03]',
-              )}
-            >
-              <span className={activeTab === tab.key ? 'text-black/60' : 'text-pkt-text-tertiary'}>{tab.prefix}</span>
-              {tab.label}
-            </Link>
-          ))}
+          {/* Tab Navigation */}
+          <div className="flex gap-0">
+            {TABS.map((tab) => {
+              const Icon = TAB_ICONS[tab.icon]
+              return (
+                <Link
+                  key={tab.key}
+                  href={tab.href}
+                  className={cn(
+                    'flex flex-1 items-center justify-center gap-1.5 py-2 font-mono text-[11px] uppercase tracking-wider transition-colors',
+                    activeTab === tab.key
+                      ? 'border-b-2 border-pkt-accent font-bold text-pkt-accent'
+                      : 'border-b-2 border-transparent text-pkt-text-tertiary hover:text-pkt-text-secondary',
+                  )}
+                >
+                  <Icon
+                    className={cn(
+                      'h-3 w-3',
+                      activeTab === tab.key ? 'text-pkt-accent/70' : 'text-pkt-text-tertiary/60',
+                    )}
+                  />
+                  {tab.label}
+                </Link>
+              )
+            })}
+          </div>
+          {children}
         </div>
-
-        {/* Page content */}
-        {children}
       </main>
     </GridBackground>
   )
