@@ -13,7 +13,7 @@ import { txToast } from '@/lib/txToast'
 import { estimateBatchGas } from '@/lib/tempo'
 import { useWallets } from '@privy-io/react-auth'
 import { useState } from 'react'
-import { createPublicClient, http, encodeFunctionData, parseUnits, type Address, type Hex } from 'viem'
+import { createPublicClient, http, encodeFunctionData, parseUnits, concat, type Address, type Hex } from 'viem'
 import { tempoActions, Abis, Chain } from 'tempo.ts/viem'
 import { TransactionEnvelopeTempo, SignatureEnvelope } from 'tempo.ts/ox'
 
@@ -123,40 +123,37 @@ export function useBatchSendRaw() {
       // 11. Parse signature into r, s, v components
       const signature = parseSignature(rawSignature)
 
-      // 12. Serialize the signed transaction
-      const signedTx = TransactionEnvelopeTempo.serialize(envelope, {
-        signature: SignatureEnvelope.from({
-          type: 'secp256k1',
-          signature: {
-            r: BigInt(signature.r),
-            s: BigInt(signature.s),
-            yParity: signature.yParity,
-          },
-        }),
+      // 12. Serialize with feePayerSignature: null to mark for sponsorship,
+      // then append sender address + magic bytes so sponsor can infer sender
+      const sig = SignatureEnvelope.from({
+        type: 'secp256k1',
+        signature: {
+          r: BigInt(signature.r),
+          s: BigInt(signature.s),
+          yParity: signature.yParity,
+        },
       })
+      const serialized = TransactionEnvelopeTempo.serialize(envelope, {
+        signature: sig,
+        feePayerSignature: null,
+      })
+      const signedTx = concat([serialized, wallet.address as Address, '0xfeefeefeefee'])
 
       setResult({ txHash: null, status: 'broadcasting', error: null })
       t.loading('Broadcasting to Tempo...')
 
-      // 13. Broadcast via eth_sendRawTransaction directly to Tempo RPC
-      const response = await fetch('https://rpc.moderato.tempo.xyz', {
+      // 13. Send to our API route for fee payer co-signing + broadcast
+      const sponsorResponse = await fetch('/api/sponsor', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          jsonrpc: '2.0',
-          method: 'eth_sendRawTransaction',
-          params: [signedTx],
-          id: 1,
-        }),
+        body: JSON.stringify({ serializedTx: signedTx }),
       })
-
-      const rpcResult = await response.json()
-
-      if (rpcResult.error) {
-        throw new Error(rpcResult.error.message || 'RPC error')
+      const sponsorResult = await sponsorResponse.json()
+      if (sponsorResult.error) {
+        throw new Error(sponsorResult.error || 'Fee sponsor error')
       }
 
-      const txHash = rpcResult.result as string
+      const txHash = sponsorResult.hash as string
       setResult({ txHash, status: 'success', error: null })
       t.success(txHash, 'Batch payment sent')
 

@@ -13,7 +13,7 @@ import { packetPoolAbi } from '@/abi/PacketPool'
 import { txToast } from '@/lib/txToast'
 import { useWallets } from '@privy-io/react-auth'
 import { useState } from 'react'
-import { createPublicClient, http, encodeFunctionData, type Address, type Hex } from 'viem'
+import { createPublicClient, http, encodeFunctionData, concat, type Address, type Hex } from 'viem'
 import { tempoActions, Chain } from 'tempo.ts/viem'
 import { TransactionEnvelopeTempo, SignatureEnvelope } from 'tempo.ts/ox'
 
@@ -72,23 +72,29 @@ export function useClaim(poolId: Hex) {
         },
       ]
 
-      // Gas estimate with contract revert handling
-      let gasEstimate: bigint
-      try {
-        gasEstimate = await publicClient.estimateGas({
-          account: wallet.address as Address,
-          to: calls[0].to,
-          data: calls[0].data,
-        })
-      } catch (err) {
-        const msg = err instanceof Error ? err.message : String(err)
-        // Map contract revert names to user-friendly messages
+      // Use eth_call to detect contract reverts without balance check (unlike eth_estimateGas)
+      const callResponse = await fetch('https://rpc.moderato.tempo.xyz', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          jsonrpc: '2.0',
+          method: 'eth_call',
+          params: [{ from: wallet.address, to: calls[0].to, data: calls[0].data }, 'latest'],
+          id: 1,
+        }),
+      })
+      const callResult = await callResponse.json()
+      if (callResult.error) {
+        const msg = callResult.error.message || ''
         if (msg.includes('AlreadyClaimed')) throw new Error('You already claimed from this packet')
         if (msg.includes('PoolExpired')) throw new Error('This packet has expired')
         if (msg.includes('PoolFullyClaimed')) throw new Error('All shares have been claimed')
         if (msg.includes('PoolNotFound')) throw new Error('Packet not found')
-        throw err
+        throw new Error(msg || 'Transaction would fail')
       }
+
+      // Hardcoded gas — claim() is bounded, no need for eth_estimateGas (which checks balance)
+      const gasEstimate = 500_000n
 
       const [feeData, nonce] = await Promise.all([
         publicClient.estimateFeesPerGas(),
@@ -116,38 +122,38 @@ export function useClaim(poolId: Hex) {
 
       const signature = parseSignature(rawSignature)
 
-      const signedTx = TransactionEnvelopeTempo.serialize(envelope, {
-        signature: SignatureEnvelope.from({
-          type: 'secp256k1',
-          signature: {
-            r: BigInt(signature.r),
-            s: BigInt(signature.s),
-            yParity: signature.yParity,
-          },
-        }),
+      const sig = SignatureEnvelope.from({
+        type: 'secp256k1',
+        signature: {
+          r: BigInt(signature.r),
+          s: BigInt(signature.s),
+          yParity: signature.yParity,
+        },
       })
+
+      // Serialize with feePayerSignature: null to mark for sponsorship,
+      // then append sender address + magic bytes so sponsor can infer sender
+      const serialized = TransactionEnvelopeTempo.serialize(envelope, {
+        signature: sig,
+        feePayerSignature: null,
+      })
+      const signedTx = concat([serialized, wallet.address as Address, '0xfeefeefeefee'])
 
       setStatus('broadcasting')
       t.loading('Broadcasting to Tempo...')
 
-      const response = await fetch('https://rpc.moderato.tempo.xyz', {
+      // Send to our API route for fee payer co-signing + broadcast
+      const sponsorResponse = await fetch('/api/sponsor', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          jsonrpc: '2.0',
-          method: 'eth_sendRawTransaction',
-          params: [signedTx],
-          id: 1,
-        }),
+        body: JSON.stringify({ serializedTx: signedTx }),
       })
-
-      const rpcResult = await response.json()
-
-      if (rpcResult.error) {
-        throw new Error(rpcResult.error.message || 'RPC error')
+      const sponsorResult = await sponsorResponse.json()
+      if (sponsorResult.error) {
+        throw new Error(sponsorResult.error || 'Fee sponsor error')
       }
 
-      const hash = rpcResult.result as string
+      const hash = sponsorResult.hash as string
       setTxHash(hash)
 
       // Read claimed amount — Tempo instant finality means state is already updated
