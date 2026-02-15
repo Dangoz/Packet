@@ -1,0 +1,878 @@
+<html vid="0">
+  <head vid="1">
+    <meta charset="UTF-8" vid="2" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      vid="3"
+    />
+    <title vid="4">Tempo Red Packet</title>
+    <style vid="5">
+      :root {
+        --bg-color: #0e0f11;
+        --surface-color: rgba(26, 28, 33, 0.85);
+        --surface-active: #e6e6e6;
+        --text-primary: #ffffff;
+        --text-inverse: #111111;
+        --text-secondary: #8e9399;
+        --text-tertiary: #5d6166;
+        --accent-yellow: #dce558;
+        --border-light: rgba(255, 255, 255, 0.15);
+        --border-active: #ffffff;
+        --highlight-blue: #4d8eff;
+        --radius-lg: 4px;
+        --radius-md: 2px;
+        --radius-sm: 2px;
+        --radius-pill: 2px;
+        --font-main:
+          'SF Mono', 'Roboto Mono', Consolas, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
+          sans-serif;
+        --font-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: var(--bg-color);
+        background-image:
+          radial-gradient(circle at 50% 0%, #2c3038 0%, transparent 60%),
+          linear-gradient(0deg, #0e0f11 0%, #1a1c21 100%);
+        color: var(--text-primary);
+        font-family: var(--font-ui);
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 40px 40px;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 24px 24px 0 24px;
+        position: relative;
+        z-index: 10;
+      }
+
+      .logo-mark {
+        width: 32px;
+        height: 32px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid var(--border-light);
+        display: grid;
+        place-items: center;
+        transform: skewX(-10deg);
+      }
+
+      .logo-mark::after {
+        content: '';
+        width: 8px;
+        height: 8px;
+        background: var(--accent-yellow);
+        transform: skewX(10deg);
+      }
+
+      .pill-badge {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 12px;
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-sm);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--text-secondary);
+        backdrop-filter: blur(4px);
+      }
+
+      .pill-badge svg {
+        width: 12px;
+        height: 12px;
+        fill: var(--text-secondary);
+      }
+
+      .main-container {
+        padding: 24px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        z-index: 1;
+        position: relative;
+      }
+
+      .product-visual {
+        width: 100%;
+        height: 240px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+
+      .product-visual::before {
+        content: '';
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transform: rotate(45deg);
+        z-index: 0;
+      }
+
+      .packet-preview {
+        width: 140px;
+        height: 200px;
+        background: linear-gradient(135deg, rgba(255, 59, 48, 0.8) 0%, rgba(216, 0, 0, 0.8) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2;
+        backdrop-filter: blur(5px);
+
+        clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+      }
+
+      .packet-preview::before {
+        content: '';
+        position: absolute;
+        top: 24px;
+        width: 50px;
+        height: 50px;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+      }
+
+      .packet-preview.gold {
+        background: linear-gradient(135deg, rgba(230, 184, 0, 0.8) 0%, rgba(179, 143, 0, 0.8) 100%);
+      }
+      .packet-preview.dark {
+        background: linear-gradient(135deg, rgba(51, 51, 51, 0.9) 0%, rgba(0, 0, 0, 0.9) 100%);
+      }
+
+      .packet-label {
+        position: absolute;
+        bottom: 20px;
+        font-size: 9px;
+        font-family: var(--font-main);
+        color: rgba(255, 255, 255, 0.9);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      .tag-pill {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: var(--accent-yellow);
+        color: var(--text-inverse);
+        padding: 2px 8px;
+        font-size: 9px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        clip-path: polygon(0 0, 100% 0, 100% 70%, 90% 100%, 0 100%);
+      }
+
+      .hero-text {
+        text-align: left;
+        margin-top: -10px;
+        margin-bottom: 10px;
+        padding-left: 8px;
+        border-left: 2px solid var(--accent-yellow);
+      }
+
+      h1 {
+        font-size: 28px;
+        font-weight: 700;
+        margin: 0;
+        letter-spacing: 0.5px;
+        line-height: 1.1;
+        text-transform: uppercase;
+        color: var(--text-primary);
+      }
+
+      .sub-head {
+        color: var(--text-secondary);
+        font-size: 13px;
+        margin-top: 8px;
+        max-width: 90%;
+        line-height: 1.5;
+        font-family: var(--font-main);
+      }
+
+      .highlight-text {
+        color: var(--accent-yellow);
+        font-size: 11px;
+        margin-top: 6px;
+        font-family: var(--font-main);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .config-panel {
+        background: var(--surface-color);
+        border: 1px solid var(--border-light);
+
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        backdrop-filter: blur(20px);
+        position: relative;
+      }
+
+      .config-panel::after {
+        content: '';
+        position: absolute;
+        top: -1px;
+        left: -1px;
+        right: -1px;
+        bottom: -1px;
+        background:
+          linear-gradient(to right, white 2px, transparent 2px) 0 0,
+          linear-gradient(to bottom, white 2px, transparent 2px) 0 0,
+          linear-gradient(to left, white 2px, transparent 2px) 100% 0,
+          linear-gradient(to bottom, white 2px, transparent 2px) 100% 0,
+          linear-gradient(to right, white 2px, transparent 2px) 0 100%,
+          linear-gradient(to top, white 2px, transparent 2px) 0 100%,
+          linear-gradient(to left, white 2px, transparent 2px) 100% 100%,
+          linear-gradient(to top, white 2px, transparent 2px) 100% 100%;
+        background-size: 8px 8px;
+        background-repeat: no-repeat;
+        opacity: 0.3;
+        pointer-events: none;
+      }
+
+      .config-header {
+        background: rgba(255, 255, 255, 0.03);
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--border-light);
+        margin-bottom: 0;
+      }
+
+      .config-header h2 {
+        font-size: 14px;
+        margin: 0;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .config-header h2::before {
+        content: '//';
+        color: var(--accent-yellow);
+        font-family: var(--font-main);
+      }
+
+      .config-header p {
+        font-size: 12px;
+        color: var(--text-secondary);
+        margin: 4px 0 0 0;
+        font-family: var(--font-main);
+      }
+
+      .stats-row {
+        display: flex;
+        gap: 16px;
+        padding-top: 12px;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        margin-top: 12px;
+      }
+
+      .stat {
+        font-size: 10px;
+        color: var(--text-tertiary);
+        font-weight: 600;
+        font-family: var(--font-main);
+        text-transform: uppercase;
+      }
+
+      .panel-content {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .section-label {
+        font-size: 11px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        display: block;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .option-grid {
+        display: grid;
+        gap: 8px;
+      }
+
+      .option-card {
+        border: 1px solid var(--border-light);
+        background: rgba(0, 0, 0, 0.2);
+        padding: 14px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 70px;
+      }
+
+      .option-card:hover {
+        border-color: rgba(255, 255, 255, 0.3);
+      }
+
+      .option-card.active {
+        background: var(--surface-active);
+        border-color: var(--surface-active);
+      }
+
+      .option-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+
+      .option-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text-primary);
+        font-family: var(--font-main);
+        letter-spacing: -0.5px;
+      }
+
+      .option-card.active .option-title {
+        color: var(--text-inverse);
+      }
+
+      .option-meta {
+        font-size: 10px;
+        color: var(--text-secondary);
+        margin-top: 4px;
+        text-transform: uppercase;
+      }
+
+      .option-card.active .option-meta {
+        color: rgba(0, 0, 0, 0.6);
+      }
+
+      .option-price {
+        font-size: 12px;
+        font-weight: 600;
+        text-align: right;
+        margin-top: auto;
+        color: var(--accent-yellow);
+        font-family: var(--font-main);
+      }
+
+      .option-card.active .option-price {
+        color: var(--text-inverse);
+      }
+
+      .bolt-icon {
+        width: 12px;
+        height: 12px;
+        fill: var(--text-secondary);
+      }
+
+      .option-card.active .bolt-icon {
+        fill: var(--text-inverse);
+      }
+
+      .amount-row {
+        display: flex;
+        gap: 8px;
+      }
+
+      .amount-card {
+        flex: 1;
+        border: 1px solid var(--border-light);
+        background: rgba(0, 0, 0, 0.2);
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .amount-card.active {
+        background: var(--surface-active);
+        border-color: var(--surface-active);
+      }
+
+      .amount-card.active * {
+        color: var(--text-inverse) !important;
+        fill: var(--text-inverse) !important;
+      }
+
+      .amount-card.disabled {
+        opacity: 0.4;
+        pointer-events: none;
+        border-style: dashed;
+      }
+
+      .amount-val {
+        font-size: 13px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: var(--text-primary);
+        font-family: var(--font-main);
+      }
+
+      .amount-sub {
+        font-size: 10px;
+        color: var(--text-secondary);
+        margin-top: 4px;
+        text-transform: uppercase;
+      }
+
+      .add-badge {
+        font-size: 10px;
+        margin-top: 10px;
+        font-weight: 600;
+        color: var(--accent-yellow);
+        font-family: var(--font-main);
+      }
+
+      .swatch-container {
+        display: flex;
+        gap: 12px;
+      }
+
+      .swatch {
+        width: 40px;
+        height: 40px;
+        border: 1px solid var(--border-light);
+        cursor: pointer;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.2s;
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .swatch.active {
+        border: 1px solid var(--accent-yellow);
+        box-shadow: 0 0 10px rgba(220, 229, 88, 0.2);
+      }
+
+      .swatch-fill {
+        width: 24px;
+        height: 24px;
+      }
+
+      .swatch-red {
+        background: #d80000;
+      }
+      .swatch-gold {
+        background: #e6b800;
+      }
+      .swatch-dark {
+        background: #333333;
+      }
+
+      .swatch-label {
+        position: absolute;
+        bottom: -20px;
+        font-size: 9px;
+        color: var(--text-secondary);
+        opacity: 0;
+        transition: opacity 0.2s;
+        text-transform: uppercase;
+        font-family: var(--font-main);
+      }
+
+      .swatch.active .swatch-label {
+        opacity: 1;
+        color: var(--accent-yellow);
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .mini-stat-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border-light);
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .mini-stat-icon {
+        width: 20px;
+        height: 20px;
+        margin-bottom: 6px;
+        display: grid;
+        place-items: center;
+      }
+
+      .mini-stat-icon svg {
+        fill: var(--text-secondary);
+      }
+
+      .stat {
+        font-size: 9px;
+        letter-spacing: 0.5px;
+      }
+
+      .footer-action {
+        background: rgba(14, 15, 17, 0.95);
+        border-top: 1px solid var(--border-light);
+        padding: 20px 24px 32px 24px;
+        position: sticky;
+        bottom: 0;
+        z-index: 100;
+        backdrop-filter: blur(10px);
+      }
+
+      .price-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 16px;
+      }
+
+      .total-label {
+        font-size: 11px;
+        color: var(--text-secondary);
+        margin-bottom: 4px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .total-amount {
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -1px;
+        font-family: var(--font-main);
+        color: var(--text-primary);
+      }
+
+      .total-amount span {
+        font-size: 16px;
+        vertical-align: top;
+        margin-left: 2px;
+        font-weight: 400;
+        color: var(--text-secondary);
+      }
+
+      .primary-btn {
+        background: var(--accent-yellow);
+        color: var(--text-inverse);
+        width: 100%;
+        padding: 16px;
+        border-radius: 4px;
+        border: none;
+        font-size: 14px;
+        font-weight: 800;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        position: relative;
+        gap: 10px;
+
+        clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 0px) 100%, 0 100%, 0 10px);
+      }
+
+      .primary-btn span:last-child {
+        width: 6px;
+        height: 6px;
+        background: var(--text-inverse);
+        border-radius: 0;
+        position: absolute;
+        right: 20px;
+      }
+
+      .primary-btn:active {
+        transform: scale(0.98);
+      }
+
+      .delivery-note {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 16px;
+        font-size: 10px;
+        color: var(--text-tertiary);
+        font-family: var(--font-main);
+        text-transform: uppercase;
+      }
+
+      .delivery-note svg {
+        width: 10px;
+        height: 10px;
+        fill: var(--text-tertiary);
+        margin-right: 4px;
+        vertical-align: middle;
+      }
+
+      .fade-enter {
+        animation: fadeIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body vid="6">
+    <nav class="nav" vid="7">
+      <div class="logo-mark" vid="8"></div>
+      <div class="pill-badge" vid="9">
+        <svg viewBox="0 0 24 24" vid="10">
+          <path
+            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.47z"
+            vid="11"
+          ></path>
+        </svg>
+        Tempo Mainnet
+      </div>
+    </nav>
+
+    <div class="main-container" vid="12">
+      <div vid="13">
+        <div class="hero-text fade-enter" style="animation-delay: 0.1s" vid="14">
+          <div class="tag-pill" vid="15">New</div>
+          <h1 vid="16">Lunar Packet</h1>
+          <p class="sub-head" vid="17">Securely send crypto assets with on-chain verification for the New Year.</p>
+          <p class="highlight-text" vid="18">Gas fees from $0.001 / transaction</p>
+        </div>
+
+        <div class="product-visual fade-enter" style="animation-delay: 0.2s" vid="19">
+          <div class="packet-preview" id="packetVisual" vid="20">
+            <div class="packet-label" vid="21">TEMPO</div>
+          </div>
+        </div>
+
+        <div class="stats-grid fade-enter" style="animation-delay: 0.3s" vid="22">
+          <div class="mini-stat-card" vid="23">
+            <div class="mini-stat-icon" vid="24">
+              <svg width="12" height="12" viewBox="0 0 24 24" vid="25">
+                <path d="M13 2L3 14h9v8l10-12h-9z" vid="26"></path>
+              </svg>
+            </div>
+            <span class="stat" vid="27">Instant</span>
+          </div>
+          <div class="mini-stat-card" vid="28">
+            <div class="mini-stat-icon" vid="29">
+              <svg width="12" height="12" viewBox="0 0 24 24" vid="30">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" vid="31"></path>
+              </svg>
+            </div>
+            <span class="stat" vid="32">Zero-Kn</span>
+          </div>
+          <div class="mini-stat-card" vid="33">
+            <div class="mini-stat-icon" vid="34">
+              <svg width="12" height="12" viewBox="0 0 24 24" vid="35">
+                <path
+                  d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"
+                  vid="36"
+                ></path>
+              </svg>
+            </div>
+            <span class="stat" vid="37">Smart</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="config-panel fade-enter" style="animation-delay: 0.4s" vid="38">
+        <div class="config-header" vid="39">
+          <h2 vid="40">Configure Packet</h2>
+          <p vid="41">Choose asset type and confirm quantity.</p>
+          <div class="stats-row" vid="42">
+            <span class="stat" vid="43">1.0 Asset</span>
+            <span class="stat" vid="44">2.0 Amount</span>
+            <span class="stat" vid="45">3.0 Design</span>
+          </div>
+        </div>
+
+        <div class="panel-content" vid="46">
+          <div vid="47">
+            <span class="section-label" vid="48">Asset</span>
+            <div class="option-grid" vid="49">
+              <div class="option-card active" onclick="selectAsset(this, 38.0)" vid="50">
+                <div class="option-top" vid="51">
+                  <div vid="52">
+                    <div class="option-title" vid="53">Stable Coin (USDT)</div>
+                    <div class="option-meta" vid="54">Pegged for stability</div>
+                  </div>
+                </div>
+                <div class="option-price" vid="55">From $1.00</div>
+              </div>
+
+              <div class="option-card" onclick="selectAsset(this, 1850.0)" vid="56">
+                <div class="option-top" vid="57">
+                  <div vid="58">
+                    <div class="option-title" vid="59">Ethereum (ETH)</div>
+                    <div class="option-meta" vid="60">Layer 1 Native</div>
+                  </div>
+                </div>
+                <div class="option-price" vid="61">From $1,850</div>
+              </div>
+
+              <div class="option-card" onclick="selectAsset(this, 0.45)" vid="62">
+                <div class="option-top" vid="63">
+                  <div vid="64">
+                    <div class="option-title" vid="65">Tempo (TMP)</div>
+                    <div class="option-meta" vid="66">Network Token</div>
+                  </div>
+                  <div class="bolt-icon" vid="67">
+                    <svg viewBox="0 0 24 24" vid="68"><path d="M7 2v11h3v9l7-12h-4l4-8z" vid="69"></path></svg>
+                  </div>
+                </div>
+                <div class="option-price" vid="70">From $0.45</div>
+              </div>
+            </div>
+          </div>
+
+          <div vid="71">
+            <span class="section-label" vid="72">Quantity</span>
+            <div class="amount-row" vid="73">
+              <div class="amount-card active" onclick="selectAmount(this, 1)" vid="74">
+                <div class="amount-val" vid="75">
+                  Standard
+                  <svg class="bolt-icon" viewBox="0 0 24 24" vid="76">
+                    <path d="M7 2v11h3v9l7-12h-4l4-8z" vid="77"></path>
+                  </svg>
+                </div>
+                <div class="amount-sub" vid="78">Single Recipient</div>
+                <div class="add-badge" vid="79">+ $0.00</div>
+              </div>
+
+              <div class="amount-card disabled" vid="80">
+                <div class="amount-val" vid="81">Batch</div>
+                <div class="amount-sub" vid="82">Multi-send</div>
+                <div class="add-badge" vid="83">+ $5.00</div>
+              </div>
+            </div>
+          </div>
+
+          <div vid="84">
+            <span class="section-label" vid="85">Skin</span>
+            <div class="swatch-container" vid="86">
+              <div class="swatch active" onclick="changeSkin('red', this)" vid="87">
+                <div class="swatch-fill swatch-red" vid="88"></div>
+                <span class="swatch-label" vid="89">Luck</span>
+              </div>
+              <div class="swatch" onclick="changeSkin('gold', this)" vid="90">
+                <div class="swatch-fill swatch-gold" vid="91"></div>
+                <span class="swatch-label" vid="92">Wealth</span>
+              </div>
+              <div class="swatch" onclick="changeSkin('dark', this)" vid="93">
+                <div class="swatch-fill swatch-dark" vid="94"></div>
+                <span class="swatch-label" vid="95">Carbon</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-action" vid="96">
+      <div class="total-label" vid="97">Est. Total</div>
+      <div class="price-row" vid="98">
+        <div class="total-amount" id="totalDisplay" vid="99">$38,000<span vid="100">.00</span></div>
+      </div>
+
+      <button class="primary-btn" vid="101">
+        Connect Wallet &amp; Send
+        <span vid="102"></span>
+      </button>
+
+      <div class="delivery-note" vid="103">
+        <span vid="104"
+          ><svg viewBox="0 0 24 24" vid="105">
+            <path
+              d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"
+              vid="106"
+            ></path>
+          </svg>
+          Confirm in ~12s</span
+        >
+        <span vid="107">Gas Opt. Enabled</span>
+      </div>
+    </div>
+
+    <script vid="108">
+      const packetVisual = document.getElementById('packetVisual')
+      const totalDisplay = document.getElementById('totalDisplay')
+      let currentPrice = 38000
+
+      function changeSkin(skin, el) {
+        packetVisual.className = 'packet-preview ' + skin
+        document.querySelectorAll('.swatch').forEach((s) => s.classList.remove('active'))
+        el.classList.add('active')
+      }
+
+      function selectAsset(el, price) {
+        document.querySelectorAll('.option-card').forEach((c) => c.classList.remove('active'))
+        el.classList.add('active')
+
+        if (price < 10) {
+          totalDisplay.innerHTML = '$100<span>.00</span>'
+        } else {
+          totalDisplay.innerHTML = '$' + price.toLocaleString() + '<span>.00</span>'
+        }
+      }
+
+      function selectAmount(el, multiplier) {
+        document.querySelectorAll('.amount-card').forEach((c) => {
+          if (!c.classList.contains('disabled')) c.classList.remove('active')
+        })
+        el.classList.add('active')
+      }
+    </script>
+  </body>
+</html>

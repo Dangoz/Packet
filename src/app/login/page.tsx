@@ -24,7 +24,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-black">
-      <p className="text-white/50 text-sm">Signing you in...</p>
+      <span className="text-white/50 text-sm">Signing you in...</span>
     </div>
   )
 }

@@ -1,26 +1,57 @@
 @import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Base colors */
-  --background: #000000;
-  --foreground: #ffffff;
+  /* shadcn base (dark theme as default) */
+  --radius: 0.125rem;
+  --background: #050505;
+  --foreground: #eeeeee;
+  --card: rgba(20, 22, 26, 0.85);
+  --card-foreground: #eeeeee;
+  --popover: #0a0a0a;
+  --popover-foreground: #eeeeee;
+  --primary: #ffd000;
+  --primary-foreground: #000000;
+  --secondary: rgba(255, 255, 255, 0.06);
+  --secondary-foreground: #eeeeee;
+  --muted: rgba(255, 255, 255, 0.06);
+  --muted-foreground: #888888;
+  --accent: rgba(255, 208, 0, 0.1);
+  --accent-foreground: #ffd000;
+  --destructive: #ef4444;
+  --border: rgba(255, 255, 255, 0.15);
+  --input: rgba(255, 255, 255, 0.15);
+  --ring: #ffd000;
+  --chart-1: #ffd000;
+  --chart-2: #eeeeee;
+  --chart-3: #888888;
+  --chart-4: #555555;
+  --chart-5: #333333;
 
-  /* Glass effects */
-  --glass-bg: rgba(255, 255, 255, 0.03);
-  --glass-bg-hover: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-border-hover: rgba(255, 255, 255, 0.2);
+  /* Packet design tokens */
+  --pkt-bg: #050505;
+  --pkt-surface: rgba(20, 22, 26, 0.85);
+  --pkt-surface-hover: rgba(30, 32, 36, 0.9);
+  --pkt-accent: #ffd000;
+  --pkt-accent-dim: rgba(255, 208, 0, 0.15);
+  --pkt-text: #eeeeee;
+  --pkt-text-secondary: #888888;
+  --pkt-text-tertiary: #555555;
+  --pkt-border: rgba(255, 255, 255, 0.15);
+  --pkt-border-accent: #ffd000;
+  --pkt-red: rgba(200, 20, 20, 0.8);
 
-  /* Accent colors */
-  --accent-primary: rgba(59, 130, 246, 0.6);
-  --accent-primary-solid: #3b82f6;
-  --accent-success: rgba(16, 185, 129, 0.6);
-  --accent-success-solid: #10b981;
+  /* Clip paths */
+  --pkt-clip-sm: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+  --pkt-clip-md: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  --pkt-clip-lg: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
 
-  /* Text colors */
-  --text-primary: rgba(255, 255, 255, 0.95);
-  --text-secondary: rgba(255, 255, 255, 0.6);
-  --text-tertiary: rgba(255, 255, 255, 0.4);
+  /* Grid overlay */
+  --pkt-grid-size: 40px;
+  --pkt-grid-color: rgba(255, 255, 255, 0.03);
 }
 
 @theme inline {
@@ -28,12 +59,55 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  /* Packet Tailwind classes */
+  --color-pkt-bg: var(--pkt-bg);
+  --color-pkt-surface: var(--pkt-surface);
+  --color-pkt-surface-hover: var(--pkt-surface-hover);
+  --color-pkt-accent: var(--pkt-accent);
+  --color-pkt-accent-dim: var(--pkt-accent-dim);
+  --color-pkt-text: var(--pkt-text);
+  --color-pkt-text-secondary: var(--pkt-text-secondary);
+  --color-pkt-text-tertiary: var(--pkt-text-tertiary);
+  --color-pkt-border: var(--pkt-border);
+  --color-pkt-border-accent: var(--pkt-border-accent);
+  --color-pkt-red: var(--pkt-red);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--pkt-bg);
+  color: var(--pkt-text);
+  font-family:
+    var(--font-geist-sans),
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
 }
 
 /* Interactive elements cursor */
@@ -46,4 +120,62 @@ a,
 label[for],
 .cursor-pointer {
   cursor: pointer;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+}
+
+/* === Packet utility classes === */
+
+/* Grid overlay background */
+.pkt-grid-overlay {
+  position: relative;
+}
+.pkt-grid-overlay::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--pkt-grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--pkt-grid-color) 1px, transparent 1px);
+  background-size: var(--pkt-grid-size) var(--pkt-grid-size);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Corner tick decorations */
+.pkt-corner-ticks {
+  position: relative;
+}
+.pkt-corner-ticks::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background:
+    linear-gradient(to right, var(--pkt-accent) 2px, transparent 2px) 0 0,
+    linear-gradient(to bottom, var(--pkt-accent) 2px, transparent 2px) 0 0,
+    linear-gradient(to left, var(--pkt-accent) 2px, transparent 2px) 100% 0,
+    linear-gradient(to bottom, var(--pkt-accent) 2px, transparent 2px) 100% 0,
+    linear-gradient(to right, var(--pkt-accent) 2px, transparent 2px) 0 100%,
+    linear-gradient(to top, var(--pkt-accent) 2px, transparent 2px) 0 100%,
+    linear-gradient(to left, var(--pkt-accent) 2px, transparent 2px) 100% 100%,
+    linear-gradient(to top, var(--pkt-accent) 2px, transparent 2px) 100% 100%;
+  background-size: 8px 8px;
+  background-repeat: no-repeat;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* Clip-path cut corners */
+.pkt-clip-sm {
+  clip-path: var(--pkt-clip-sm);
+}
+.pkt-clip-md {
+  clip-path: var(--pkt-clip-md);
+}
+.pkt-clip-lg {
+  clip-path: var(--pkt-clip-lg);
 }

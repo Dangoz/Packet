@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Naur',
-  description: 'your money Naur',
+  title: 'Packet',
+  description: 'Instant P2P payments with Lucky Split on Tempo',
 }
 
 export default function RootLayout({

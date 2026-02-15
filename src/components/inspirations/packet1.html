@@ -1,0 +1,937 @@
+<html lang="en" vid="0">
+  <head vid="1">
+    <meta charset="UTF-8" vid="2" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      vid="3"
+    />
+    <title vid="4">Tempo Red Packet</title>
+    <style vid="5">
+      :root {
+        --bg-color: #050505;
+        --surface-color: rgba(20, 20, 20, 0.85);
+        --surface-active: #1a1a1a;
+        --text-primary: #eeeeee;
+        --text-secondary: #888888;
+        --text-tertiary: #555555;
+
+        --accent-color: #ffd000;
+
+        --border-light: #333333;
+        --border-active: #ffd000;
+        --highlight-blue: #ffd000;
+        --highlight-green: #ffd000;
+
+        --radius-lg: 2px;
+        --radius-md: 2px;
+        --radius-sm: 1px;
+        --radius-pill: 0px;
+
+        --font-main: 'Roboto Mono', 'Courier New', -apple-system, BlinkMacSystemFont, monospace;
+        --font-display: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: var(--bg-color);
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 40px 40px;
+        color: var(--text-primary);
+        font-family: var(--font-display);
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      body::before {
+        content: '';
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        right: 20px;
+        bottom: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        pointer-events: none;
+        z-index: 999;
+        clip-path: polygon(
+          0 0,
+          20px 0,
+          20px 1px,
+          1px 1px,
+          1px 20px,
+          0 20px,
+          0 calc(100% - 20px),
+          1px calc(100% - 20px),
+          1px calc(100% - 1px),
+          20px calc(100% - 1px),
+          20px 100%,
+          0 100%,
+          100% 100%,
+          calc(100% - 20px) 100%,
+          calc(100% - 20px) calc(100% - 1px),
+          calc(100% - 1px) calc(100% - 1px),
+          calc(100% - 1px) calc(100% - 20px),
+          100% calc(100% - 20px),
+          100% 0,
+          calc(100% - 20px) 0,
+          calc(100% - 20px) 1px,
+          calc(100% - 1px) 1px,
+          calc(100% - 1px) 20px,
+          100% 20px
+        );
+      }
+
+      .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 24px 24px 0 24px;
+        position: relative;
+        z-index: 10;
+      }
+
+      .logo-mark {
+        width: 32px;
+        height: 32px;
+        background: var(--accent-color);
+        clip-path: polygon(0 0, 100% 0, 100% 70%, 70% 100%, 0 100%);
+        display: grid;
+        place-items: center;
+      }
+
+      .logo-mark::after {
+        content: '';
+        width: 8px;
+        height: 8px;
+        background: #000;
+        border-radius: 0;
+      }
+
+      .pill-badge {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 4px 12px;
+        background: rgba(0, 0, 0, 0.6);
+        border: 1px solid var(--border-light);
+        border-left: 3px solid var(--accent-color);
+        border-radius: 0;
+        font-size: 11px;
+        font-family: var(--font-main);
+        font-weight: 400;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      .pill-badge svg {
+        width: 10px;
+        height: 10px;
+        fill: var(--accent-color);
+      }
+
+      .main-container {
+        padding: 24px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .product-visual {
+        width: 100%;
+        height: 280px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        background: radial-gradient(circle at center, rgba(255, 208, 0, 0.05) 0%, transparent 60%);
+      }
+
+      .product-visual::after {
+        content: '';
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        border: 1px dashed rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        z-index: 0;
+      }
+
+      .packet-preview {
+        width: 160px;
+        height: 220px;
+        background: rgba(200, 20, 20, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+
+        clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        position: relative;
+        transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2;
+        backdrop-filter: blur(4px);
+      }
+
+      .packet-preview::before {
+        content: '';
+        position: absolute;
+        top: 24px;
+        width: 60px;
+        height: 60px;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        background: repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 2px,
+          rgba(255, 255, 255, 0.1) 2px,
+          rgba(255, 255, 255, 0.1) 4px
+        );
+      }
+
+      .packet-preview.gold {
+        background: rgba(200, 160, 0, 0.8);
+      }
+      .packet-preview.dark {
+        background: rgba(30, 30, 30, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .packet-label {
+        position: absolute;
+        bottom: 20px;
+        font-size: 10px;
+        font-family: var(--font-main);
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 2px 4px;
+      }
+
+      .tag-pill {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: var(--accent-color);
+        color: black;
+        padding: 4px 8px;
+        border-radius: 0;
+        font-size: 9px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+      }
+
+      .hero-text {
+        text-align: left;
+        margin-top: -20px;
+        margin-bottom: 10px;
+        padding-left: 8px;
+        border-left: 2px solid rgba(255, 255, 255, 0.1);
+      }
+
+      h1 {
+        font-size: 36px;
+        font-weight: 700;
+        margin: 0;
+        letter-spacing: -0.02em;
+        line-height: 1;
+        text-transform: uppercase;
+        color: #fff;
+      }
+
+      .sub-head {
+        color: var(--text-secondary);
+        font-size: 13px;
+        margin-top: 12px;
+        max-width: 90%;
+        line-height: 1.5;
+      }
+
+      .highlight-text {
+        color: var(--accent-color);
+        font-family: var(--font-main);
+        font-size: 10px;
+        margin-top: 8px;
+        text-transform: uppercase;
+        opacity: 0.8;
+      }
+
+      .config-panel {
+        background: rgba(15, 15, 15, 0.6);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--border-light);
+        border-radius: 0;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+        position: relative;
+      }
+
+      .config-panel::after {
+        content: '';
+        position: absolute;
+        top: -1px;
+        right: -1px;
+        width: 20px;
+        height: 20px;
+        border-top: 2px solid var(--accent-color);
+        border-right: 2px solid var(--accent-color);
+      }
+      .config-panel::before {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: -1px;
+        width: 20px;
+        height: 20px;
+        border-bottom: 2px solid var(--accent-color);
+        border-left: 2px solid var(--accent-color);
+      }
+
+      .config-header {
+        background: transparent;
+        padding: 0 0 16px 0;
+        border-radius: 0;
+        margin-bottom: 8px;
+        border-bottom: 1px dashed var(--border-light);
+      }
+
+      .config-header h2 {
+        font-size: 16px;
+        margin: 0;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .config-header h2::before {
+        content: '';
+        display: block;
+        width: 4px;
+        height: 16px;
+        background: var(--accent-color);
+      }
+
+      .config-header p {
+        font-size: 12px;
+        color: var(--text-tertiary);
+        margin: 6px 0 0 12px;
+        font-family: var(--font-main);
+      }
+
+      .stats-row {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 12px;
+        border-top: none;
+        margin-top: 12px;
+      }
+
+      .stat {
+        font-size: 9px;
+        color: var(--text-tertiary);
+        font-weight: 500;
+        font-family: var(--font-main);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .section-label {
+        font-size: 11px;
+        font-weight: 700;
+        margin-bottom: 12px;
+        display: block;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+
+      .option-grid {
+        display: grid;
+        gap: 12px;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .option-card {
+        border: 1px solid var(--border-light);
+        border-radius: 0;
+        padding: 16px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        position: relative;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 80px;
+      }
+
+      .option-card:hover {
+        border-color: #666;
+      }
+
+      .option-card.active {
+        border-color: var(--border-active);
+        border-width: 1px;
+        background: linear-gradient(90deg, rgba(255, 208, 0, 0.05) 0%, transparent 100%);
+        box-shadow: inset 2px 0 0 var(--accent-color);
+      }
+
+      .option-card.active::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 16px 16px 0;
+        border-color: transparent var(--accent-color) transparent transparent;
+      }
+
+      .option-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+
+      .option-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-primary);
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+      }
+
+      .option-meta {
+        font-size: 10px;
+        color: var(--text-secondary);
+        margin-top: 4px;
+        font-family: var(--font-main);
+      }
+
+      .option-price {
+        font-size: 12px;
+        font-weight: 500;
+        text-align: right;
+        margin-top: auto;
+        color: var(--accent-color);
+        font-family: var(--font-main);
+      }
+
+      .bolt-icon {
+        width: 10px;
+        height: 10px;
+        fill: var(--accent-color);
+      }
+
+      .amount-row {
+        display: flex;
+        gap: 12px;
+      }
+
+      .amount-card {
+        flex: 1;
+        border: 1px solid var(--border-light);
+        border-radius: 0;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.02);
+        transition: 0.2s all;
+      }
+
+      .amount-card.active {
+        border: 1px solid var(--border-active);
+        background: rgba(255, 208, 0, 0.05);
+        box-shadow: 0 0 12px rgba(255, 208, 0, 0.1);
+      }
+
+      .amount-card.disabled {
+        opacity: 0.4;
+        pointer-events: none;
+        background: transparent;
+        border-style: dashed;
+      }
+
+      .amount-val {
+        font-size: 13px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        text-transform: uppercase;
+      }
+
+      .amount-sub {
+        font-size: 10px;
+        color: var(--text-secondary);
+        margin-top: 4px;
+        font-family: var(--font-main);
+      }
+
+      .add-badge {
+        font-size: 10px;
+        margin-top: 12px;
+        font-weight: 500;
+        color: var(--accent-color);
+        font-family: var(--font-main);
+      }
+
+      .swatch-container {
+        display: flex;
+        gap: 16px;
+      }
+
+      .swatch {
+        width: 44px;
+        height: 44px;
+        border-radius: 0;
+        border: 1px solid var(--border-light);
+        cursor: pointer;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: transform 0.2s;
+        clip-path: polygon(20% 0, 100% 0, 100% 80%, 80% 100%, 0 100%, 0 20%);
+      }
+
+      .swatch.active {
+        border: 1px solid var(--accent-color);
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .swatch-fill {
+        width: 20px;
+        height: 20px;
+        border-radius: 0;
+      }
+
+      .swatch-red {
+        background: #d80000;
+        box-shadow: 0 0 5px #d80000;
+      }
+      .swatch-gold {
+        background: #e6b800;
+        box-shadow: 0 0 5px #e6b800;
+      }
+      .swatch-dark {
+        background: #555555;
+        box-shadow: 0 0 5px #555555;
+      }
+
+      .swatch-label {
+        position: absolute;
+        bottom: -20px;
+        font-size: 9px;
+        color: var(--text-secondary);
+        opacity: 0;
+        transition: opacity 0.2s;
+        text-transform: uppercase;
+        font-family: var(--font-main);
+      }
+
+      .swatch.active .swatch-label {
+        opacity: 1;
+        color: var(--accent-color);
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .mini-stat-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border-light);
+        border-radius: 0;
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .mini-stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 6px;
+        height: 6px;
+        border-top: 1px solid var(--text-tertiary);
+        border-left: 1px solid var(--text-tertiary);
+      }
+
+      .mini-stat-icon {
+        width: 24px;
+        height: 24px;
+        background: transparent;
+        border-radius: 0;
+        margin-bottom: 8px;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .mini-stat-icon svg {
+        fill: var(--text-secondary);
+      }
+
+      .mini-stat-card:hover .mini-stat-icon svg {
+        fill: var(--accent-color);
+      }
+
+      .footer-action {
+        background: var(--bg-color);
+        border-top: 1px solid var(--border-light);
+        padding: 20px 24px 32px 24px;
+        position: sticky;
+        bottom: 0;
+        z-index: 100;
+      }
+
+      .footer-action::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: 24px;
+        width: 40px;
+        height: 3px;
+        background: var(--accent-color);
+      }
+
+      .price-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 16px;
+      }
+
+      .total-label {
+        font-size: 11px;
+        color: var(--text-secondary);
+        margin-bottom: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+
+      .total-amount {
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: #fff;
+        font-family: var(--font-main);
+      }
+
+      .total-amount span {
+        font-size: 16px;
+        vertical-align: top;
+        margin-left: 2px;
+        font-weight: 400;
+        color: var(--text-tertiary);
+      }
+
+      .primary-btn {
+        background: var(--accent-color);
+        color: black;
+        width: 100%;
+        padding: 18px 24px;
+        border-radius: 0;
+        border: none;
+        font-size: 14px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+
+        clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+        transition: filter 0.2s;
+      }
+
+      .primary-btn:active {
+        filter: brightness(0.9);
+      }
+
+      .primary-btn span:last-child {
+        width: 6px;
+        height: 6px;
+        background: black;
+        border-radius: 0;
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.3);
+      }
+
+      .delivery-note {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 16px;
+        font-size: 9px;
+        color: var(--text-tertiary);
+        font-family: var(--font-main);
+        text-transform: uppercase;
+      }
+
+      .delivery-note svg {
+        width: 10px;
+        height: 10px;
+        fill: var(--text-tertiary);
+        margin-right: 4px;
+        vertical-align: middle;
+      }
+
+      .fade-enter {
+        animation: fadeIn 0.5s ease forwards;
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body vid="6">
+    <nav class="nav" vid="7">
+      <div class="logo-mark" vid="8"></div>
+      <div class="pill-badge" vid="9">
+        <svg viewBox="0 0 24 24" vid="10">
+          <path
+            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.47z"
+            vid="11"
+          ></path>
+        </svg>
+        Mainnet Online
+      </div>
+    </nav>
+
+    <div class="main-container" vid="12">
+      <div vid="13">
+        <div class="hero-text fade-enter" style="animation-delay: 0.1s" vid="14">
+          <div class="tag-pill" vid="15">System Ready</div>
+          <h1 vid="16">Lunar Packet</h1>
+          <p class="sub-head" vid="17">Initialize secure asset transfer protocol. On-chain verification active.</p>
+          <p class="highlight-text" vid="18">Gas fees from $0.001 / tx</p>
+        </div>
+
+        <div class="product-visual fade-enter" style="animation-delay: 0.2s" vid="19">
+          <div class="packet-preview" id="packetVisual" vid="20">
+            <div class="packet-label" vid="21">TEMPO</div>
+          </div>
+        </div>
+
+        <div class="stats-grid fade-enter" style="animation-delay: 0.3s" vid="22">
+          <div class="mini-stat-card" vid="23">
+            <div class="mini-stat-icon" vid="24">
+              <svg width="12" height="12" viewBox="0 0 24 24" vid="25">
+                <path d="M13 2L3 14h9v8l10-12h-9z" vid="26"></path>
+              </svg>
+            </div>
+            <span class="stat" vid="27">Instant</span>
+          </div>
+          <div class="mini-stat-card" vid="28">
+            <div class="mini-stat-icon" vid="29">
+              <svg width="12" height="12" viewBox="0 0 24 24" vid="30">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" vid="31"></path>
+              </svg>
+            </div>
+            <span class="stat" vid="32">Zero-Know</span>
+          </div>
+          <div class="mini-stat-card" vid="33">
+            <div class="mini-stat-icon" vid="34">
+              <svg width="12" height="12" viewBox="0 0 24 24" vid="35">
+                <path
+                  d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"
+                  vid="36"
+                ></path>
+              </svg>
+            </div>
+            <span class="stat" vid="37">Contract</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="config-panel fade-enter" style="animation-delay: 0.4s" vid="38">
+        <div class="config-header" vid="39">
+          <h2 vid="40">Configure Packet</h2>
+          <p vid="41">Select asset parameters.</p>
+          <div class="stats-row" vid="42">
+            <span class="stat" vid="43">1.0 Asset</span>
+            <span class="stat" vid="44">2.0 Amount</span>
+            <span class="stat" vid="45">3.0 Design</span>
+          </div>
+        </div>
+
+        <div vid="46">
+          <span class="section-label" vid="47">Asset Selection</span>
+          <div class="option-grid" vid="48">
+            <div class="option-card active" onclick="selectAsset(this, 38.0)" vid="49">
+              <div class="option-top" vid="50">
+                <div vid="51">
+                  <div class="option-title" vid="52">Stable Coin (USDT)</div>
+                  <div class="option-meta" vid="53">Pegged Asset</div>
+                </div>
+              </div>
+              <div class="option-price" vid="54">Price: $1.00</div>
+            </div>
+
+            <div class="option-card" onclick="selectAsset(this, 1850.0)" vid="55">
+              <div class="option-top" vid="56">
+                <div vid="57">
+                  <div class="option-title" vid="58">Ethereum (ETH)</div>
+                  <div class="option-meta" vid="59">L1 Native</div>
+                </div>
+              </div>
+              <div class="option-price" vid="60">Price: $1,850</div>
+            </div>
+
+            <div class="option-card" onclick="selectAsset(this, 0.45)" vid="61">
+              <div class="option-top" vid="62">
+                <div vid="63">
+                  <div class="option-title" vid="64">Tempo (TMP)</div>
+                  <div class="option-meta" vid="65">Network Token</div>
+                </div>
+                <div class="bolt-icon" vid="66">
+                  <svg viewBox="0 0 24 24" vid="67"><path d="M7 2v11h3v9l7-12h-4l4-8z" vid="68"></path></svg>
+                </div>
+              </div>
+              <div class="option-price" vid="69">Price: $0.45</div>
+            </div>
+          </div>
+        </div>
+
+        <div vid="70">
+          <span class="section-label" vid="71">Quantity</span>
+          <div class="amount-row" vid="72">
+            <div class="amount-card active" onclick="selectAmount(this, 1)" vid="73">
+              <div class="amount-val" vid="74">
+                Standard
+                <svg class="bolt-icon" viewBox="0 0 24 24" vid="75">
+                  <path d="M7 2v11h3v9l7-12h-4l4-8z" vid="76"></path>
+                </svg>
+              </div>
+              <div class="amount-sub" vid="77">Single Target</div>
+              <div class="add-badge" vid="78">+ $0.00</div>
+            </div>
+
+            <div class="amount-card disabled" vid="79">
+              <div class="amount-val" vid="80">Batch</div>
+              <div class="amount-sub" vid="81">Multi-Target [LOCKED]</div>
+              <div class="add-badge" vid="82">+ $5.00</div>
+            </div>
+          </div>
+        </div>
+
+        <div vid="83">
+          <span class="section-label" vid="84">Skin Module</span>
+          <div class="swatch-container" vid="85">
+            <div class="swatch active" onclick="changeSkin('red', this)" vid="86">
+              <div class="swatch-fill swatch-red" vid="87"></div>
+              <span class="swatch-label" vid="88">Luck</span>
+            </div>
+            <div class="swatch" onclick="changeSkin('gold', this)" vid="89">
+              <div class="swatch-fill swatch-gold" vid="90"></div>
+              <span class="swatch-label" vid="91">Wealth</span>
+            </div>
+            <div class="swatch" onclick="changeSkin('dark', this)" vid="92">
+              <div class="swatch-fill swatch-dark" vid="93"></div>
+              <span class="swatch-label" vid="94">Carbon</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-action" vid="95">
+      <div class="total-label" vid="96">Estimated Total</div>
+      <div class="price-row" vid="97">
+        <div class="total-amount" id="totalDisplay" vid="98">$38,000<span vid="99">.00</span></div>
+      </div>
+
+      <button class="primary-btn" vid="100">
+        CONNECT &amp; EXECUTE
+        <span vid="101"></span>
+      </button>
+
+      <div class="delivery-note" vid="102">
+        <span vid="103"
+          ><svg viewBox="0 0 24 24" vid="104">
+            <path
+              d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"
+              vid="105"
+            ></path>
+          </svg>
+          Confirm in ~12s</span
+        >
+        <span vid="106">Gas Optimization: ON</span>
+      </div>
+    </div>
+
+    <script vid="107">
+      const packetVisual = document.getElementById('packetVisual')
+      const totalDisplay = document.getElementById('totalDisplay')
+      let currentPrice = 38000
+
+      function changeSkin(skin, el) {
+        packetVisual.className = 'packet-preview ' + skin
+
+        document.querySelectorAll('.swatch').forEach((s) => s.classList.remove('active'))
+        el.classList.add('active')
+      }
+
+      function selectAsset(el, price) {
+        document.querySelectorAll('.option-card').forEach((c) => c.classList.remove('active'))
+        el.classList.add('active')
+
+        if (price < 10) {
+          totalDisplay.innerHTML = '$100<span>.00</span>'
+        } else {
+          totalDisplay.innerHTML = '$' + price.toLocaleString() + '<span>.00</span>'
+        }
+      }
+
+      function selectAmount(el, multiplier) {
+        document.querySelectorAll('.amount-card').forEach((c) => {
+          if (!c.classList.contains('disabled')) c.classList.remove('active')
+        })
+        el.classList.add('active')
+      }
+    </script>
+  </body>
+</html>
