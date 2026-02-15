@@ -15,6 +15,7 @@ import { txToast } from '@/lib/txToast'
 import { estimateBatchGas } from '@/lib/tempo'
 import { useWallets } from '@privy-io/react-auth'
 import { useState } from 'react'
+import { encodeMemo } from '@/lib/memo'
 import {
   createPublicClient,
   http,
@@ -22,8 +23,6 @@ import {
   parseUnits,
   keccak256,
   encodePacked,
-  stringToHex,
-  pad,
   type Address,
   type Hex,
 } from 'viem'
@@ -47,7 +46,7 @@ export function useCreatePool() {
   const [txHash, setTxHash] = useState<string | null>(null)
   const [poolId, setPoolId] = useState<Hex | null>(null)
 
-  const createPool = async (amount: string, shares: number, memo: string) => {
+  const createPool = async (amount: string, shares: number, memo: string, bannerId: number = 0) => {
     setStatus('building')
     setError(null)
     setTxHash(null)
@@ -55,11 +54,11 @@ export function useCreatePool() {
 
     const t = txToast()
 
-    const wallet = wallets.find((w) => w.walletClientType === 'privy')
+    const wallet = wallets[0]
     if (!wallet?.address) {
       setStatus('error')
-      setError('No Privy embedded wallet found. Login with email/SMS first.')
-      t.error('No Privy embedded wallet found')
+      setError('No wallet found. Login with email/SMS first.')
+      t.error('No wallet found')
       return
     }
 
@@ -82,8 +81,8 @@ export function useCreatePool() {
       )
       setPoolId(generatedPoolId)
 
-      // Encode memo as bytes32
-      const encodedMemo = pad(stringToHex(memo), { size: 32 })
+      // Encode memo as bytes32 with banner ID in last byte
+      const encodedMemo = encodeMemo(memo, bannerId)
 
       // Parse amount to 6 decimals
       const parsedAmount = parseUnits(amount, 6)

@@ -30,8 +30,7 @@ export default function TemplatePage() {
   const [recipient, setRecipient] = useState('')
   const [memo, setMemo] = useState('')
 
-  // Use the Privy embedded wallet, not MetaMask
-  const embeddedWallet = wallets.find((w) => w.walletClientType === 'privy')
+  const embeddedWallet = wallets[0]
   const walletAddress = embeddedWallet?.address || ''
   const { balance, symbol, loading } = useBalance(walletAddress)
   const { send, isSending, error, txHash, reset } = useSend()

@@ -9,7 +9,7 @@ import { useMyClaims, type ClaimData } from '@/hooks/useMyClaims'
 
 export default function ClaimsPage() {
   const { wallets } = useWallets()
-  const wallet = wallets.find((w) => w.walletClientType === 'privy') ?? wallets[0]
+  const wallet = wallets[0]
   const { claims, loading, error } = useMyClaims(wallet?.address)
 
   const totalWon = claims.reduce((sum, c) => sum + parseFloat(c.amount), 0)

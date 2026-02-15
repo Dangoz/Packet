@@ -40,10 +40,9 @@ export function useSend() {
 
     const t = txToast()
 
-    // Use the Privy embedded wallet, not MetaMask
-    const wallet = wallets.find((w) => w.walletClientType === 'privy')
+    const wallet = wallets[0]
     if (!wallet?.address) {
-      const errMsg = 'No Privy embedded wallet found'
+      const errMsg = 'No wallet found'
       setError(errMsg)
       setIsSending(false)
       t.error(errMsg)

@@ -1,8 +1,8 @@
 'use client'
 
-import { usePrivy } from '@privy-io/react-auth'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { usePrivy, useCreateWallet, useWallets } from '@privy-io/react-auth'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { PacketLogo } from '@/components/inspired'
 import { LoginForm } from '@/components/LoginForm'
@@ -103,14 +103,42 @@ function ShufflingPackets() {
 
 /* ── Page ── */
 export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-pkt-bg">
+          <span className="font-mono text-[10px] uppercase tracking-[4px] text-pkt-text-tertiary">
+            {'> initializing_'}
+          </span>
+        </div>
+      }
+    >
+      <LoginPageInner />
+    </Suspense>
+  )
+}
+
+function LoginPageInner() {
   const { ready, authenticated } = usePrivy()
+  const { wallets } = useWallets()
+  const { createWallet } = useCreateWallet()
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const redirect = searchParams.get('redirect') || '/app'
+
+  const creatingWallet = useRef(false)
 
   useEffect(() => {
-    if (ready && authenticated) {
-      router.push('/app')
+    if (!ready || !authenticated) return
+
+    if (wallets.length === 0) {
+      if (creatingWallet.current) return
+      creatingWallet.current = true
+      createWallet().then(() => router.push(redirect))
+    } else {
+      router.push(redirect)
     }
-  }, [ready, authenticated, router])
+  }, [ready, authenticated, wallets.length, createWallet, router, redirect])
 
   if (!ready) {
     return (

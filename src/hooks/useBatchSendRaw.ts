@@ -50,13 +50,12 @@ export function useBatchSendRaw() {
 
     const t = txToast()
 
-    // Find the Privy embedded wallet (not MetaMask or other injected wallets)
-    const wallet = wallets.find((w) => w.walletClientType === 'privy')
+    const wallet = wallets[0]
     if (!wallet?.address) {
       setResult({
         txHash: null,
         status: 'error',
-        error: 'No Privy embedded wallet found. Login with email/SMS to use batch transactions.',
+        error: 'No wallet found. Login with email/SMS to use batch transactions.',
       })
       t.error('No Privy embedded wallet found')
       return

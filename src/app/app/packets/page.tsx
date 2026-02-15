@@ -1,16 +1,22 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import { useWallets } from '@privy-io/react-auth'
 import { motion } from 'motion/react'
-import { ExternalLink, Users, Clock } from 'lucide-react'
+import { Share2 } from 'lucide-react'
 import { PacketCard, PacketBadge, SectionLabel } from '@/components/inspired'
+import { ShareModal } from '@/components/ShareModal'
 import { useMyPools, type PoolData } from '@/hooks/useMyPools'
+import { Progress } from '@/components/ui/progress'
+import { parseBannerId } from '@/lib/memo'
+import { getBannerSrc } from '@/lib/banners'
 
 export default function PacketsPage() {
   const { wallets } = useWallets()
-  const wallet = wallets.find((w) => w.walletClientType === 'privy') ?? wallets[0]
+  const wallet = wallets[0]
   const { pools, loading, error } = useMyPools(wallet?.address)
+  const [sharePool, setSharePool] = useState<PoolData | null>(null)
 
   const active = pools.filter((p) => !p.isFullyClaimed && !p.isExpired)
 
@@ -75,9 +81,9 @@ export default function PacketsPage() {
         </PacketCard>
       )}
 
-      {/* Pool list */}
+      {/* Pool grid */}
       {!loading && !error && pools.length > 0 && (
-        <div className="flex flex-col gap-3">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
           {pools.map((pool, i) => (
             <motion.div
               key={pool.poolId}
@@ -85,126 +91,107 @@ export default function PacketsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.2, delay: i * 0.04 }}
             >
-              <PoolRow pool={pool} />
+              <Link href={`/app/packets/${pool.poolId}`}>
+                <PoolCard pool={pool} onShare={() => setSharePool(pool)} />
+              </Link>
             </motion.div>
           ))}
         </div>
+      )}
+      {sharePool && (
+        <ShareModal
+          isOpen={!!sharePool}
+          onClose={() => setSharePool(null)}
+          poolId={sharePool.poolId}
+          memo={sharePool.memo}
+          amount={sharePool.totalAmount}
+          totalShares={sharePool.totalShares}
+          claimedShares={sharePool.claimedShares}
+        />
       )}
     </div>
   )
 }
 
-function PoolRow({ pool }: { pool: PoolData }) {
-  const progress = pool.totalShares > 0 ? pool.claimedShares / pool.totalShares : 0
-
-  const statusLabel = pool.isFullyClaimed ? 'claimed' : pool.isExpired ? 'expired' : 'active'
-
-  const statusColor = pool.isFullyClaimed
-    ? 'text-pkt-text-tertiary'
-    : pool.isExpired
-      ? 'text-red-400'
-      : 'text-emerald-400'
-
-  const statusDot = pool.isFullyClaimed
-    ? 'bg-pkt-text-tertiary'
-    : pool.isExpired
-      ? 'bg-red-400 shadow-[0_0_6px_rgba(248,113,113,0.5)]'
-      : 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.5)]'
-
-  const expiresDate = new Date(pool.expiresAt * 1000)
-  const now = new Date()
-  const hoursLeft = Math.max(0, Math.floor((expiresDate.getTime() - now.getTime()) / 3600000))
-  const expiryLabel = pool.isExpired
-    ? `Expired ${formatRelative(pool.expiresAt)}`
-    : hoursLeft < 1
-      ? 'Expires <1h'
-      : `${hoursLeft}h left`
+function PoolCard({ pool, onShare }: { pool: PoolData; onShare: () => void }) {
+  const progress = pool.totalShares > 0 ? (pool.claimedShares / pool.totalShares) * 100 : 0
+  const isActive = !pool.isFullyClaimed && !pool.isExpired
+  const isDimmed = pool.isFullyClaimed || pool.isExpired
+  const bannerSrc = pool.memoRaw ? getBannerSrc(parseBannerId(pool.memoRaw)) : null
 
   return (
-    <div className="pkt-corner-ticks relative border border-pkt-border bg-pkt-surface backdrop-blur-xl">
-      <div className="flex items-stretch">
-        {/* Left: Envelope accent strip */}
-        <div
-          className="w-1.5 shrink-0"
-          style={{
-            background: pool.isFullyClaimed
-              ? 'var(--pkt-text-tertiary)'
-              : pool.isExpired
-                ? '#c81414'
-                : 'linear-gradient(180deg, rgba(200,20,20,0.9), rgba(180,140,0,0.9))',
+    <div
+      className="relative flex aspect-[240/340] w-full flex-col items-center justify-between overflow-hidden border border-white/20 transition-all duration-200 hover:border-white/50 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]"
+      style={{
+        background: bannerSrc
+          ? '#111'
+          : isDimmed
+            ? 'linear-gradient(160deg, rgba(200, 20, 20, 0.4) 0%, rgba(180, 140, 0, 0.4) 100%)'
+            : 'linear-gradient(160deg, rgba(200, 20, 20, 0.85) 0%, rgba(180, 140, 0, 0.85) 100%)',
+        clipPath: 'polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)',
+      }}
+    >
+      {/* Banner background */}
+      {bannerSrc && (
+        <>
+          <img src={bannerSrc} alt="" className="pointer-events-none absolute inset-0 h-full w-full object-cover" />
+          <div className="pointer-events-none absolute inset-0 bg-black/40" />
+        </>
+      )}
+
+      {/* Hatching overlay */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.07]"
+        style={{
+          background:
+            'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.4) 2px, rgba(255,255,255,0.4) 4px)',
+        }}
+      />
+
+      {/* Share button (active pools only) */}
+      {isActive && (
+        <button
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            onShare()
           }}
-        />
+          className="absolute right-2 top-2 z-10 grid h-7 w-7 place-items-center rounded-full bg-black/30 text-white/70 backdrop-blur-sm transition-colors hover:bg-black/50 hover:text-white"
+        >
+          <Share2 className="h-3 w-3" />
+        </button>
+      )}
 
-        {/* Content */}
-        <div className="flex min-w-0 flex-1 flex-col gap-3 px-4 py-3.5">
-          {/* Top row: memo + status */}
-          <div className="flex items-center justify-between gap-3">
-            <span className="truncate font-mono text-xs font-bold text-pkt-text">{pool.memo || '(no memo)'}</span>
-            <div className="flex shrink-0 items-center gap-1.5">
-              <span className={`h-1.5 w-1.5 rounded-full ${statusDot}`} />
-              <span className={`font-mono text-[10px] uppercase tracking-wider ${statusColor}`}>{statusLabel}</span>
-            </div>
-          </div>
+      {/* Circle seal */}
+      <div className="mt-4 h-8 w-8 shrink-0 rounded-full border border-white/40" />
 
-          {/* Middle: amount + shares */}
-          <div className="flex items-baseline gap-4">
-            <span className="font-mono text-lg font-bold text-pkt-text">
-              ${parseFloat(pool.totalAmount).toFixed(2)}
-            </span>
-            <span className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-wider text-pkt-text-tertiary">
-              <Users className="h-3 w-3" />
-              {pool.claimedShares}/{pool.totalShares} claimed
-            </span>
-            <span className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-wider text-pkt-text-tertiary">
-              <Clock className="h-3 w-3" />
-              {expiryLabel}
-            </span>
-          </div>
+      {/* Amount + Memo */}
+      <div className="relative z-[1] flex flex-1 flex-col items-center justify-center gap-1 px-3">
+        <span className="font-mono text-xl font-bold text-white">${parseFloat(pool.totalAmount).toFixed(2)}</span>
+        <span className="max-w-full truncate text-center font-mono text-[9px] text-white/70">
+          {pool.memo || '(no memo)'}
+        </span>
+      </div>
 
-          {/* Progress bar */}
-          <div className="h-1 w-full overflow-hidden bg-white/[0.06]">
-            <motion.div
-              className="h-full"
-              initial={{ width: 0 }}
-              animate={{ width: `${progress * 100}%` }}
-              transition={{ duration: 0.5, ease: 'easeOut' }}
-              style={{
-                background: pool.isFullyClaimed
-                  ? 'var(--pkt-text-tertiary)'
-                  : 'linear-gradient(90deg, var(--pkt-accent), rgba(255,208,0,0.6))',
-              }}
-            />
-          </div>
-
-          {/* Bottom: pool id + explorer */}
-          <div className="flex items-center justify-between">
-            <span className="font-mono text-[9px] text-pkt-text-tertiary">
-              {'[ '}
-              {pool.poolId.slice(0, 10)}...{pool.poolId.slice(-6)}
-              {' ]'}
-            </span>
-            {pool.txHash && (
-              <a
-                href={`https://explore.tempo.xyz/tx/${pool.txHash}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-wider text-pkt-accent transition-all hover:brightness-110"
-              >
-                Explorer
-                <ExternalLink className="h-3 w-3" />
-              </a>
-            )}
-          </div>
+      {/* Bottom: progress + claim count + Packet label */}
+      <div className="relative z-[1] mb-3 flex w-full flex-col items-center gap-1.5 px-4">
+        <Progress value={progress} className="h-1.5" />
+        <div className="flex w-full items-center justify-between">
+          <span className="font-mono text-[8px] uppercase tracking-wider text-white/50">
+            {pool.claimedShares}/{pool.totalShares} claimed
+          </span>
+          <span className="font-mono text-[7px] uppercase tracking-[2px] text-white/40">Packet</span>
         </div>
       </div>
+
+      {/* Status overlay for inactive pools */}
+      {isDimmed && (
+        <div className="absolute inset-0 z-[2] flex items-center justify-center bg-black/30">
+          <span className="border border-white/20 bg-black/50 px-3 py-1 font-mono text-[9px] uppercase tracking-wider text-white/70">
+            {pool.isFullyClaimed ? 'All claimed' : 'Expired'}
+          </span>
+        </div>
+      )}
     </div>
   )
-}
-
-function formatRelative(unixSeconds: number): string {
-  const diff = Math.floor(Date.now() / 1000) - unixSeconds
-  if (diff < 60) return `${diff}s ago`
-  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`
-  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`
-  return `${Math.floor(diff / 86400)}d ago`
 }

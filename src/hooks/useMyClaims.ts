@@ -1,5 +1,6 @@
 import { packetPoolAddress, pathUsd } from '@/constants'
 import { packetPoolAbi } from '@/abi/PacketPool'
+import { resolveIdentities, truncateAddress } from '@/lib/resolve-identities'
 import { useEffect, useState } from 'react'
 import { createPublicClient, http, formatUnits, hexToString, type Address, type Hex } from 'viem'
 import { tempoActions, Chain } from 'tempo.ts/viem'
@@ -43,7 +44,6 @@ export function useMyClaims(address: string | undefined) {
   useEffect(() => {
     if (!address) {
       setClaims([])
-      setLoading(false)
       return
     }
 
@@ -207,30 +207,6 @@ async function fetchBlockTimestamps(blockNumbers: (bigint | null)[]): Promise<Re
     }),
   )
   return Object.fromEntries(results)
-}
-
-async function resolveIdentities(addresses: Address[]): Promise<Record<string, string>> {
-  const results = await Promise.all(
-    addresses.map(async (addr) => {
-      try {
-        const res = await fetch('/api/resolve-address', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ address: addr }),
-        })
-        if (!res.ok) return [addr.toLowerCase(), truncateAddress(addr)] as const
-        const data = await res.json()
-        return [addr.toLowerCase(), data.label as string] as const
-      } catch {
-        return [addr.toLowerCase(), truncateAddress(addr)] as const
-      }
-    }),
-  )
-  return Object.fromEntries(results)
-}
-
-function truncateAddress(addr: string): string {
-  return addr.slice(0, 6) + '...' + addr.slice(-4)
 }
 
 function parseMemo(memoBytes: Hex): string {

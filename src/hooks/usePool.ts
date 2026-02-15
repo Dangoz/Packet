@@ -27,6 +27,7 @@ export interface PoolInfo {
   claimedShares: number
   expiresAt: number
   memo: string
+  memoRaw: Hex
   exists: boolean
   isFullyClaimed: boolean
   isExpired: boolean
@@ -115,6 +116,7 @@ export function usePool(poolId: Hex | undefined, userAddress?: Address) {
         claimedShares: rawPool.claimedShares,
         expiresAt: Number(rawPool.expiresAt),
         memo: parseMemo(rawPool.memo),
+        memoRaw: rawPool.memo,
         exists: rawPool.exists,
         isFullyClaimed: rawPool.claimedShares >= rawPool.totalShares,
         isExpired: now >= Number(rawPool.expiresAt),

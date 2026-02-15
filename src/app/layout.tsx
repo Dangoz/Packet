@@ -14,7 +14,15 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 })
 
+function getBaseUrl() {
+  if (process.env.NEXT_PUBLIC_BASE_URL) return process.env.NEXT_PUBLIC_BASE_URL
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`
+  return 'http://localhost:3000'
+}
+
 export const metadata: Metadata = {
+  metadataBase: new URL(getBaseUrl()),
   title: 'Packet',
   description: 'Instant P2P payments with Lucky Split on Tempo',
 }

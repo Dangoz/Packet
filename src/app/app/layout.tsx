@@ -2,7 +2,7 @@
 
 import { usePrivy, useWallets } from '@privy-io/react-auth'
 import { usePathname, useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import NumberFlow, { continuous } from '@number-flow/react'
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover'
@@ -32,13 +32,21 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   const activeTab = TABS.find((t) => pathname.startsWith(t.href))?.key ?? 'create'
 
+  // Track if we've ever been authenticated to avoid unmounting children
+  // on transient Privy state flickers (e.g. after wallet.switchChain or signing)
+  const wasAuthenticated = useRef(false)
+  if (ready && authenticated) wasAuthenticated.current = true
+
   useEffect(() => {
     if (ready && !authenticated) {
       router.push('/login')
     }
   }, [ready, authenticated, router])
 
-  if (!ready || !authenticated) {
+  // Only show loading before the first authentication — not on transient flickers.
+  // Also wait for wallets to be populated so child hooks receive a valid address
+  // on their first render (prevents flash of "no data" on direct URL navigation).
+  if (!wasAuthenticated.current && (!ready || !authenticated || wallets.length === 0)) {
     return (
       <GridBackground>
         <div className="flex min-h-screen items-center justify-center">
@@ -182,9 +190,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               </span>
               <span className="font-mono text-[9px] tracking-widest text-pkt-text-tertiary">PathUSD</span>
             </div>
-            <span className="hidden items-center gap-2 sm:flex font-mono text-[10px] uppercase tracking-wider">
-              <span className="text-pkt-accent/50">{'//'}</span>
-              <span className="text-pkt-text-tertiary">Tempo Moderato</span>
+            <span className="hidden items-center gap-1.5 sm:flex text-[10px] uppercase tracking-[0.2em]">
+              <span className="font-mono text-pkt-accent/70">{'{'}</span>
+              <span className="font-sans font-semibold text-pkt-accent">Tempo Moderato</span>
+              <span className="font-mono text-pkt-accent/70">{'}'}</span>
             </span>
           </div>
 
@@ -214,7 +223,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               )
             })}
           </div>
-          {children}
+          <div className="mt-6">{children}</div>
         </div>
       </main>
     </GridBackground>

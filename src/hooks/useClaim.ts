@@ -42,11 +42,11 @@ export function useClaim(poolId: Hex) {
 
     const t = txToast()
 
-    const wallet = wallets.find((w) => w.walletClientType === 'privy')
+    const wallet = wallets[0]
     if (!wallet?.address) {
       setStatus('error')
-      setError('No Privy embedded wallet found. Login with email/SMS first.')
-      t.error('No Privy embedded wallet found')
+      setError('No wallet found. Login with email/SMS first.')
+      t.error('No wallet found')
       return
     }
 

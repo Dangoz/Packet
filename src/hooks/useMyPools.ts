@@ -22,6 +22,7 @@ export interface PoolData {
   totalShares: number
   claimedShares: number
   memo: string
+  memoRaw: Hex
   expiresAt: number
   isFullyClaimed: boolean
   isExpired: boolean
@@ -42,7 +43,6 @@ export function useMyPools(address: string | undefined) {
   useEffect(() => {
     if (!address) {
       setPools([])
-      setLoading(false)
       return
     }
 
@@ -120,6 +120,7 @@ export function useMyPools(address: string | undefined) {
               totalShares: pool.totalShares,
               claimedShares: pool.claimedShares,
               memo: parseMemo(pool.memo),
+              memoRaw: pool.memo,
               expiresAt: Number(pool.expiresAt),
               isFullyClaimed: pool.claimedShares >= pool.totalShares,
               isExpired: now >= Number(pool.expiresAt),

@@ -26,6 +26,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
           '--border-radius': '0px',
         } as React.CSSProperties
       }
+      duration={8000}
       {...props}
     />
   )

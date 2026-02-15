@@ -7,10 +7,12 @@ import NumberFlow, { continuous } from '@number-flow/react'
 import { PacketCard, PacketButton, SectionLabel } from '@/components/inspired'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
-import { SplitSquareHorizontal, ExternalLink, Loader2, Copy, Check, Users, Link2, Share2 } from 'lucide-react'
+import { SplitSquareHorizontal, Loader2, Check } from 'lucide-react'
+import { ShareModal } from '@/components/ShareModal'
 import { useBalance } from '@/hooks/useBalance'
 import { useCreatePool } from '@/hooks/useCreatePool'
 import { cn } from '@/lib/utils'
+import { BANNERS, getBannerSrc } from '@/lib/banners'
 
 const STATUS_LABELS: Record<string, string> = {
   building: 'Building transaction...',
@@ -27,7 +29,7 @@ export default function CreatePage() {
   const [amount, setAmount] = useState('')
   const [shares, setShares] = useState('')
   const [memo, setMemo] = useState('Happy Lunar New Year!')
-  const [copied, setCopied] = useState(false)
+  const [bannerId, setBannerId] = useState(0)
 
   const amountNum = parseFloat(amount) || 0
   const sharesNum = parseInt(shares) || 0
@@ -49,26 +51,19 @@ export default function CreatePage() {
   const maxPossible = Math.min(avg * 2, amountNum - (sharesNum - 1) * 0.01)
   const showStats = amountNum > 0 && sharesNum > 0
 
+  const bannerSrc = getBannerSrc(bannerId)
+
   const handleCreate = async () => {
     if (!isValid || isCreating) return
-    await createPool(amount, sharesNum, memo)
+    await createPool(amount, sharesNum, memo, bannerId)
   }
 
   const handleReset = () => {
     reset()
-    setCopied(false)
     setAmount('')
     setShares('')
     setMemo('Happy Lunar New Year!')
-  }
-
-  const claimUrl = poolId ? `${typeof window !== 'undefined' ? window.location.origin : ''}/claim/${poolId}` : ''
-
-  const handleCopy = async () => {
-    if (!claimUrl) return
-    await navigator.clipboard.writeText(claimUrl)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+    setBannerId(0)
   }
 
   return (
@@ -89,10 +84,24 @@ export default function CreatePage() {
           <div
             className="relative flex h-[420px] w-[300px] flex-col items-center justify-between overflow-hidden border border-white/20 shadow-[0_0_60px_rgba(200,20,20,0.15)]"
             style={{
-              background: 'linear-gradient(160deg, rgba(200, 20, 20, 0.9) 0%, rgba(180, 140, 0, 0.9) 100%)',
+              background: bannerSrc
+                ? '#111'
+                : 'linear-gradient(160deg, rgba(200, 20, 20, 0.9) 0%, rgba(180, 140, 0, 0.9) 100%)',
               clipPath: 'polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)',
             }}
           >
+            {/* Banner background */}
+            {bannerSrc && (
+              <>
+                <img
+                  src={bannerSrc}
+                  alt=""
+                  className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+                />
+                <div className="pointer-events-none absolute inset-0 bg-black/40" />
+              </>
+            )}
+
             {/* Hatching overlay */}
             <div
               className="pointer-events-none absolute inset-0 opacity-[0.07]"
@@ -155,76 +164,18 @@ export default function CreatePage() {
             transition={{ delay: 0.35, duration: 0.3 }}
             className="w-full max-w-md"
           >
-            <PacketCard header="Share Your Packet">
-              <div className="flex flex-col gap-5">
-                {/* Claim link */}
-                <div className="flex flex-col gap-2">
-                  <span className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-wider text-pkt-accent/60">
-                    <Link2 className="h-3 w-3" />
-                    {'claim.link'}
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <div className="min-w-0 flex-1 overflow-hidden border border-pkt-border bg-pkt-bg/50 px-3 py-2">
-                      <p className="truncate font-mono text-[11px] text-pkt-text-secondary">{claimUrl}</p>
-                    </div>
-                    <button
-                      onClick={handleCopy}
-                      className="grid h-9 w-9 shrink-0 place-items-center border border-pkt-border bg-pkt-bg/50 text-pkt-text-secondary transition-colors hover:border-pkt-accent/50 hover:text-pkt-accent"
-                    >
-                      {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Guidelines */}
-                <div className="flex flex-col gap-3 border border-pkt-border bg-white/[0.02] p-4">
-                  <span className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-wider text-pkt-text-tertiary">
-                    <Share2 className="h-3 w-3" />
-                    {'how.to.share'}
-                  </span>
-                  <div className="flex flex-col gap-2.5">
-                    <GuidelineRow step="01" text="Copy the claim link above" />
-                    <GuidelineRow step="02" text={`Send it to up to ${sharesNum} friends`} />
-                    <GuidelineRow step="03" text="Each person claims a random split" />
-                    <GuidelineRow step="04" text="Track claims in the Packets tab" />
-                  </div>
-                </div>
-
-                {/* Pool ID + Explorer */}
-                <div className="flex items-center justify-between">
-                  {poolId && (
-                    <span className="font-mono text-[9px] text-pkt-text-tertiary">
-                      {'[ '}
-                      {poolId.slice(0, 10)}...{poolId.slice(-6)}
-                      {' ]'}
-                    </span>
-                  )}
-                  <a
-                    href={`https://explore.tempo.xyz/tx/${txHash}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-wider text-pkt-accent transition-all hover:brightness-110"
-                  >
-                    Explorer
-                    <ExternalLink className="h-3 w-3" />
-                  </a>
-                </div>
-
-                {/* Actions */}
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => window.open(`/app/packets`, '_self')}
-                    className="flex flex-1 items-center justify-center gap-1.5 border border-pkt-border py-2.5 font-mono text-[11px] uppercase tracking-wider text-pkt-text-secondary transition-colors hover:border-pkt-accent/50 hover:text-pkt-accent"
-                  >
-                    <Users className="h-3 w-3" />
-                    View Packets
-                  </button>
-                  <PacketButton className="flex-1 py-2.5" onClick={handleReset}>
-                    Create Another
-                  </PacketButton>
-                </div>
-              </div>
-            </PacketCard>
+            <ShareModal
+              inline
+              isOpen={true}
+              onClose={() => {}}
+              poolId={poolId!}
+              memo={memo}
+              amount={amount}
+              totalShares={sharesNum}
+              claimedShares={0}
+              txHash={txHash!}
+              onCreateAnother={handleReset}
+            />
           </motion.div>
         </motion.div>
       ) : (
@@ -311,6 +262,44 @@ export default function CreatePage() {
                 </span>
               </div>
 
+              {/* Banner */}
+              <div className="flex flex-col gap-2">
+                <SectionLabel>Banner</SectionLabel>
+                <div className="flex gap-2">
+                  {/* None option */}
+                  <button
+                    type="button"
+                    onClick={() => setBannerId(0)}
+                    disabled={isCreating}
+                    className={cn(
+                      'flex h-[72px] w-[50px] shrink-0 items-center justify-center border transition-all',
+                      bannerId === 0
+                        ? 'border-pkt-accent shadow-[0_0_8px_rgba(255,208,0,0.25)]'
+                        : 'border-dashed border-pkt-border hover:border-pkt-text-tertiary',
+                    )}
+                  >
+                    <span className="font-mono text-[8px] uppercase tracking-wider text-pkt-text-tertiary">None</span>
+                  </button>
+
+                  {BANNERS.map((b) => (
+                    <button
+                      key={b.id}
+                      type="button"
+                      onClick={() => setBannerId(b.id)}
+                      disabled={isCreating}
+                      className={cn(
+                        'relative h-[72px] w-[50px] shrink-0 overflow-hidden border transition-all',
+                        bannerId === b.id
+                          ? 'border-pkt-accent shadow-[0_0_8px_rgba(255,208,0,0.25)]'
+                          : 'border-pkt-border hover:border-pkt-text-tertiary',
+                      )}
+                    >
+                      <img src={b.src} alt={b.label} className="h-full w-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               {/* Error */}
               <AnimatePresence>
                 {status === 'error' && error && (
@@ -349,10 +338,24 @@ export default function CreatePage() {
               <div
                 className="relative flex h-[340px] w-[240px] flex-col items-center justify-between overflow-hidden border border-white/20"
                 style={{
-                  background: 'linear-gradient(160deg, rgba(200, 20, 20, 0.85) 0%, rgba(180, 140, 0, 0.85) 100%)',
+                  background: bannerSrc
+                    ? '#111'
+                    : 'linear-gradient(160deg, rgba(200, 20, 20, 0.85) 0%, rgba(180, 140, 0, 0.85) 100%)',
                   clipPath: 'polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px)',
                 }}
               >
+                {/* Banner background */}
+                {bannerSrc && (
+                  <>
+                    <img
+                      src={bannerSrc}
+                      alt=""
+                      className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+                    />
+                    <div className="pointer-events-none absolute inset-0 bg-black/40" />
+                  </>
+                )}
+
                 {/* Hatching overlay */}
                 <div
                   className="pointer-events-none absolute inset-0 opacity-[0.07]"
@@ -457,14 +460,5 @@ export default function CreatePage() {
         </motion.div>
       )}
     </AnimatePresence>
-  )
-}
-
-function GuidelineRow({ step, text }: { step: string; text: string }) {
-  return (
-    <div className="flex items-start gap-3">
-      <span className="mt-px shrink-0 font-mono text-[10px] font-bold text-pkt-accent/50">{step}</span>
-      <span className="font-mono text-[11px] leading-relaxed text-pkt-text-secondary">{text}</span>
-    </div>
   )
 }
