@@ -11,6 +11,7 @@
 import { pathUsd, packetPoolAddress } from '@/constants'
 import { packetPoolAbi } from '@/abi/PacketPool'
 import { txToast } from '@/lib/txToast'
+import { estimateBatchGas } from '@/lib/tempo'
 import { useWallets } from '@privy-io/react-auth'
 import { useState } from 'react'
 import { createPublicClient, http, encodeFunctionData, concat, type Address, type Hex } from 'viem'
@@ -99,11 +100,13 @@ export function useClaim(poolId: Hex) {
         }
       }
 
-      // Hardcoded gas — claim() is bounded, no need for eth_estimateGas (which checks balance)
-      const [feeData, nonce] = await Promise.all([
+      // Estimate gas in sponsored mode (includes buffer + fallback from helper).
+      const [gasEstimate, feeData, nonce] = await Promise.all([
+        estimateBatchGas(wallet.address as Address, calls),
         publicClient.estimateFeesPerGas(),
         publicClient.getTransactionCount({ address: wallet.address as Address }),
       ])
+      const gasLimit = gasEstimate < 2_000_000n ? 2_000_000n : gasEstimate
 
       // For sponsored transactions, sender must sign sponsorship intent:
       // - feePayerSignature: null
@@ -112,7 +115,7 @@ export function useClaim(poolId: Hex) {
         chainId: tempoModerato.id,
         calls,
         nonce: BigInt(nonce),
-        gas: 500_000n,
+        gas: gasLimit,
         maxFeePerGas: feeData.maxFeePerGas,
         maxPriorityFeePerGas: feeData.maxPriorityFeePerGas,
         feePayerSignature: null,
