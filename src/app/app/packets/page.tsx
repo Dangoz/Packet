@@ -7,6 +7,7 @@ import { motion } from 'motion/react'
 import { Share2 } from 'lucide-react'
 import { PacketCard, PacketBadge, SectionLabel } from '@/components/inspired'
 import { ShareModal } from '@/components/ShareModal'
+import { RefundDialog } from '@/components/RefundDialog'
 import { useMyPools, type PoolData } from '@/hooks/useMyPools'
 import { Progress } from '@/components/ui/progress'
 import { parseBannerId } from '@/lib/memo'
@@ -15,16 +16,27 @@ import { getBannerSrc } from '@/lib/banners'
 export default function PacketsPage() {
   const { wallets } = useWallets()
   const wallet = wallets[0]
-  const { pools, loading, error } = useMyPools(wallet?.address)
+  const { pools, loading, error, refetch } = useMyPools(wallet?.address)
   const [sharePool, setSharePool] = useState<PoolData | null>(null)
+  const [refundOpen, setRefundOpen] = useState(false)
 
   const active = pools.filter((p) => !p.isFullyClaimed && !p.isExpired)
+  const refundable = pools.filter((p) => p.isExpired && !p.isFullyClaimed && parseFloat(p.remainingAmount) > 0)
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <SectionLabel>Your Packets</SectionLabel>
-        <PacketBadge>{loading ? '...' : `${active.length} active`}</PacketBadge>
+        <div className="flex items-center gap-2">
+          {refundable.length > 0 && (
+            <button onClick={() => setRefundOpen(true)}>
+              <PacketBadge className="cursor-pointer border-l-amber-500 text-amber-400 transition-colors hover:bg-white/10">
+                {refundable.length} refundable
+              </PacketBadge>
+            </button>
+          )}
+          <PacketBadge>{loading ? '...' : `${active.length} active`}</PacketBadge>
+        </div>
       </div>
 
       {/* Loading */}
@@ -106,15 +118,21 @@ export default function PacketsPage() {
           memo={sharePool.memo}
           amount={sharePool.totalAmount}
           totalShares={sharePool.totalShares}
-          claimedShares={sharePool.claimedShares}
+          claimedShares={sharePool.realClaimedShares}
         />
       )}
+      <RefundDialog
+        open={refundOpen}
+        onOpenChange={setRefundOpen}
+        pools={refundable}
+        onRefundComplete={() => refetch()}
+      />
     </div>
   )
 }
 
 function PoolCard({ pool, onShare }: { pool: PoolData; onShare: () => void }) {
-  const progress = pool.totalShares > 0 ? (pool.claimedShares / pool.totalShares) * 100 : 0
+  const progress = pool.totalShares > 0 ? (pool.realClaimedShares / pool.totalShares) * 100 : 0
   const isActive = !pool.isFullyClaimed && !pool.isExpired
   const isDimmed = pool.isFullyClaimed || pool.isExpired
   const bannerSrc = pool.memoRaw ? getBannerSrc(parseBannerId(pool.memoRaw)) : null
@@ -168,7 +186,7 @@ function PoolCard({ pool, onShare }: { pool: PoolData; onShare: () => void }) {
       {/* Amount + Memo */}
       <div className="relative z-[1] flex flex-1 flex-col items-center justify-center gap-1 px-3">
         <span className="font-mono text-xl font-bold text-white">${parseFloat(pool.totalAmount).toFixed(2)}</span>
-        <span className="max-w-full truncate text-center font-mono text-[9px] text-white/70">
+        <span className="w-full text-center font-mono text-[9px] leading-snug text-white/70 line-clamp-2">
           {pool.memo || '(no memo)'}
         </span>
       </div>
@@ -178,17 +196,17 @@ function PoolCard({ pool, onShare }: { pool: PoolData; onShare: () => void }) {
         <Progress value={progress} className="h-1.5" />
         <div className="flex w-full items-center justify-between">
           <span className="font-mono text-[8px] uppercase tracking-wider text-white/50">
-            {pool.claimedShares}/{pool.totalShares} claimed
+            {pool.realClaimedShares}/{pool.totalShares} claimed
           </span>
           <span className="font-mono text-[7px] uppercase tracking-[2px] text-white/40">Packet</span>
         </div>
       </div>
 
       {/* Status overlay for inactive pools */}
-      {isDimmed && (
+      {(isDimmed || pool.isRefunded) && (
         <div className="absolute inset-0 z-[2] flex items-center justify-center bg-black/30">
           <span className="border border-white/20 bg-black/50 px-3 py-1 font-mono text-[9px] uppercase tracking-wider text-white/70">
-            {pool.isFullyClaimed ? 'All claimed' : 'Expired'}
+            {pool.isRefunded ? 'Refunded' : pool.isFullyClaimed ? 'All claimed' : 'Expired'}
           </span>
         </div>
       )}

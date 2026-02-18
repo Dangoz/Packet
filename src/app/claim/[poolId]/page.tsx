@@ -109,15 +109,6 @@ export default function ClaimPoolPage() {
     userHasClaimed === false &&
     claimStatus !== 'success'
 
-  // After successful claim + amount reveal, route user into the app.
-  useEffect(() => {
-    if (claimStatus !== 'success' || !showClaimResult) return
-    const timeoutId = window.setTimeout(() => {
-      router.push('/app')
-    }, 2500)
-    return () => window.clearTimeout(timeoutId)
-  }, [claimStatus, showClaimResult, router])
-
   return (
     <GridBackground>
       {/* Header */}
@@ -273,7 +264,7 @@ export default function ClaimPoolPage() {
                         />
                       </span>
 
-                      <span className="max-w-full truncate text-center font-mono text-[11px] text-white/70">
+                      <span className="w-full text-center font-mono text-[11px] leading-snug text-white/70 line-clamp-2">
                         {pool.memo || 'Lucky Split'}
                       </span>
 

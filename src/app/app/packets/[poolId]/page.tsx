@@ -54,16 +54,24 @@ export default function PacketDetailPage() {
   const sortedClaims = [...claims].sort((a, b) => (b.amount > a.amount ? 1 : b.amount < a.amount ? -1 : 0))
 
   const isActive = pool ? !pool.isFullyClaimed && !pool.isExpired : false
-  const statusLabel = pool?.isFullyClaimed ? 'All Claimed' : pool?.isExpired ? 'Expired' : 'Active'
-  const statusColor = pool?.isFullyClaimed
-    ? 'text-pkt-text-secondary'
-    : pool?.isExpired
-      ? 'text-red-400'
-      : 'text-emerald-400'
+  const statusLabel = pool?.isRefunded
+    ? 'Refunded'
+    : pool?.isFullyClaimed
+      ? 'All Claimed'
+      : pool?.isExpired
+        ? 'Expired'
+        : 'Active'
+  const statusColor = pool?.isRefunded
+    ? 'text-amber-400'
+    : pool?.isFullyClaimed
+      ? 'text-pkt-text-secondary'
+      : pool?.isExpired
+        ? 'text-red-400'
+        : 'text-emerald-400'
 
   const totalAmount = pool ? parseFloat(formatUnits(pool.totalAmount, 6)) : 0
   const remainingAmount = pool ? parseFloat(formatUnits(pool.remainingAmount, 6)) : 0
-  const progress = pool ? (pool.claimedShares / pool.totalShares) * 100 : 0
+  const progress = pool ? (pool.realClaimedShares / pool.totalShares) * 100 : 0
 
   const bannerSrc = pool?.memoRaw ? getBannerSrc(parseBannerId(pool.memoRaw)) : null
 
@@ -171,7 +179,7 @@ export default function PacketDetailPage() {
                   />
                 </span>
 
-                <span className="max-w-full truncate text-center font-mono text-[11px] text-white/70">
+                <span className="w-full text-center font-mono text-[11px] leading-snug text-white/70 line-clamp-2">
                   {pool.memo || 'Lucky Split'}
                 </span>
               </div>
@@ -181,17 +189,17 @@ export default function PacketDetailPage() {
                 <Progress value={progress} className="h-1.5" />
                 <div className="flex w-full items-center justify-between">
                   <span className="font-mono text-[9px] uppercase tracking-wider text-white/50">
-                    {pool.claimedShares}/{pool.totalShares} claimed
+                    {pool.realClaimedShares}/{pool.totalShares} claimed
                   </span>
                   <span className="font-mono text-[8px] uppercase tracking-[2px] text-white/50">Packet</span>
                 </div>
               </div>
 
               {/* Status overlay for inactive pools */}
-              {(pool.isFullyClaimed || pool.isExpired) && (
+              {(pool.isFullyClaimed || pool.isExpired || pool.isRefunded) && (
                 <div className="absolute inset-0 z-[2] flex items-center justify-center bg-black/30">
                   <span className="border border-white/20 bg-black/50 px-3 py-1 font-mono text-[9px] uppercase tracking-wider text-white/70">
-                    {pool.isFullyClaimed ? 'All claimed' : 'Expired'}
+                    {pool.isRefunded ? 'Refunded' : pool.isFullyClaimed ? 'All claimed' : 'Expired'}
                   </span>
                 </div>
               )}
@@ -214,7 +222,7 @@ export default function PacketDetailPage() {
                 <div className="flex items-center justify-between">
                   <span className="text-pkt-text-tertiary">{'[ shares ]'}</span>
                   <span className="text-pkt-text-secondary">
-                    {pool.claimedShares}/{pool.totalShares} claimed
+                    {pool.realClaimedShares}/{pool.totalShares} claimed
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
@@ -333,7 +341,7 @@ export default function PacketDetailPage() {
               memo={pool.memo}
               amount={formatUnits(pool.totalAmount, 6)}
               totalShares={pool.totalShares}
-              claimedShares={pool.claimedShares}
+              claimedShares={pool.realClaimedShares}
             />
           )}
         </>

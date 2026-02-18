@@ -25,12 +25,14 @@ export interface PoolInfo {
   remainingAmount: bigint
   totalShares: number
   claimedShares: number
+  realClaimedShares: number
   expiresAt: number
   memo: string
   memoRaw: Hex
   exists: boolean
   isFullyClaimed: boolean
   isExpired: boolean
+  isRefunded: boolean
 }
 
 export interface ClaimEntry {
@@ -120,13 +122,19 @@ export function usePool(poolId: Hex | undefined, userAddress?: Address) {
         exists: rawPool.exists,
         isFullyClaimed: rawPool.claimedShares >= rawPool.totalShares,
         isExpired: now >= Number(rawPool.expiresAt),
+        realClaimedShares: rawPool.claimedShares,
+        isRefunded: false,
       }
 
-      const claimEntries: ClaimEntry[] = claimers.map((claimer, i) => ({
-        claimer,
-        amount: amounts[i],
-        index: i,
-      }))
+      const claimEntries: ClaimEntry[] = claimers
+        .map((claimer, i) => ({ claimer, amount: amounts[i], index: i }))
+        .filter((e) => e.claimer !== '0x0000000000000000000000000000000000000000')
+
+      const realClaimedShares = claimEntries.length
+      poolInfo.realClaimedShares = realClaimedShares
+      poolInfo.isRefunded =
+        poolInfo.isExpired && poolInfo.remainingAmount === 0n && realClaimedShares < poolInfo.totalShares
+      poolInfo.isFullyClaimed = realClaimedShares >= poolInfo.totalShares
 
       setPool(poolInfo)
       setClaims(claimEntries)

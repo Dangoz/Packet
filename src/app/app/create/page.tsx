@@ -137,7 +137,7 @@ export default function CreatePage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.25 }}
-                className="max-w-full truncate text-center font-mono text-sm text-white/70"
+                className="w-full text-center font-mono text-sm leading-snug text-white/70 line-clamp-2"
               >
                 {memo}
               </motion.span>
@@ -395,7 +395,7 @@ export default function CreatePage() {
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.15 }}
                       className={cn(
-                        'max-w-full truncate text-center font-mono text-[11px] text-white/70',
+                        'w-full text-center font-mono text-[11px] leading-snug text-white/70 line-clamp-2',
                         !memo && 'italic text-white/40',
                       )}
                     >
