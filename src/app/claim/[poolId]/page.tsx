@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { usePrivy, useWallets } from '@privy-io/react-auth'
 import { useEffect } from 'react'
 import { motion } from 'motion/react'
@@ -19,6 +19,7 @@ const POOL_ID_RE = /^0x[a-fA-F0-9]{64}$/
 
 export default function ClaimPoolPage() {
   const params = useParams<{ poolId: string }>()
+  const router = useRouter()
   const rawPoolId = params.poolId
   const isValidFormat = POOL_ID_RE.test(rawPoolId)
   const poolId = isValidFormat ? (rawPoolId as Hex) : undefined
@@ -45,6 +46,8 @@ export default function ClaimPoolPage() {
   // Amount to show on the envelope
   const showClaimedAmount = claimStatus === 'success' && claimedAmount != null
   const showPriorClaim = userHasClaimed && userClaimAmount != null
+  const showClaimResult = showClaimedAmount || showPriorClaim
+  const showClaimPendingReveal = claimStatus === 'success' && !showClaimResult
   const displayAmount = showClaimedAmount
     ? parseFloat(formatUnits(claimedAmount, 6))
     : showPriorClaim
@@ -64,6 +67,15 @@ export default function ClaimPoolPage() {
     !pool.isExpired &&
     !userHasClaimed &&
     claimStatus !== 'success'
+
+  // After successful claim + amount reveal, route user into the app.
+  useEffect(() => {
+    if (claimStatus !== 'success' || !showClaimResult) return
+    const timeoutId = window.setTimeout(() => {
+      router.push('/app')
+    }, 2500)
+    return () => window.clearTimeout(timeoutId)
+  }, [claimStatus, showClaimResult, router])
 
   return (
     <GridBackground>
@@ -95,7 +107,7 @@ export default function ClaimPoolPage() {
       </header>
 
       {/* Main */}
-      <main className="flex flex-1 flex-col items-center px-4 py-8 md:px-8">
+      <main className="flex flex-1 flex-col items-center justify-center px-4 md:px-8">
         <div className="flex w-full max-w-md flex-col items-center gap-8">
           {/* Invalid URL */}
           {!isValidFormat && (
@@ -179,7 +191,7 @@ export default function ClaimPoolPage() {
                       {pool.memo || 'Lucky Split'}
                     </span>
 
-                    {(showClaimedAmount || showPriorClaim) && (
+                    {showClaimResult && (
                       <span className="mt-1 font-mono text-[9px] uppercase tracking-widest text-white/50">
                         your share
                       </span>
@@ -233,11 +245,32 @@ export default function ClaimPoolPage() {
                 )}
 
                 {/* Already claimed / just claimed */}
-                {(showClaimedAmount || showPriorClaim) && (
+                {showClaimResult && (
                   <div className="w-full max-w-xs border border-pkt-accent/30 bg-pkt-accent/5 p-4 text-center">
                     <span className="font-mono text-[11px] uppercase tracking-wider text-pkt-accent">
                       You claimed ${displayAmount.toFixed(2)}
                     </span>
+                  </div>
+                )}
+
+                {showClaimPendingReveal && (
+                  <div className="w-full max-w-xs border border-pkt-accent/30 bg-pkt-accent/5 p-4 text-center">
+                    <span className="font-mono text-[11px] uppercase tracking-wider text-pkt-accent">
+                      Claim confirmed. Calculating your share...
+                    </span>
+                  </div>
+                )}
+
+                {showClaimResult && (
+                  <div className="flex w-full max-w-xs flex-col items-center gap-2">
+                    {claimStatus === 'success' && (
+                      <span className="font-mono text-[10px] uppercase tracking-wider text-pkt-text-secondary">
+                        Redirecting to app...
+                      </span>
+                    )}
+                    <PacketButton className="w-full py-3" onClick={() => router.push('/app')}>
+                      Open App
+                    </PacketButton>
                   </div>
                 )}
 
