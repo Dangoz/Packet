@@ -42,7 +42,7 @@ export interface ClaimEntry {
 export function usePool(poolId: Hex | undefined, userAddress?: Address) {
   const [pool, setPool] = useState<PoolInfo | null>(null)
   const [claims, setClaims] = useState<ClaimEntry[]>([])
-  const [userHasClaimed, setUserHasClaimed] = useState(false)
+  const [userHasClaimed, setUserHasClaimed] = useState<boolean | null>(null)
   const [userClaimAmount, setUserClaimAmount] = useState<bigint | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -103,7 +103,7 @@ export function usePool(poolId: Hex | undefined, userAddress?: Address) {
       }
 
       const [claimers, amounts] = results[1] as [Address[], bigint[]]
-      const claimed = userAddress ? (results[2] as boolean) : false
+      const claimed = userAddress ? (results[2] as boolean) : null
 
       const now = Math.floor(Date.now() / 1000)
 
@@ -136,6 +136,8 @@ export function usePool(poolId: Hex | undefined, userAddress?: Address) {
       if (claimed && userAddress) {
         const idx = claimers.findIndex((c) => c.toLowerCase() === userAddress.toLowerCase())
         if (idx >= 0) setUserClaimAmount(amounts[idx])
+      } else if (!userAddress) {
+        setUserClaimAmount(null)
       }
     } catch (err) {
       console.error('Error fetching pool:', err)

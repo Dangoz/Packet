@@ -10,32 +10,34 @@ This is a hackathon project for the **Canteen x Tempo Hackathon** (Track 1: Cons
 
 ### What's Built
 
-| Layer              | Status | Details                                                                                                                         |
-| ------------------ | ------ | ------------------------------------------------------------------------------------------------------------------------------- |
-| **Smart Contract** | Done   | `PacketPool.sol` — pool creation, claiming, on-chain randomness, WeChat-style splits. 23 tests passing (including fuzz).        |
-| **Auth & Wallet**  | Done   | Privy email/phone login → auto-created embedded wallet. `PrivyProvider.tsx` configured.                                         |
-| **P2P Send**       | Done   | Single send (`useSend` hook) and batch send (`useBatchSendRaw` hook) with memos.                                                |
-| **Balance**        | Done   | `useBalance` hook polls pathUSD balance every 10s.                                                                              |
-| **Tx History**     | Done   | `useTransactionHistory` hook + `/api/transactions` route. Fetches from Tempo explorer, decodes ERC20 transfer calldata & memos. |
-| **User Lookup**    | Done   | `/api/find` route resolves phone/email → wallet address via Privy server SDK. Creates user if not found.                        |
-| **QR Receive**     | Done   | `ReceiveModal` generates QR code of wallet address via `qrcode.react`.                                                          |
-| **Landing Page**   | Done   | Hero, features grid, Lucky Split explainer, CTA.                                                                                |
-| **Login Page**     | Done   | Split-screen login (branding left, Privy login right).                                                                          |
-| **Wallet UI**      | Done   | Template page with balance card, send/receive/batch modals, transaction history.                                                |
-| **App Routing**    | Done   | Nested routes (`/app/create`, `/app/packets`, `/app/claims`) with shared layout, tab bar, auth guard, enter animations.         |
-| **App Header**     | Done   | Floating header with logo, redesigned profile pill (diamond avatar, HUD popover), balance strip with corner ticks & NumberFlow. |
+| Layer                   | Status | Details                                                                                                                                                                                                                                                                                     |
+| ----------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Smart Contract**      | Done   | `PacketPool.sol` — pool creation, claiming, expiry/refund, on-chain randomness, WeChat-style splits. 23+ tests passing (including fuzz). Deployed to Tempo Moderato at `0x80F8Ce80F8c329cEf3Da8b94Ad640B7e0D1E1fB8`.                                                                        |
+| **Auth & Wallet**       | Done   | Privy email/phone login → auto-created embedded wallet. `PrivyProvider.tsx` configured.                                                                                                                                                                                                     |
+| **P2P Send**            | Done   | Single send (`useSend` hook) and batch send (`useBatchSendRaw` hook) with memos.                                                                                                                                                                                                            |
+| **Balance**             | Done   | `useBalance` hook polls pathUSD balance every 10s.                                                                                                                                                                                                                                          |
+| **Tx History**          | Done   | `useTransactionHistory` hook + `/api/transactions` route. Fetches from Tempo explorer, decodes ERC20 transfer calldata & memos.                                                                                                                                                             |
+| **User Lookup**         | Done   | `/api/find` route resolves phone/email → wallet address via Privy server SDK. Creates user if not found.                                                                                                                                                                                    |
+| **QR Receive**          | Done   | `ReceiveModal` generates QR code of wallet address via `qrcode.react`.                                                                                                                                                                                                                      |
+| **Landing Page**        | Done   | Hero, features grid, Lucky Split explainer, CTA.                                                                                                                                                                                                                                            |
+| **Login Page**          | Done   | Split-screen login (branding left, Privy login right). Custom `LoginForm` with OTP input.                                                                                                                                                                                                   |
+| **Wallet UI**           | Done   | Template page with balance card, send/receive/batch modals, transaction history.                                                                                                                                                                                                            |
+| **App Routing**         | Done   | Nested routes (`/app/create`, `/app/packets`, `/app/claims`) with shared layout, tab bar, auth guard, enter animations.                                                                                                                                                                     |
+| **App Header**          | Done   | Floating header with logo, redesigned profile pill (diamond avatar, HUD popover), balance strip with corner ticks & NumberFlow.                                                                                                                                                             |
+| **Lucky Split Create**  | Done   | `/app/create` — full pool creation form (amount, shares, memo, banner selector), live preview with NumberFlow, `useCreatePool` hook builds approve+createPool batch tx. Post-creation `ShareModal` with QR, copy link, share on X.                                                          |
+| **Lucky Split Claim**   | Done   | `/claim/[poolId]` — public claim page with envelope animation, diamond burst particle effect, gold expanding ring, checkmark reveal. `useClaim` hook with sponsored (gasless) transactions. Handles all states: pre-claim, claiming, just-claimed, already-claimed, fully-claimed, expired. |
+| **My Packets**          | Done   | `/app/packets` — grid of creator's pools with progress bars, share buttons, status overlays. `/app/packets/[poolId]` — detail page with leaderboard, identity resolution, pool metadata. `useMyPools` hook queries `PoolCreated` events.                                                    |
+| **My Claims**           | Done   | `/app/claims` — claim history with amounts, creator labels, timestamps, explorer links. `useMyClaims` hook queries `Claimed` events with identity resolution.                                                                                                                               |
+| **Fee Sponsorship**     | Done   | `/api/sponsor` route co-signs transactions with a self-hosted fee payer wallet (`0xd724...E056`). Used by `useClaim` and `useBatchSendRaw` for gasless user transactions.                                                                                                                   |
+| **OG Images**           | Done   | `/api/og/[poolId]` — dynamic social preview images (1200×630) per pool using `next/og`. Shows amount, memo, banner, progress, status.                                                                                                                                                       |
+| **Identity Resolution** | Done   | `/api/resolve-address` route + `resolveIdentities()` utility. Reverse-maps wallet addresses to email/phone labels via Privy.                                                                                                                                                                |
 
 ### What's NOT Built Yet
 
-| Feature                      | Notes                                                                                                                                                                         |
-| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Lucky Split frontend UI**  | Stub pages exist at `/app/create`, `/app/packets`, `/app/claims` but no pool creation form, claim flow, or share link generation. Contract is ready but no frontend calls it. |
-| **QR scanning**              | `qrcode.react` generates QR codes, but there is NO scanning library installed. `html5-qrcode` is not a dependency.                                                            |
-| **Dynamic QR**               | No pre-filled amount QR codes. Current QR just encodes wallet address.                                                                                                        |
-| **Claim reveal animation**   | The "reveal moment" UX for showing random amount is not implemented.                                                                                                          |
-| **Pool expiration / refund** | Contract has no mechanism for creator to reclaim unclaimed funds.                                                                                                             |
-| **Pool cancellation**        | Once created, a pool cannot be cancelled. Funds are locked until all shares are claimed.                                                                                      |
-| **Contract deployment**      | Deployed to Tempo Moderato testnet at `0x3886199015edfB471D93C01519918976F211E3dF`. Address stored in `src/constants.ts`.                                                     |
+| Feature         | Notes                                                                                                              |
+| --------------- | ------------------------------------------------------------------------------------------------------------------ |
+| **QR scanning** | `qrcode.react` generates QR codes, but there is NO scanning library installed. `html5-qrcode` is not a dependency. |
+| **Dynamic QR**  | No pre-filled amount QR codes. Current QR just encodes wallet address.                                             |
 
 ## Project Structure
 
@@ -48,15 +50,15 @@ privy-tempo/
 ├── postcss.config.mjs              # Tailwind v4
 ├── eslint.config.mjs
 ├── .prettierrc.json                # single quotes, no semicolons, 120 width
-├── .env.local                      # NEXT_PUBLIC_PRIVY_APP_ID, PRIVY_APP_SECRET
+├── .env.local                      # NEXT_PUBLIC_PRIVY_APP_ID, PRIVY_APP_SECRET, FEE_PAYER_PRIVATE_KEY
 │
 ├── contracts/                      # Foundry project
 │   ├── foundry.toml
 │   ├── .env                        # TEMPO_RPC_URL, PRIVATE_KEY, FEE_TOKEN
 │   ├── src/
-│   │   └── PacketPool.sol          # Main contract (217 lines)
+│   │   └── PacketPool.sol          # Main contract (286 lines)
 │   ├── test/
-│   │   └── PacketPool.t.sol        # 23 tests (510 lines)
+│   │   └── PacketPool.t.sol        # 23+ tests (656 lines)
 │   ├── script/
 │   │   └── PacketPool.s.sol        # Deployment script (23 lines)
 │   ├── lib/
@@ -65,22 +67,35 @@ privy-tempo/
 │   └── out/                        # Compiled artifacts
 │
 └── src/
-    ├── constants.ts                # pathUsd address
+    ├── constants.ts                # pathUsd, packetPoolAddress, feePayerAddress
+    ├── abi/
+    │   └── PacketPool.ts           # Contract ABI (functions, events, errors)
     ├── providers/
     │   └── PrivyProvider.tsx        # Privy config + React Query
     ├── lib/
     │   ├── utils.ts                # cn() classname utility
-    │   └── user.ts                 # getDisplayInfo() — shared Privy user display helper
+    │   ├── user.ts                 # getDisplayInfo() — shared Privy user display helper
+    │   ├── memo.ts                 # encodeMemo/parseMemo/parseBannerId — bytes32 memo + banner ID packing
+    │   ├── banners.ts              # Banner metadata (id, src, label) for pool envelopes
+    │   ├── pool.ts                 # Server-side pool data fetcher (getPoolData)
+    │   ├── tempo.ts                # Batch gas estimation (estimateBatchGas)
+    │   ├── resolve-identities.ts   # Address → email/phone label resolution
+    │   └── txToast.tsx             # Transaction status toast (loading/success/error with explorer link)
     ├── hooks/
     │   ├── useBalance.ts           # pathUSD balance polling (10s)
     │   ├── useSend.ts              # Single transfer with memo via Tempo SDK
     │   ├── useBatchSendRaw.ts      # Atomic batch send (raw tx signing)
-    │   └── useTransactionHistory.ts # Tx history from Tempo explorer API
+    │   ├── useTransactionHistory.ts # Tx history from Tempo explorer API
+    │   ├── useCreatePool.ts        # Create Lucky Split pool (approve + createPool batch)
+    │   ├── useClaim.ts             # Claim share from pool (sponsored/gasless)
+    │   ├── usePool.ts              # Fetch single pool state + claims + user claim status
+    │   ├── useMyPools.ts           # List all pools created by user (PoolCreated events)
+    │   └── useMyClaims.ts          # List all claims by user (Claimed events)
     ├── components/
     │   ├── index.ts                # Barrel export
     │   ├── WalletContainer.tsx     # Layout wrapper with motion
     │   ├── BalanceCard.tsx         # Balance display
-    │   ├── UserPill.tsx            # Top-right user dropdown
+    │   ├── UserPill.tsx            # Top-right user dropdown (legacy, replaced by ProfilePill)
     │   ├── ActionButtonsGrid.tsx   # Send/Receive/Batch buttons
     │   ├── SendModal.tsx           # Send form (recipient, amount, memo)
     │   ├── ReceiveModal.tsx        # QR code + address copy
@@ -92,26 +107,37 @@ privy-tempo/
     │   ├── Input.tsx               # Styled text input
     │   ├── LiquidGlassButton.tsx   # Glass button with motion
     │   ├── LoginView.tsx           # Login prompt
+    │   ├── LoginForm.tsx           # Email/SMS OTP login form with OtpInput
+    │   ├── ShareModal.tsx          # Pool sharing (QR, copy link, share on X, pool metadata)
     │   ├── Skeleton*.tsx           # Loading placeholders
     │   ├── inspired/               # Packet-themed components (ProfilePill, PacketCard, etc.)
     │   ├── backgrounds/            # Grid/cross background components
-    │   └── ui/                     # shadcn base (button, input, badge, card, popover, separator)
+    │   └── ui/                     # shadcn base (button, input, badge, card, popover, separator, sonner)
     └── app/
         ├── layout.tsx              # Root layout with Privy provider, Geist fonts
         ├── globals.css             # Design tokens, Tailwind theme, Packet utilities
-        ├── page.tsx                # Landing page (500 lines)
-        ├── login/page.tsx          # Login page (497 lines)
+        ├── page.tsx                # Landing page
+        ├── login/page.tsx          # Login page
         ├── app/
         │   ├── layout.tsx          # Shared app layout: header, balance strip, tab bar, auth guard
         │   ├── template.tsx        # Enter animation wrapper (motion.div fade+slide)
         │   ├── page.tsx            # Redirects to /app/create
-        │   ├── create/page.tsx     # Create tab content
-        │   ├── packets/page.tsx    # Packets tab content
-        │   └── claims/page.tsx     # Claims tab content
-        ├── template/page.tsx       # Main wallet interface (134 lines)
+        │   ├── create/page.tsx     # Create Lucky Split form + live preview + ShareModal
+        │   ├── packets/page.tsx    # Pool grid by creator with progress bars
+        │   ├── packets/[poolId]/page.tsx  # Pool detail + leaderboard + identity resolution
+        │   └── claims/page.tsx     # Claim history with amounts, timestamps, explorer links
+        ├── claim/
+        │   ├── page.tsx            # Redirects to /
+        │   └── [poolId]/
+        │       ├── layout.tsx      # OG metadata generation for social sharing
+        │       └── page.tsx        # Public claim flow (envelope animation, diamond burst reveal)
+        ├── template/page.tsx       # Legacy wallet interface (send/receive/batch)
         └── api/
             ├── find/route.ts       # POST: resolve phone/email → wallet address via Privy
-            └── transactions/route.ts # GET: fetch tx history from Tempo explorer
+            ├── transactions/route.ts # GET: fetch tx history from Tempo explorer
+            ├── resolve-address/route.ts # POST: reverse wallet → email/phone label
+            ├── sponsor/route.ts    # POST: fee-payer co-signing for gasless transactions
+            └── og/[poolId]/route.tsx # GET: dynamic OG image generation per pool
 ```
 
 ## Core Features
@@ -260,27 +286,36 @@ const { receipt } = await client.token.transferSync({
 
 ## Smart Contract — PacketPool
 
-**File:** `contracts/src/PacketPool.sol` (218 lines)
-**Status:** Fully implemented, 23 tests passing, deployed to Tempo Moderato testnet.
+**File:** `contracts/src/PacketPool.sol` (286 lines)
+**Status:** Fully implemented, 23+ tests passing, deployed to Tempo Moderato testnet.
+**Deployed Address:** `0x80F8Ce80F8c329cEf3Da8b94Ad640B7e0D1E1fB8`
 **Deployment script:** `contracts/script/PacketPool.s.sol`
+**ABI:** `src/abi/PacketPool.ts`
 
 ### What It Does
 
-The `PacketPool` contract implements Lucky Split (红包) red envelopes. A creator deposits TIP-20 tokens into a pool with N shares. Each claimer gets a random portion determined by on-chain randomness. The contract accepts any TIP-20 token address — the frontend always passes pathUSD.
+The `PacketPool` contract implements Lucky Split (红包) red envelopes. A creator deposits TIP-20 tokens into a pool with N shares. Each claimer gets a random portion determined by on-chain randomness. Pools expire after a configurable duration (default 24 hours), after which the creator can refund unclaimed funds. The contract accepts any TIP-20 token address — the frontend always passes pathUSD.
 
 ### Contract Interface
 
 ```solidity
-// Creates a pool. Caller must approve `amount` of `token` to this contract first.
+// Creates a pool with default 24h expiry. Caller must approve `amount` of `token` first.
 function createPool(bytes32 poolId, uint8 shares, bytes32 memo, address token, uint256 amount) external;
 
-// Claims a random share. Each address can claim once per pool.
+// Creates a pool with custom expiry duration (in seconds).
+function createPoolWithExpiry(bytes32 poolId, uint8 shares, bytes32 memo, address token, uint256 amount, uint256 duration) external;
+
+// Claims a random share. Each address can claim once per pool. Reverts if expired.
 function claim(bytes32 poolId) external;
+
+// Refunds unclaimed funds to creator. Only callable by creator after pool expires.
+function refund(bytes32 poolId) external;
 
 // View functions
 function getPool(bytes32 poolId) external view returns (Pool memory);
 function getClaimInfo(bytes32 poolId, uint8 claimIndex) external view returns (address claimer, uint256 amount);
 function getPoolClaims(bytes32 poolId) external view returns (address[] memory, uint256[] memory);
+function hasClaimed(bytes32 poolId, address user) external view returns (bool);
 ```
 
 ### Pool Struct
@@ -294,10 +329,16 @@ struct Pool {
     uint8 totalShares;       // 1–255
     uint8 claimedShares;
     uint256 commitBlock;     // block.number at creation, used for randomness seed
+    uint256 expiresAt;       // timestamp after which claims are blocked and creator can refund
     bytes32 memo;            // human-readable greeting (e.g., "Happy Birthday!")
     bool exists;
 }
 ```
+
+### Constants
+
+- `MIN_AMOUNT = 10,000` (= $0.01 with 6-decimal stablecoins)
+- `DEFAULT_EXPIRY = 86,400` (= 24 hours in seconds)
 
 ### Randomness
 
@@ -347,7 +388,7 @@ Both token transfers (deposit and payout) carry the **pool's human-readable gree
 
 This means both the sender and every claimer see the greeting in their on-chain transaction history. The `poolId` is still recoverable from the indexed `PoolCreated` and `Claimed` events — no information is lost.
 
-Memo constraint: 32 bytes max = ~31 UTF-8 characters. Emojis are 4 bytes each. Frontend should enforce a character limit.
+Memo constraint: 32 bytes total. Bytes 0–30 store UTF-8 text (max 31 characters, emojis are 4 bytes each). Byte 31 stores a banner ID (0–255) for the envelope's visual theme. See `src/lib/memo.ts` for encoding/decoding. Frontend enforces the character limit based on UTF-8 byte length.
 
 ### Security Patterns
 
@@ -358,22 +399,23 @@ Memo constraint: 32 bytes max = ~31 UTF-8 characters. Emojis are 4 bytes each. F
 
 ### Test Suite
 
-**File:** `contracts/test/PacketPool.t.sol` (511 lines, 23 tests)
+**File:** `contracts/test/PacketPool.t.sol` (656 lines, 23+ tests)
 **Run:** `cd contracts && forge test -vv`
 
-| Category             | Tests                                                                                          |
-| -------------------- | ---------------------------------------------------------------------------------------------- |
-| Pool creation        | Basic creation, duplicate ID revert, zero shares revert, amount too small revert               |
-| Claiming             | Single claim, all claims sum to total, single-share pool (100%), two-share pool, exact minimum |
-| Edge cases           | Creator self-claim, prevrandao fallback (>256 blocks), max shares (255)                        |
-| Events               | PoolCreated emission, Claimed emission, memo propagation on claim transfers                    |
-| Reverts              | Already claimed, pool fully claimed, pool not found                                            |
-| Fuzz (256 runs each) | Amounts always sum to total, every claim >= MIN_AMOUNT                                         |
-| Independence         | Multiple pools with same token don't bleed funds                                               |
+| Category             | Tests                                                                                                                        |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Pool creation        | Basic creation, duplicate ID revert, zero shares revert, amount too small revert, default expiry, custom expiry              |
+| Claiming             | Single claim, all claims sum to total, single-share pool (100%), two-share pool, exact minimum, expired pool revert          |
+| Refund               | After-expiry refund, partial claims refund, not-creator revert, not-expired revert, nothing-to-refund revert, emits Refunded |
+| Edge cases           | Creator self-claim, prevrandao fallback (>256 blocks), max shares (255)                                                      |
+| Events               | PoolCreated emission (with expiresAt), Claimed emission, Refunded emission, memo propagation                                 |
+| Reverts              | Already claimed, pool fully claimed, pool not found, pool expired                                                            |
+| Fuzz (256 runs each) | Amounts always sum to total, every claim >= MIN_AMOUNT                                                                       |
+| Independence         | Multiple pools with same token don't bleed funds                                                                             |
 
 ### Deployment
 
-Not deployed yet. To deploy:
+Deployed to Tempo Moderato testnet. To redeploy:
 
 ```bash
 cd contracts
@@ -385,12 +427,14 @@ forge script script/PacketPool.s.sol:PacketPoolScript \
   --verify --verifier-url $VERIFIER_URL
 ```
 
+**Current deployment:** `0x80F8Ce80F8c329cEf3Da8b94Ad640B7e0D1E1fB8` (address stored in `src/constants.ts` as `packetPoolAddress`).
+
 ### Known Limitations
 
-- **No pool expiration:** Creator cannot reclaim unclaimed funds. If a pool has 5 shares and only 3 are claimed, the remaining funds are locked forever.
-- **No pool cancellation:** Once created, a pool cannot be cancelled or modified.
+- **No pool cancellation:** Once created, a pool cannot be cancelled or modified before expiry.
 - **256-block window:** Primary randomness (blockhash) only works within 256 blocks (~128 seconds on Tempo). After that, falls back to prevrandao which has weaker entropy.
 - **uint8 shares:** Maximum 255 shares per pool.
+- **24h default expiry:** Pools expire after 24 hours by default. `createPoolWithExpiry()` allows custom durations.
 
 ### TIP-20 Token Interface
 
@@ -550,12 +594,20 @@ Always go through the `/api/find` endpoint which uses Privy server-side SDK to l
 
 ### Memo encoding
 
+Memos are 32 bytes. Bytes 0–30 store UTF-8 text (max 31 chars), byte 31 stores a banner ID (0–255). Use `encodeMemo` / `parseMemo` / `parseBannerId` from `src/lib/memo.ts`:
+
 ```typescript
-import { stringToHex, pad } from 'viem'
-const memo = pad(stringToHex('Happy Birthday!'), { size: 32 })
+import { encodeMemo, parseMemo, parseBannerId } from '@/lib/memo'
+
+// Encoding: text + optional banner ID → bytes32
+const memo = encodeMemo('Happy Birthday!', 2) // banner ID 2
+
+// Decoding: bytes32 → text and banner ID
+const text = parseMemo(memoHex) // "Happy Birthday!"
+const bannerId = parseBannerId(memoHex) // 2
 ```
 
-Memos are 32 bytes max (~31 UTF-8 characters). The contract stores the memo and attaches it to both the deposit and all claim payouts.
+The contract stores the memo and attaches it to both the deposit and all claim payouts. Frontend enforces the character limit based on UTF-8 byte length.
 
 ### Amount handling
 
@@ -563,8 +615,18 @@ All token amounts use 6 decimals. Use `parseUnits(amount, 6)` for encoding and `
 
 ### Fee sponsorship
 
-Always use `feePayer: true` for user-facing transactions. Users should never need to hold tokens for gas. The deployment script sets the fee token via `StdPrecompiles.TIP_FEE_MANAGER.setUserToken()`.
+Users should never need to hold tokens for gas. Two sponsorship patterns are used:
+
+1. **Simple (`feePayer: true`):** For basic transfers via `useSend`. The Tempo testnet sponsor covers gas.
+2. **Self-hosted fee payer (for batch/claim txs):** Used by `useClaim` and `useBatchSendRaw`. The flow:
+   - Build `TransactionEnvelopeTempo` WITHOUT `feeToken` field
+   - Sign with Privy's `secp256k1_sign`
+   - Append sender address + magic bytes `0xfeefeefeefee` to serialized tx
+   - POST to `/api/sponsor` — server extracts sender, fee-payer co-signs, broadcasts with both signatures
+   - Fee payer wallet: `0xd724450742E66a08D5D8e8aB40DAcb4B0aCDE056` (private key in `FEE_PAYER_PRIVATE_KEY` env var)
+
+The deployment script sets the fee token via `StdPrecompiles.TIP_FEE_MANAGER.setUserToken()`.
 
 ### Pool ID generation
 
-Pool IDs are `bytes32`. Generate off-chain (e.g., `keccak256` of a UUID or timestamp + creator address). Must be globally unique — the contract reverts on duplicate IDs.
+Pool IDs are `bytes32`. Generated in `useCreatePool` via `keccak256(abi.encodePacked(creator, timestamp, random32bytes))`. Must be globally unique — the contract reverts on duplicate IDs.

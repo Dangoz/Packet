@@ -196,6 +196,20 @@ label[for],
   animation-play-state: paused;
 }
 
+/* Claim glow pulse */
+@keyframes pkt-glow-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.animate-pkt-glow-pulse {
+  animation: pkt-glow-pulse 2s ease-in-out infinite;
+}
+
 /* Hide number input spinners */
 .no-spinners::-webkit-outer-spin-button,
 .no-spinners::-webkit-inner-spin-button {

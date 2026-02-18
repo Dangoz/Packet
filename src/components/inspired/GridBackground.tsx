@@ -10,7 +10,7 @@ export function GridBackground({
   glow?: boolean
 }) {
   return (
-    <div className={cn('relative min-h-screen bg-pkt-bg', className)}>
+    <div className={cn('relative flex min-h-screen flex-col bg-pkt-bg', className)}>
       {/* Grid lines */}
       <div
         className="pointer-events-none fixed inset-0 z-0"
@@ -29,7 +29,7 @@ export function GridBackground({
         />
       )}
       {/* Content */}
-      <div className="relative z-[1]">{children}</div>
+      <div className="relative z-[1] flex flex-1 flex-col">{children}</div>
     </div>
   )
 }
