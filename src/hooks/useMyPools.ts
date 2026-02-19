@@ -147,8 +147,14 @@ export function useMyPools(address: string | undefined) {
 
       if (cancelledRef.current) return
 
-      // Show newest first
-      poolData.reverse()
+      // Show newest first (sort by block number descending)
+      poolData.sort((a, b) => {
+        const aBn = a.blockNumber ?? 0n
+        const bBn = b.blockNumber ?? 0n
+        if (bBn > aBn) return 1
+        if (bBn < aBn) return -1
+        return 0
+      })
       setPools(poolData)
     } catch (err) {
       if (cancelledRef.current) return

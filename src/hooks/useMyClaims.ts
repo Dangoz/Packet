@@ -1,8 +1,9 @@
 import { packetPoolAddress, pathUsd } from '@/constants'
 import { packetPoolAbi } from '@/abi/PacketPool'
+import { parseMemo } from '@/lib/memo'
 import { resolveIdentities, truncateAddress } from '@/lib/resolve-identities'
 import { useEffect, useState } from 'react'
-import { createPublicClient, http, formatUnits, hexToString, type Address, type Hex } from 'viem'
+import { createPublicClient, http, formatUnits, type Address, type Hex } from 'viem'
 import { tempoActions, Chain } from 'tempo.ts/viem'
 
 const tempoModerato = Chain.define({
@@ -136,8 +137,14 @@ export function useMyClaims(address: string | undefined) {
           }
         })
 
-        // Newest first
-        claimData.reverse()
+        // Newest first (sort by block number descending)
+        claimData.sort((a, b) => {
+          const aBn = a.blockNumber ?? 0n
+          const bBn = b.blockNumber ?? 0n
+          if (bBn > aBn) return 1
+          if (bBn < aBn) return -1
+          return 0
+        })
         setClaims(claimData)
       } catch (err) {
         if (cancelled) return
@@ -207,13 +214,4 @@ async function fetchBlockTimestamps(blockNumbers: (bigint | null)[]): Promise<Re
     }),
   )
   return Object.fromEntries(results)
-}
-
-function parseMemo(memoBytes: Hex): string {
-  try {
-    const raw = hexToString(memoBytes)
-    return raw.replace(/\0+$/, '')
-  } catch {
-    return ''
-  }
 }

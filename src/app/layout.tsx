@@ -25,6 +25,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(getBaseUrl()),
   title: 'Packet',
   description: 'Instant P2P payments with Lucky Split on Tempo',
+  icons: {
+    icon: '/icon.svg',
+  },
 }
 
 export default function RootLayout({
@@ -34,9 +37,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml"></link>
-      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <PrivyProvider>{children}</PrivyProvider>
         <Toaster position="bottom-right" />

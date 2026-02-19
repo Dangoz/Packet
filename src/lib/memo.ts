@@ -6,7 +6,7 @@ export function parseMemo(memoBytes: Hex): string {
     // Take only the first 31 bytes (62 hex chars) to ignore the banner byte at position 31
     const textHex = ('0x' + memoBytes.slice(2, 64)) as Hex
     const raw = hexToString(textHex)
-    return raw.replace(/\0+$/, '')
+    return raw.replace(/\0+$/, '').replace(/^\0+/, '')
   } catch {
     return ''
   }
@@ -24,7 +24,9 @@ export function parseBannerId(memoBytes: Hex): number {
 
 /** Encode text + banner ID into a single bytes32. Text occupies bytes 0–30, banner ID is byte 31. */
 export function encodeMemo(text: string, bannerId: number): Hex {
-  const padded = pad(stringToHex(text || ''), { size: 32 })
+  const textBytes = new TextEncoder().encode(text || '')
+  if (textBytes.length > 31) throw new Error(`Memo exceeds 31 bytes (got ${textBytes.length})`)
+  const padded = pad(stringToHex(text || ''), { size: 32, dir: 'right' })
   if (bannerId <= 0 || bannerId > 255) return padded
   // Overwrite the last byte (chars 64-65 of the hex string after 0x prefix)
   const bannerHex = bannerId.toString(16).padStart(2, '0')

@@ -32,13 +32,6 @@ This is a hackathon project for the **Canteen x Tempo Hackathon** (Track 1: Cons
 | **OG Images**           | Done   | `/api/og/[poolId]` — dynamic social preview images (1200×630) per pool using `next/og`. Shows amount, memo, banner, progress, status.                                                                                                                                                       |
 | **Identity Resolution** | Done   | `/api/resolve-address` route + `resolveIdentities()` utility. Reverse-maps wallet addresses to email/phone labels via Privy.                                                                                                                                                                |
 
-### What's NOT Built Yet
-
-| Feature         | Notes                                                                                                              |
-| --------------- | ------------------------------------------------------------------------------------------------------------------ |
-| **QR scanning** | `qrcode.react` generates QR codes, but there is NO scanning library installed. `html5-qrcode` is not a dependency. |
-| **Dynamic QR**  | No pre-filled amount QR codes. Current QR just encodes wallet address.                                             |
-
 ## Project Structure
 
 ```

@@ -1,0 +1,18 @@
+<svg viewBox="0 0 28 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="28" height="36" rx="6" fill="#2a2a2a"/>
+  <!-- Orbital arcs -->
+  <path d="M14 4 A12 14 0 0 0 2 18" stroke="#ffd000" stroke-width="0.8" opacity="0.35"/>
+  <path d="M14 32 A12 14 0 0 0 26 18" stroke="#ffd000" stroke-width="0.8" opacity="0.35"/>
+  <!-- Angular brackets -->
+  <path d="M18 10 H24 V16" stroke="#ffd000" stroke-width="1.2" opacity="0.7"/>
+  <path d="M10 26 H4 V20" stroke="#ffd000" stroke-width="1.2" opacity="0.7"/>
+  <!-- Center diamond (packet shape) -->
+  <rect x="10" y="14" width="8" height="8" rx="1" transform="rotate(45 14 18)" fill="#c81414" opacity="0.9"/>
+  <rect x="11.5" y="15.5" width="5" height="5" rx="0.5" transform="rotate(45 14 18)" stroke="#ffd000" stroke-width="0.6" fill="none" opacity="0.5"/>
+  <!-- Node dots -->
+  <circle cx="14" cy="4" r="0.8" fill="#ffd000" opacity="0.5"/>
+  <circle cx="2" cy="18" r="0.8" fill="#ffd000" opacity="0.5"/>
+  <circle cx="26" cy="18" r="0.8" fill="#ffd000" opacity="0.5"/>
+  <circle cx="14" cy="32" r="0.8" fill="#ffd000" opacity="0.5"/>
+</svg>

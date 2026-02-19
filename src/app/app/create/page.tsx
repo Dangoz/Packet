@@ -248,7 +248,6 @@ export default function CreatePage() {
               <div className="flex flex-col gap-2">
                 <SectionLabel>Memo</SectionLabel>
                 <Input
-                  maxLength={31}
                   placeholder="Happy Lunar New Year!"
                   value={memo}
                   onChange={(e) => {

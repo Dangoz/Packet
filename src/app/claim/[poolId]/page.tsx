@@ -3,12 +3,13 @@
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 import { usePrivy, useWallets } from '@privy-io/react-auth'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { formatUnits, type Address, type Hex } from 'viem'
 import { Loader2 } from 'lucide-react'
 import NumberFlow, { continuous } from '@number-flow/react'
 import { GridBackground, PacketLogo, PacketCard, PacketButton } from '@/components/inspired'
+import { FireworksOverlay } from '@/components/FireworksOverlay'
 import { getDisplayInfo } from '@/lib/user'
 import { parseBannerId } from '@/lib/memo'
 import { getBannerSrc } from '@/lib/banners'
@@ -92,7 +93,16 @@ export default function ClaimPoolPage() {
         : 0
 
   // Did the user JUST claim in this session? (not a returning visitor)
-  const justClaimed = claimStatus === 'success' && claimedAmount != null
+  const justClaimed = claimStatus === 'success' && (claimedAmount != null || userClaimAmount != null)
+
+  // Fire fireworks exactly once when claim amount resolves (from either source)
+  const [showFireworks, setShowFireworks] = useState(false)
+  useEffect(() => {
+    if (claimStatus === 'success' && !showFireworks) {
+      const amount = claimedAmount ?? userClaimAmount
+      if (amount != null) setShowFireworks(true)
+    }
+  }, [claimStatus, claimedAmount, userClaimAmount, showFireworks])
 
   const bannerSrc = pool?.memoRaw ? getBannerSrc(parseBannerId(pool.memoRaw)) : null
 
@@ -138,6 +148,8 @@ export default function ClaimPoolPage() {
         </div>
       </header>
 
+      {/* Fireworks overlay */}
+      <AnimatePresence>{showFireworks && <FireworksOverlay />}</AnimatePresence>
       {/* Main */}
       <main className="flex flex-1 flex-col items-center px-4 pt-[max(2rem,calc(50vh-280px))] md:px-8">
         <div className="flex w-full max-w-md flex-col items-center gap-8">
@@ -384,14 +396,6 @@ export default function ClaimPoolPage() {
                           animate={{ opacity: 1 }}
                           transition={{ delay: 0.5, duration: 0.3 }}
                         >
-                          <motion.span
-                            className="font-mono text-[10px] uppercase tracking-wider text-pkt-text-secondary"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.6, duration: 0.3 }}
-                          >
-                            Redirecting to app...
-                          </motion.span>
                           <PacketButton className="w-full py-3" onClick={() => router.push('/app')}>
                             Open App
                           </PacketButton>

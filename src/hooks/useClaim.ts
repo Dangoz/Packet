@@ -165,7 +165,10 @@ export function useClaim(poolId: Hex) {
       const hash = sponsorResult.hash as string
       setTxHash(hash)
 
-      // Read claimed amount — Tempo instant finality means state is already updated
+      // Wait for tx to be mined — eth_sendRawTransaction returns before mining
+      await publicClient.waitForTransactionReceipt({ hash: hash as Hex })
+
+      // Read claimed amount — state is now guaranteed to reflect the claim
       const [claimers, amounts] = (await publicClient.readContract({
         address: packetPoolAddress,
         abi: packetPoolAbi,
