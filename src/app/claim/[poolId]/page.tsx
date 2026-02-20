@@ -8,14 +8,13 @@ import { motion, AnimatePresence } from 'motion/react'
 import { formatUnits, type Address, type Hex } from 'viem'
 import { Loader2 } from 'lucide-react'
 import NumberFlow, { continuous } from '@number-flow/react'
-import { GridBackground, PacketLogo, PacketCard, PacketButton } from '@/components/inspired'
+import { GridBackground, PacketLogo, PacketCard, PacketButton, PacketEnvelope } from '@/components/inspired'
 import { FireworksOverlay } from '@/components/FireworksOverlay'
 import { getDisplayInfo } from '@/lib/user'
 import { parseBannerId } from '@/lib/memo'
 import { getBannerSrc } from '@/lib/banners'
 import { usePool } from '@/hooks/usePool'
 import { useClaim } from '@/hooks/useClaim'
-import { Progress } from '@/components/ui/progress'
 
 const POOL_ID_RE = /^0x[a-fA-F0-9]{64}$/
 
@@ -185,12 +184,7 @@ export default function ClaimPoolPage() {
                 {/* Real envelope content — fades in over the same box */}
                 {pool && pool.exists && (
                   <motion.div
-                    className="absolute inset-0 z-[1] flex flex-col items-center justify-between overflow-hidden border border-white/20"
-                    style={{
-                      background: bannerSrc
-                        ? '#111'
-                        : 'linear-gradient(160deg, rgba(200, 20, 20, 0.85) 0%, rgba(180, 140, 0, 0.85) 100%)',
-                    }}
+                    className="absolute inset-0 z-[1]"
                     initial={{ opacity: 0 }}
                     animate={{
                       opacity: 1,
@@ -200,66 +194,50 @@ export default function ClaimPoolPage() {
                       justClaimed ? { type: 'spring', stiffness: 300, damping: 20 } : { duration: 0.3, ease: 'easeOut' }
                     }
                   >
-                    {/* Banner background */}
-                    {bannerSrc && (
-                      <>
-                        <img
-                          src={bannerSrc}
-                          alt=""
-                          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-                        />
-                        <div className="pointer-events-none absolute inset-0 bg-black/40" />
-                      </>
-                    )}
-
-                    {/* Hatching overlay */}
-                    <div
-                      className="pointer-events-none absolute inset-0 opacity-[0.07]"
-                      style={{
-                        background:
-                          'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.4) 2px, rgba(255,255,255,0.4) 4px)',
-                      }}
-                    />
-
-                    {/* Circle seal / checkmark on success */}
-                    <AnimatePresence mode="wait">
-                      {justClaimed ? (
-                        <motion.div
-                          key="check"
-                          className="mt-8 grid h-14 w-14 place-items-center rounded-full border border-white/40 bg-white/10"
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ delay: 0.15, type: 'spring', stiffness: 300, damping: 20 }}
-                        >
-                          <svg
-                            className="h-6 w-6 text-white"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth={2.5}
-                          >
-                            <motion.path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M5 13l4 4L19 7"
-                              initial={{ pathLength: 0 }}
-                              animate={{ pathLength: 1 }}
-                              transition={{ delay: 0.35, duration: 0.4, ease: 'easeOut' }}
+                    <PacketEnvelope
+                      className="h-full w-full"
+                      bannerSrc={bannerSrc}
+                      seal={
+                        <AnimatePresence mode="wait">
+                          {justClaimed ? (
+                            <motion.div
+                              key="check"
+                              className="mt-8 grid h-14 w-14 place-items-center rounded-full border border-white/40 bg-white/10"
+                              initial={{ scale: 0 }}
+                              animate={{ scale: 1 }}
+                              transition={{ delay: 0.15, type: 'spring', stiffness: 300, damping: 20 }}
+                            >
+                              <svg
+                                className="h-6 w-6 text-white"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth={2.5}
+                              >
+                                <motion.path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M5 13l4 4L19 7"
+                                  initial={{ pathLength: 0 }}
+                                  animate={{ pathLength: 1 }}
+                                  transition={{ delay: 0.35, duration: 0.4, ease: 'easeOut' }}
+                                />
+                              </svg>
+                            </motion.div>
+                          ) : (
+                            <motion.div
+                              key="seal"
+                              className="mt-8 h-14 w-14 rounded-full border border-white/40"
+                              exit={{ scale: 0.8, opacity: 0 }}
+                              transition={{ duration: 0.15 }}
                             />
-                          </svg>
-                        </motion.div>
-                      ) : (
-                        <motion.div
-                          key="seal"
-                          className="mt-8 h-14 w-14 rounded-full border border-white/40"
-                          exit={{ scale: 0.8, opacity: 0 }}
-                          transition={{ duration: 0.15 }}
-                        />
-                      )}
-                    </AnimatePresence>
-
-                    {/* Amount + Memo */}
-                    <div className="relative z-[1] flex flex-1 flex-col items-center justify-center gap-2 px-4">
+                          )}
+                        </AnimatePresence>
+                      }
+                      bottom="progress"
+                      claimedShares={pool.claimedShares}
+                      totalShares={pool.totalShares}
+                    >
                       <span className="font-mono text-3xl font-bold text-white">
                         <NumberFlow
                           value={displayAmount}
@@ -292,18 +270,7 @@ export default function ClaimPoolPage() {
                           </motion.span>
                         )}
                       </AnimatePresence>
-                    </div>
-
-                    {/* Progress section */}
-                    <div className="relative z-[1] mb-4 flex w-full flex-col items-center gap-2 px-6">
-                      <Progress value={(pool.claimedShares / pool.totalShares) * 100} />
-                      <div className="flex w-full items-center justify-between">
-                        <span className="font-mono text-[9px] uppercase tracking-wider text-white/50">
-                          {pool.claimedShares}/{pool.totalShares} claimed
-                        </span>
-                        <span className="font-mono text-[8px] uppercase tracking-[2px] text-white/50">Packet</span>
-                      </div>
-                    </div>
+                    </PacketEnvelope>
                   </motion.div>
                 )}
 

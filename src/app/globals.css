@@ -48,6 +48,7 @@
   --pkt-clip-sm: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
   --pkt-clip-md: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
   --pkt-clip-lg: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
+  --pkt-clip-xl: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
 
   /* Grid overlay */
   --pkt-grid-size: 40px;
@@ -178,6 +179,9 @@ label[for],
 }
 .pkt-clip-lg {
   clip-path: var(--pkt-clip-lg);
+}
+.pkt-clip-xl {
+  clip-path: var(--pkt-clip-xl);
 }
 
 /* Marquee scroll animation */

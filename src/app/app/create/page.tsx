@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useWallets } from '@privy-io/react-auth'
 import { motion, AnimatePresence } from 'motion/react'
 import NumberFlow, { continuous } from '@number-flow/react'
-import { PacketCard, PacketButton, SectionLabel } from '@/components/inspired'
+import { PacketCard, PacketButton, SectionLabel, PacketEnvelope } from '@/components/inspired'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { SplitSquareHorizontal, Loader2, Check } from 'lucide-react'
@@ -81,81 +81,53 @@ export default function CreatePage() {
           className="mt-8 flex w-full flex-col items-center gap-8"
         >
           {/* Large envelope card */}
-          <div
-            className="relative flex h-[420px] w-[300px] flex-col items-center justify-between overflow-hidden border border-white/20 shadow-[0_0_60px_rgba(200,20,20,0.15)]"
-            style={{
-              background: bannerSrc
-                ? '#111'
-                : 'linear-gradient(160deg, rgba(200, 20, 20, 0.9) 0%, rgba(180, 140, 0, 0.9) 100%)',
-              clipPath: 'polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)',
-            }}
-          >
-            {/* Banner background */}
-            {bannerSrc && (
-              <>
-                <img
-                  src={bannerSrc}
-                  alt=""
-                  className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-                />
-                <div className="pointer-events-none absolute inset-0 bg-black/40" />
-              </>
-            )}
-
-            {/* Hatching overlay */}
-            <div
-              className="pointer-events-none absolute inset-0 opacity-[0.07]"
-              style={{
-                background:
-                  'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.4) 2px, rgba(255,255,255,0.4) 4px)',
-              }}
-            />
-
-            {/* Checkmark seal */}
-            <div className="mt-10 grid h-16 w-16 place-items-center rounded-full border border-white/40 bg-white/10">
+          <PacketEnvelope
+            size="lg"
+            bannerSrc={bannerSrc}
+            shadow="0 0 60px rgba(200,20,20,0.15)"
+            seal={
+              <div className="mt-10 grid h-16 w-16 place-items-center rounded-full border border-white/40 bg-white/10">
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.2, type: 'spring', stiffness: 300, damping: 20 }}
+                >
+                  <Check className="h-7 w-7 text-white" strokeWidth={2.5} />
+                </motion.div>
+              </div>
+            }
+            bottom={
               <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.2, type: 'spring', stiffness: 300, damping: 20 }}
-              >
-                <Check className="h-7 w-7 text-white" strokeWidth={2.5} />
-              </motion.div>
-            </div>
-
-            {/* Amount + Memo */}
-            <div className="relative z-[1] flex flex-1 flex-col items-center justify-center gap-3 px-6">
-              <motion.span
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.15 }}
-                className="font-mono text-4xl font-bold text-white"
-              >
-                ${parseFloat(amount).toFixed(2)}
-              </motion.span>
-
-              <motion.span
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.25 }}
-                className="w-full text-center font-mono text-sm leading-snug text-white/70 line-clamp-2"
+                transition={{ delay: 0.3 }}
+                className="flex flex-col items-center gap-2"
               >
-                {memo}
-              </motion.span>
-            </div>
+                <span className="border border-white/30 bg-black/30 px-4 py-1 font-mono text-[11px] uppercase tracking-wider text-white/80">
+                  {sharesNum} {sharesNum === 1 ? 'share' : 'shares'}
+                </span>
+                <span className="font-mono text-[9px] uppercase tracking-[3px] text-white/40">Packet Created</span>
+              </motion.div>
+            }
+          >
+            <motion.span
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="font-mono text-4xl font-bold text-white"
+            >
+              ${parseFloat(amount).toFixed(2)}
+            </motion.span>
 
-            {/* Bottom info */}
-            <motion.div
+            <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="relative z-[1] mb-4 flex flex-col items-center gap-2"
+              transition={{ delay: 0.25 }}
+              className="w-full text-center font-mono text-sm leading-snug text-white/70 line-clamp-2"
             >
-              <span className="border border-white/30 bg-black/30 px-4 py-1 font-mono text-[11px] uppercase tracking-wider text-white/80">
-                {sharesNum} {sharesNum === 1 ? 'share' : 'shares'}
-              </span>
-              <span className="font-mono text-[9px] uppercase tracking-[3px] text-white/40">Packet Created</span>
-            </motion.div>
-          </div>
+              {memo}
+            </motion.span>
+          </PacketEnvelope>
 
           {/* Sharing section */}
           <motion.div
@@ -334,89 +306,56 @@ export default function CreatePage() {
           <div className="flex flex-1 items-center justify-center">
             <div className="flex flex-col items-center gap-6">
               {/* Envelope card */}
-              <div
-                className="relative flex h-[340px] w-[240px] flex-col items-center justify-between overflow-hidden border border-white/20"
-                style={{
-                  background: bannerSrc
-                    ? '#111'
-                    : 'linear-gradient(160deg, rgba(200, 20, 20, 0.85) 0%, rgba(180, 140, 0, 0.85) 100%)',
-                  clipPath: 'polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px)',
-                }}
+              <PacketEnvelope
+                bannerSrc={bannerSrc}
+                bottom={
+                  <div className="flex flex-col items-center gap-2">
+                    {sharesNum > 0 && (
+                      <motion.span
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="border border-white/30 bg-black/30 px-3 py-0.5 font-mono text-[10px] uppercase tracking-wider text-white/80"
+                      >
+                        {sharesNum} {sharesNum === 1 ? 'share' : 'shares'}
+                      </motion.span>
+                    )}
+                    <span className="font-mono text-[8px] uppercase tracking-[2px] text-white/50">Packet</span>
+                  </div>
+                }
               >
-                {/* Banner background */}
-                {bannerSrc && (
-                  <>
-                    <img
-                      src={bannerSrc}
-                      alt=""
-                      className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-                    />
-                    <div className="pointer-events-none absolute inset-0 bg-black/40" />
-                  </>
-                )}
+                <span className="font-mono text-3xl font-bold text-white">
+                  <NumberFlow
+                    value={amountNum}
+                    format={{
+                      style: 'currency',
+                      currency: 'USD',
+                      minimumFractionDigits: amountNum % 1 === 0 ? 0 : 2,
+                      maximumFractionDigits: 2,
+                    }}
+                    transformTiming={{ duration: 300, easing: 'ease-out' }}
+                    spinTiming={{ duration: 800, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
+                    trend={1}
+                    plugins={[continuous]}
+                    willChange
+                  />
+                </span>
 
-                {/* Hatching overlay */}
-                <div
-                  className="pointer-events-none absolute inset-0 opacity-[0.07]"
-                  style={{
-                    background:
-                      'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.4) 2px, rgba(255,255,255,0.4) 4px)',
-                  }}
-                />
-
-                {/* Circle seal */}
-                <div className="mt-8 h-14 w-14 rounded-full border border-white/40" />
-
-                {/* Amount + Memo */}
-                <div className="relative z-[1] flex flex-1 flex-col items-center justify-center gap-2 px-4">
-                  <span className="font-mono text-3xl font-bold text-white">
-                    <NumberFlow
-                      value={amountNum}
-                      format={{
-                        style: 'currency',
-                        currency: 'USD',
-                        minimumFractionDigits: amountNum % 1 === 0 ? 0 : 2,
-                        maximumFractionDigits: 2,
-                      }}
-                      transformTiming={{ duration: 300, easing: 'ease-out' }}
-                      spinTiming={{ duration: 800, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
-                      trend={1}
-                      plugins={[continuous]}
-                      willChange
-                    />
-                  </span>
-
-                  <AnimatePresence mode="wait">
-                    <motion.span
-                      key={memo || 'placeholder'}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.15 }}
-                      className={cn(
-                        'w-full text-center font-mono text-[11px] leading-snug text-white/70 line-clamp-2',
-                        !memo && 'italic text-white/40',
-                      )}
-                    >
-                      {memo || 'your message here'}
-                    </motion.span>
-                  </AnimatePresence>
-                </div>
-
-                {/* Share count badge */}
-                <div className="relative z-[1] mb-3 flex flex-col items-center gap-2">
-                  {sharesNum > 0 && (
-                    <motion.span
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="border border-white/30 bg-black/30 px-3 py-0.5 font-mono text-[10px] uppercase tracking-wider text-white/80"
-                    >
-                      {sharesNum} {sharesNum === 1 ? 'share' : 'shares'}
-                    </motion.span>
-                  )}
-                  <span className="font-mono text-[8px] uppercase tracking-[2px] text-white/50">Packet</span>
-                </div>
-              </div>
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={memo || 'placeholder'}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.15 }}
+                    className={cn(
+                      'w-full text-center font-mono text-[11px] leading-snug text-white/70 line-clamp-2',
+                      !memo && 'italic text-white/40',
+                    )}
+                  >
+                    {memo || 'your message here'}
+                  </motion.span>
+                </AnimatePresence>
+              </PacketEnvelope>
 
               {/* Split stats */}
               <AnimatePresence>

@@ -8,9 +8,8 @@ import { motion } from 'motion/react'
 import NumberFlow, { continuous } from '@number-flow/react'
 import { formatUnits, type Address, type Hex } from 'viem'
 import { ArrowLeft, Share2, Trophy } from 'lucide-react'
-import { PacketCard } from '@/components/inspired'
+import { PacketCard, PacketEnvelope } from '@/components/inspired'
 import { ShareModal } from '@/components/ShareModal'
-import { Progress } from '@/components/ui/progress'
 import { usePool } from '@/hooks/usePool'
 import { resolveIdentities, truncateAddress } from '@/lib/resolve-identities'
 import { parseBannerId } from '@/lib/memo'
@@ -71,7 +70,6 @@ export default function PacketDetailPage() {
 
   const totalAmount = pool ? parseFloat(formatUnits(pool.totalAmount, 6)) : 0
   const remainingAmount = pool ? parseFloat(formatUnits(pool.remainingAmount, 6)) : 0
-  const progress = pool ? (pool.realClaimedShares / pool.totalShares) * 100 : 0
 
   const bannerSrc = pool?.memoRaw ? getBannerSrc(parseBannerId(pool.memoRaw)) : null
 
@@ -126,84 +124,36 @@ export default function PacketDetailPage() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
           >
-            <div
-              className="relative flex h-[340px] w-[240px] flex-col items-center justify-between overflow-hidden border border-white/20"
-              style={{
-                background: bannerSrc
-                  ? '#111'
-                  : pool.isFullyClaimed || pool.isExpired
-                    ? 'linear-gradient(160deg, rgba(200, 20, 20, 0.4) 0%, rgba(180, 140, 0, 0.4) 100%)'
-                    : 'linear-gradient(160deg, rgba(200, 20, 20, 0.85) 0%, rgba(180, 140, 0, 0.85) 100%)',
-                clipPath: 'polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px)',
-              }}
+            <PacketEnvelope
+              bannerSrc={bannerSrc}
+              dimmed={pool.isFullyClaimed || pool.isExpired}
+              bottom="progress"
+              claimedShares={pool.realClaimedShares}
+              totalShares={pool.totalShares}
+              statusOverlay={
+                pool.isRefunded ? 'Refunded' : pool.isFullyClaimed ? 'All claimed' : pool.isExpired ? 'Expired' : null
+              }
             >
-              {/* Banner background */}
-              {bannerSrc && (
-                <>
-                  <img
-                    src={bannerSrc}
-                    alt=""
-                    className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-                  />
-                  <div className="pointer-events-none absolute inset-0 bg-black/40" />
-                </>
-              )}
+              <span className="font-mono text-3xl font-bold text-white">
+                <NumberFlow
+                  value={totalAmount}
+                  format={{
+                    style: 'currency',
+                    currency: 'USD',
+                    minimumFractionDigits: totalAmount % 1 === 0 ? 0 : 2,
+                    maximumFractionDigits: 2,
+                  }}
+                  transformTiming={{ duration: 300, easing: 'ease-out' }}
+                  spinTiming={{ duration: 800, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
+                  plugins={[continuous]}
+                  willChange
+                />
+              </span>
 
-              {/* Hatching overlay */}
-              <div
-                className="pointer-events-none absolute inset-0 opacity-[0.07]"
-                style={{
-                  background:
-                    'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.4) 2px, rgba(255,255,255,0.4) 4px)',
-                }}
-              />
-
-              {/* Circle seal */}
-              <div className="mt-8 h-14 w-14 rounded-full border border-white/40" />
-
-              {/* Amount + Memo */}
-              <div className="relative z-[1] flex flex-1 flex-col items-center justify-center gap-2 px-4">
-                <span className="font-mono text-3xl font-bold text-white">
-                  <NumberFlow
-                    value={totalAmount}
-                    format={{
-                      style: 'currency',
-                      currency: 'USD',
-                      minimumFractionDigits: totalAmount % 1 === 0 ? 0 : 2,
-                      maximumFractionDigits: 2,
-                    }}
-                    transformTiming={{ duration: 300, easing: 'ease-out' }}
-                    spinTiming={{ duration: 800, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
-                    plugins={[continuous]}
-                    willChange
-                  />
-                </span>
-
-                <span className="w-full text-center font-mono text-[11px] leading-snug text-white/70 line-clamp-2">
-                  {pool.memo || 'Lucky Split'}
-                </span>
-              </div>
-
-              {/* Progress section */}
-              <div className="relative z-[1] mb-4 flex w-full flex-col items-center gap-2 px-6">
-                <Progress value={progress} className="h-1.5" />
-                <div className="flex w-full items-center justify-between">
-                  <span className="font-mono text-[9px] uppercase tracking-wider text-white/50">
-                    {pool.realClaimedShares}/{pool.totalShares} claimed
-                  </span>
-                  <span className="font-mono text-[8px] uppercase tracking-[2px] text-white/50">Packet</span>
-                </div>
-              </div>
-
-              {/* Status overlay for inactive pools */}
-              {(pool.isFullyClaimed || pool.isExpired || pool.isRefunded) && (
-                <div className="absolute inset-0 z-[2] flex items-center justify-center bg-black/30">
-                  <span className="border border-white/20 bg-black/50 px-3 py-1 font-mono text-[9px] uppercase tracking-wider text-white/70">
-                    {pool.isRefunded ? 'Refunded' : pool.isFullyClaimed ? 'All claimed' : 'Expired'}
-                  </span>
-                </div>
-              )}
-            </div>
+              <span className="w-full text-center font-mono text-[11px] leading-snug text-white/70 line-clamp-2">
+                {pool.memo || 'Lucky Split'}
+              </span>
+            </PacketEnvelope>
           </motion.div>
 
           {/* Pool Details */}
