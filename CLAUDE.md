@@ -43,7 +43,7 @@ privy-tempo/
 ├── postcss.config.mjs              # Tailwind v4
 ├── eslint.config.mjs
 ├── .prettierrc.json                # single quotes, no semicolons, 120 width
-├── .env.local                      # NEXT_PUBLIC_PRIVY_APP_ID, PRIVY_APP_SECRET, FEE_PAYER_PRIVATE_KEY
+├── .env                      # NEXT_PUBLIC_PRIVY_APP_ID, PRIVY_APP_SECRET, FEE_PAYER_PRIVATE_KEY
 │
 ├── contracts/                      # Foundry project
 │   ├── foundry.toml

@@ -17,7 +17,8 @@ export async function generateMetadata({ params }: { params: Promise<{ poolId: s
   const poolIdPath = encodeURIComponent(rawPoolId)
   const claimUrl = new URL(`/claim/${poolIdPath}`, baseUrl).toString()
   const ogImageUrl = new URL(`/api/og/${poolIdPath}`, baseUrl).toString()
-  const fallbackDescription = 'Claim your Lucky Split on Packet'
+  const fallbackDescription =
+    'Packet - Wechat inspired red envelopes with random split outcomes. Onboard to crypto in one click, coming to Tempo'
 
   const baseMeta: Pick<Metadata, 'other' | 'openGraph' | 'twitter'> = {
     other: {
@@ -57,14 +58,8 @@ export async function generateMetadata({ params }: { params: Promise<{ poolId: s
     }
   }
 
-  const amount = parseFloat(pool.totalAmount).toFixed(2)
   const memo = pool.memo || 'Lucky Split'
-  const sharesLeft = pool.totalShares - pool.claimedShares
-  const description = pool.isFullyClaimed
-    ? `$${amount} · All ${pool.totalShares} shares claimed`
-    : pool.isExpired
-      ? `$${amount} · Expired`
-      : `$${amount} · ${sharesLeft} of ${pool.totalShares} shares left · Claim your Lucky Split`
+  const description = fallbackDescription
 
   return {
     title: `${memo} — Packet`,

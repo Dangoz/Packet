@@ -42,8 +42,6 @@ export function ShareModal({
     setTimeout(() => setCopied(false), 2000)
   }
 
-  const sharesLeft = totalShares - claimedShares
-
   const content = (
     <PacketCard header={inline ? 'Share Your Packet' : 'Share Packet'}>
       {/* Close button (modal only) */}
@@ -86,9 +84,8 @@ export function ShareModal({
         {/* Share on X */}
         <button
           onClick={() => {
-            const text = onCreateAnother
-              ? `I just created a $${parseFloat(amount).toFixed(2)} Lucky Split on Packet — ${totalShares} shares, random amounts. Claim yours before they're gone!`
-              : `$${parseFloat(amount).toFixed(2)} Lucky Split on Packet — ${sharesLeft} of ${totalShares} shares left. Claim yours before they're gone!`
+            const text =
+              'Packet - Wechat inspired red envelopes with random split outcomes. Onboard to crypto in one click, coming to Tempo'
             const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(claimUrl)}`
             window.open(url, '_blank', 'noopener,noreferrer')
           }}

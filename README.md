@@ -27,7 +27,7 @@ pnpm install
 2. Copy the example environment file and add your Privy credentials:
 
 ```bash
-cp .env.example .env.local
+cp .env.example .env
 ```
 
 3. Run the development server:
