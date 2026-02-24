@@ -12,9 +12,9 @@ import { GridBackground, PacketLogo, PacketCard, PacketButton, PacketEnvelope } 
 import { FireworksOverlay } from '@/components/FireworksOverlay'
 import { getDisplayInfo } from '@/lib/user'
 import { parseBannerId } from '@/lib/memo'
-import { getBannerSrc } from '@/lib/banners'
 import { usePool } from '@/hooks/usePool'
 import { useClaim } from '@/hooks/useClaim'
+import { useBannerSrc } from '@/hooks/useBannerSrc'
 
 const POOL_ID_RE = /^0x[a-fA-F0-9]{64}$/
 
@@ -103,7 +103,7 @@ export default function ClaimPoolPage() {
     }
   }, [claimStatus, claimedAmount, userClaimAmount, showFireworks])
 
-  const bannerSrc = pool?.memoRaw ? getBannerSrc(parseBannerId(pool.memoRaw)) : null
+  const bannerSrc = useBannerSrc(pool?.memoRaw ? parseBannerId(pool.memoRaw) : undefined, rawPoolId)
 
   // True once all data needed for the action area is available
   const contentReady = !loading && !!pool?.exists && ready

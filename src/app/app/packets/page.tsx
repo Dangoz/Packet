@@ -10,7 +10,7 @@ import { ShareModal } from '@/components/ShareModal'
 import { RefundDialog } from '@/components/RefundDialog'
 import { useMyPools, type PoolData } from '@/hooks/useMyPools'
 import { parseBannerId } from '@/lib/memo'
-import { getBannerSrc } from '@/lib/banners'
+import { useBannerSrc } from '@/hooks/useBannerSrc'
 
 export default function PacketsPage() {
   const { wallets } = useWallets()
@@ -133,7 +133,7 @@ export default function PacketsPage() {
 function PoolCard({ pool, onShare }: { pool: PoolData; onShare: () => void }) {
   const isActive = !pool.isFullyClaimed && !pool.isExpired
   const isDimmed = pool.isFullyClaimed || pool.isExpired
-  const bannerSrc = pool.memoRaw ? getBannerSrc(parseBannerId(pool.memoRaw)) : null
+  const bannerSrc = useBannerSrc(pool.memoRaw ? parseBannerId(pool.memoRaw) : undefined, pool.poolId)
 
   const statusOverlay = pool.isRefunded
     ? 'Refunded'

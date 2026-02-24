@@ -623,3 +623,9 @@ The deployment script sets the fee token via `StdPrecompiles.TIP_FEE_MANAGER.set
 ### Pool ID generation
 
 Pool IDs are `bytes32`. Generated in `useCreatePool` via `keccak256(abi.encodePacked(creator, timestamp, random32bytes))`. Must be globally unique — the contract reverts on duplicate IDs.
+
+## Security TODO
+
+1. **SSRF + missing auth on `POST /api/banners`** — unauthenticated endpoint stores arbitrary URLs; OG route fetches them server-side with no URL validation
+2. **Unauthenticated banner overwrite** — `onConflictDoUpdate` lets anyone replace any pool's banner URL
+3. **PII disclosure on `POST /api/resolve-address`** — returns raw email/phone for any wallet address without authentication

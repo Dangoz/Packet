@@ -4,7 +4,8 @@ import { type Hex } from 'viem'
 import { readFile } from 'fs/promises'
 import { join } from 'path'
 import { getPoolData } from '@/lib/pool'
-import { getBannerSrc } from '@/lib/banners'
+import { getBannerSrc, CUSTOM_BANNER_ID } from '@/lib/banners'
+import { isValidBannerUrl } from '@/lib/url-validation'
 
 export const runtime = 'nodejs'
 
@@ -47,7 +48,22 @@ const FONT_OPTIONS = (f: FontSet) => [
   { name: 'GeistMono', data: f.monoBold, weight: 700 as const, style: 'normal' as const },
 ]
 
-async function loadBannerBase64(bannerId: number): Promise<string | null> {
+async function loadBannerBase64(bannerId: number, customBannerUrl?: string | null): Promise<string | null> {
+  // Custom banner: fetch from remote URL
+  if (bannerId === CUSTOM_BANNER_ID && customBannerUrl) {
+    if (!isValidBannerUrl(customBannerUrl)) return null
+    try {
+      const res = await fetch(customBannerUrl, { signal: AbortSignal.timeout(5000) })
+      if (!res.ok) return null
+      const buf = Buffer.from(await res.arrayBuffer())
+      const contentType = res.headers.get('content-type') || 'image/png'
+      return `data:${contentType};base64,${buf.toString('base64')}`
+    } catch {
+      return null
+    }
+  }
+
+  // Preset banner: load from local files
   const src = getBannerSrc(bannerId)
   if (!src) return null
   try {
@@ -169,7 +185,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ poo
   const sharesLeft = pool.totalShares - pool.claimedShares
   const memo = pool.memo || 'Lucky Split'
   const progress = pool.totalShares > 0 ? (pool.claimedShares / pool.totalShares) * 100 : 0
-  const bannerDataUri = await loadBannerBase64(pool.bannerId)
+  const bannerDataUri = await loadBannerBase64(pool.bannerId, pool.customBannerUrl)
 
   const isActive = !pool.isFullyClaimed && !pool.isExpired
 

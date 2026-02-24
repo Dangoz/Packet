@@ -3,6 +3,10 @@ import { Chain } from 'tempo.ts/viem'
 import { packetPoolAddress, pathUsd } from '@/constants'
 import { packetPoolAbi } from '@/abi/PacketPool'
 import { parseMemo, parseBannerId } from '@/lib/memo'
+import { CUSTOM_BANNER_ID } from '@/lib/banners'
+import { db } from '@/db'
+import { customBanners } from '@/db/schema'
+import { eq } from 'drizzle-orm'
 
 const tempoModerato = Chain.define({
   id: 42431,
@@ -22,6 +26,7 @@ export interface ServerPoolData {
   creator: Address
   memo: string
   bannerId: number
+  customBannerUrl: string | null
   totalAmount: string
   remainingAmount: string
   totalShares: number
@@ -53,19 +58,45 @@ export async function getPoolData(poolId: Hex): Promise<ServerPoolData | null> {
 
     if (!rawPool.exists) return null
 
+    // Enhancement: compute real claimed count (tolerates failure)
+    let realClaimedShares = rawPool.claimedShares
+    try {
+      const [claimers] = (await client.readContract({
+        address: packetPoolAddress,
+        abi: packetPoolAbi,
+        functionName: 'getPoolClaims',
+        args: [poolId],
+      })) as [Address[], bigint[]]
+      realClaimedShares = claimers.filter((c) => c !== '0x0000000000000000000000000000000000000000').length
+    } catch {
+      // Fall back to raw contract claimedShares
+    }
+
     const now = Math.floor(Date.now() / 1000)
+    const bannerId = parseBannerId(rawPool.memo)
+
+    let customBannerUrl: string | null = null
+    if (bannerId === CUSTOM_BANNER_ID) {
+      try {
+        const row = await db.select().from(customBanners).where(eq(customBanners.poolId, poolId)).get()
+        customBannerUrl = row?.imageUrl ?? null
+      } catch {
+        // DB unavailable — fall back to null
+      }
+    }
 
     return {
       exists: true,
       creator: rawPool.creator,
       memo: parseMemo(rawPool.memo),
-      bannerId: parseBannerId(rawPool.memo),
+      bannerId,
+      customBannerUrl,
       totalAmount: formatUnits(rawPool.totalAmount, 6),
       remainingAmount: formatUnits(rawPool.remainingAmount, 6),
       totalShares: rawPool.totalShares,
-      claimedShares: rawPool.claimedShares,
+      claimedShares: realClaimedShares,
       expiresAt: Number(rawPool.expiresAt),
-      isFullyClaimed: rawPool.claimedShares >= rawPool.totalShares,
+      isFullyClaimed: realClaimedShares >= rawPool.totalShares,
       isExpired: now >= Number(rawPool.expiresAt),
     }
   } catch {

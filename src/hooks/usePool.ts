@@ -132,6 +132,7 @@ export function usePool(poolId: Hex | undefined, userAddress?: Address) {
 
       const realClaimedShares = claimEntries.length
       poolInfo.realClaimedShares = realClaimedShares
+      poolInfo.claimedShares = realClaimedShares
       poolInfo.isRefunded =
         poolInfo.isExpired && poolInfo.remainingAmount === 0n && realClaimedShares < poolInfo.totalShares
       poolInfo.isFullyClaimed = realClaimedShares >= poolInfo.totalShares

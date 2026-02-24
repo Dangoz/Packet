@@ -1,3 +1,5 @@
+export const CUSTOM_BANNER_ID = 65535
+
 export const BANNERS = [
   { id: 1, src: '/banner1.png', label: 'Year of the Snake' },
   { id: 2, src: '/banner2.png', label: 'Festive' },
@@ -5,5 +7,6 @@ export const BANNERS = [
 ] as const
 
 export function getBannerSrc(id: number): string | null {
+  if (id === 0 || id === CUSTOM_BANNER_ID) return null
   return BANNERS.find((b) => b.id === id)?.src ?? null
 }

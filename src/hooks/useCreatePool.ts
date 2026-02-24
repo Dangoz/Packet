@@ -16,6 +16,7 @@ import { estimateBatchGas } from '@/lib/tempo'
 import { useWallets } from '@privy-io/react-auth'
 import { useState } from 'react'
 import { encodeMemo } from '@/lib/memo'
+import { CUSTOM_BANNER_ID } from '@/lib/banners'
 import {
   createPublicClient,
   http,
@@ -46,7 +47,13 @@ export function useCreatePool() {
   const [txHash, setTxHash] = useState<string | null>(null)
   const [poolId, setPoolId] = useState<Hex | null>(null)
 
-  const createPool = async (amount: string, shares: number, memo: string, bannerId: number = 0) => {
+  const createPool = async (
+    amount: string,
+    shares: number,
+    memo: string,
+    bannerId: number = 0,
+    customBannerUrl?: string,
+  ) => {
     setStatus('building')
     setError(null)
     setTxHash(null)
@@ -175,6 +182,29 @@ export function useCreatePool() {
       setTxHash(hash)
       setStatus('success')
       t.success(hash, 'Packet created!')
+
+      // Store custom banner URL off-chain if using sentinel ID
+      if (bannerId === CUSTOM_BANNER_ID && customBannerUrl) {
+        const storeBanner = () =>
+          fetch('/api/banners', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ poolId: generatedPoolId, imageUrl: customBannerUrl }),
+          }).then((res) => {
+            if (!res.ok) throw new Error(`Banner POST failed: ${res.status}`)
+          })
+
+        try {
+          await storeBanner()
+        } catch (err) {
+          console.warn('Banner POST failed, retrying once:', err)
+          try {
+            await storeBanner()
+          } catch (retryErr) {
+            console.error('Banner POST retry failed:', retryErr)
+          }
+        }
+      }
 
       return { txHash: hash, poolId: generatedPoolId }
     } catch (err) {

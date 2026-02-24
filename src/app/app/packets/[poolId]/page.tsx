@@ -13,7 +13,7 @@ import { ShareModal } from '@/components/ShareModal'
 import { usePool } from '@/hooks/usePool'
 import { resolveIdentities, truncateAddress } from '@/lib/resolve-identities'
 import { parseBannerId } from '@/lib/memo'
-import { getBannerSrc } from '@/lib/banners'
+import { useBannerSrc } from '@/hooks/useBannerSrc'
 import { cn } from '@/lib/utils'
 
 const POOL_ID_RE = /^0x[a-fA-F0-9]{64}$/
@@ -71,7 +71,7 @@ export default function PacketDetailPage() {
   const totalAmount = pool ? parseFloat(formatUnits(pool.totalAmount, 6)) : 0
   const remainingAmount = pool ? parseFloat(formatUnits(pool.remainingAmount, 6)) : 0
 
-  const bannerSrc = pool?.memoRaw ? getBannerSrc(parseBannerId(pool.memoRaw)) : null
+  const bannerSrc = useBannerSrc(pool?.memoRaw ? parseBannerId(pool.memoRaw) : undefined, rawPoolId)
 
   const expiresDate = pool?.expiresAt
     ? new Date(pool.expiresAt * 1000).toLocaleString(undefined, {
